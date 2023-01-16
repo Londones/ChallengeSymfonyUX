@@ -29,6 +29,8 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
+		linux-headers \
+		npm \
 	;
 
 RUN set -eux; \
