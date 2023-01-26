@@ -8,7 +8,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: id
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,6 +16,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -25,10 +30,10 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+    # access_control:                                           #*décommenter une fois les rôles attribués aux utilisateurs
+    #     - { path: ^/admin, roles: ROLE_ADMIN }
+    #     - { path: ^/login, roles: PUBLIC_ACCESS }
+    #     - { path: ^/, roles: ROLE_USER }
 
 when@test:
     security:
