@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   php:
+    container_name: php_app
     build:
       context: .
       target: app_php
@@ -26,6 +27,7 @@ services:
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
 
   caddy:
+    container_name: caddy
     build:
       context: .
       target: app_caddy
@@ -55,6 +57,7 @@ services:
         protocol: udp
 
   database:
+    container_name: database
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
       POSTGRES_DB: app
@@ -65,6 +68,7 @@ services:
   
   #adminer
   adminer:
+    container_name: adminer
     image: adminer
     restart: always
     depends_on:
