@@ -1,0 +1,23 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Launch app
+        run: docker-compose up --build -d
+
+      - name: Lint
+        run: docker-compose exec php_app vendor/bin/php-cs-fixer fix src
+
+      - name: Create auto format commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[BOT]: Auto format"
+          branch: ${{ github.head_ref }}

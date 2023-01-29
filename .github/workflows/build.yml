@@ -1,0 +1,14 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Launch app
+        run: docker-compose up --build -d
