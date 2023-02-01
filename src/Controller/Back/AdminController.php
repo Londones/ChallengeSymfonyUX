@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Controller\Front;
+namespace App\Controller\Back;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+#[Route('/', name: 'admin_')]
+class AdminController extends AbstractController
 {
-    #[Route('/', name: 'front_default_index')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('front/default/index.html.twig');
+        return $this->render('back/admin/index.html.twig');
     }
 }

@@ -1,5 +1,5 @@
 compose = docker-compose
-app-exec = $(compose) exec -it php_app 
+app-exec = $(compose) exec -it php
 
 up:
 	$(compose) kill
@@ -8,6 +8,9 @@ up:
 
 stop:
 	$(compose) kill
+
+app-exec:
+	$(app-exec) $(CMD)
 
 app-ssh:
 	$(app-exec) /bin/bash
