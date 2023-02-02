@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+
+  <h1>Chat test</h1>
+  <button id="ping">Ping</button>
+  
+  <div id="mercure-content-receiver"></div>
+  <form id="mercure-message-form" action="{{ path('front_chat_message') }}" method="post">
+    <label for="mercure-message-input">Message:</label>
+    <input type="text" id="mercure-message-input" name="message"/>
+    <input type="submit" id="mercure-message-btn" value="Send"/>
+  </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        // passing twig env variable to other script
+        const mercurePublicUrl = "{{ mercure_public_url }}";
+    </script>
+    {{ encore_entry_script_tags('chat') }}
+{% endblock %}
