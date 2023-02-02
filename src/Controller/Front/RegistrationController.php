@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
+
 
 class RegistrationController extends AbstractController
 {
@@ -57,39 +56,3 @@ class RegistrationController extends AbstractController
         ]);
     }
 }
-
-
-
-    // //*Update la compagne 
-            // $campaignId = 1;
-            // $emailCampaign = new \SendinBlue\Client\Model\UpdateEmailCampaign();
-            // $emailCampaign['templateId'] = "5ea1551d2e9ad34b8640be9f";
-            // // $emailCampaign['toField'] = '{{contact.FIRSTNAME}} {{contact.LASTNAME}}';
-            // $emailCampaign['recipients'] =  array(
-            //     'listIds' => array($user->getId())
-            // );
-
-            // $emailCampaign['recipients'] =  array(
-            //     'listIds' => array(19, 20), 'exclusionListIds' => array(2)
-            // );
-
-            // $apiInstance->updateEmailCampaign($campaignId, $emailCampaign);
-
-
-
-
-
-
-
-
-            // //*envoyer un email de confirmation 
-            // $email = (new TemplatedEmail())
-            //     ->from(new Address('challengestack@gmail.com', 'noreply'))
-            //     ->to(new Address($user->getEmail(), $user->getName()))
-            //     ->subject('Confirmation de votre adresse mail')
-            //     // ->addTextHeader('templateId', 1)
-            //     ->htmlTemplate('emails/confirme_email.html.twig')
-            //     ->context([
-            //         'user' => $user
-            //     ]);
-            // $mailer->send($email);

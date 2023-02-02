@@ -27,6 +27,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "gridjs": "^6.0.6"
+        "gridjs": "^6.0.6",
+        "tw-elements": "^1.0.0-alpha13"
     }
 }

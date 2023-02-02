@@ -5,7 +5,6 @@ namespace App\Service\Mailer;
 use SendinBlue\Client\Model\CreateContact;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Configuration;
-use SendinBlue\Client\Api\EmailCampaignsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use GuzzleHttp\Client;
@@ -18,7 +17,7 @@ class Mailing
     static function config()
     {
         // Configure API key authorization: api-key
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
         return $config;
     }
 
