@@ -1,0 +1,37 @@
+{% apply inline_css %}
+<style>
+	h1 {
+		color: red;
+	}
+
+	.btn {
+		padding: "2em";
+		border: "none";
+		background-color: "black";
+		color: "white"
+	}
+</style>
+<head></head>
+<body>
+	{% block body %}
+		<div class="content">
+			<h2 class="text-center">Bonjour
+				{{email.toName}}!</h2>
+			<p>
+				Nous sommes heureux de vous informer que votre compte a été créé avec succès. Veuillez trouver ci-dessous les détails de votre compte :<br/>
+
+				<b>Nom d'utilisateur :
+					{{user.name}}</b><br/>
+				<b>Adresse e-mail :
+					{{user.email}}</b><br/><br/>
+
+				Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail et activer votre compte :
+				<a href="#">Lien de confirmation</b><br/><br/>
+
+				Cordialement,
+				<a href="{{ url('app_login') }}" class="btn">Se connecter</a>
+			</p>
+		</div>
+	{% endblock %}
+</body>
+{% endapply %}
