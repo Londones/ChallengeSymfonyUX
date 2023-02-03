@@ -39,10 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?bool $isEmailVerified = null;
+    private ?bool $isEmailVerified = false;
 
     #[ORM\Column(length: 255)]
-    private ?string $profilPicturePath = null;
+    private ?string $profilPicturePath = "null";
 
     // #[ORM\Column(length: 255)]
     // private ?string $email = null;
