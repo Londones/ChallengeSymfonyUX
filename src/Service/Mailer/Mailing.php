@@ -17,7 +17,7 @@ class Mailing
     static function config()
     {
         // Configure API key authorization: api-key
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
         return $config;
     }
 

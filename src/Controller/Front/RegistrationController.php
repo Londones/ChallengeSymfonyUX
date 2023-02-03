@@ -44,13 +44,6 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             //*refuse access unfless email confirmed.
-
-            // return $userAuthenticator->authenticateUser(
-            //     $user,
-            //     $authenticator,
-            //     $request
-            // );
-
             $signatureComponents = $verifyEmailHelper->generateSignature(
                 'front_app_verify_email',
                 $user->getId(),
@@ -63,6 +56,8 @@ class RegistrationController extends AbstractController
             //*send confirmation email
             Mailing::sendEmail($user, $signedUrl);
 
+            //*envoyer un message d'envoie de mail
+            $this->addFlash('success', "Un mail de confirmation vous a été envoyé à l'adresse suivante ".$user->getEmail()." Veuillez valider celle-ci afin de pouvoir vous connecter");
             return $this->redirectToRoute('front_home_index');
         }
 

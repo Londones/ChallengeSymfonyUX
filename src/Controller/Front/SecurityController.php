@@ -8,14 +8,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 
+
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+
+        //*check if account is valid
+        $user = $this->getUser();
+
+        if (!$user->isIsEmailVerified()) {
+            $this->addFlash('error', "Veuillez valider votre adresse mail");
+            return $this->redirectToRoute('front_app_register');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
