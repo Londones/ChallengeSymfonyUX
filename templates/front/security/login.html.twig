@@ -17,7 +17,7 @@
     {% endif %}
 
     {% if not app.user %}
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
       <label for="inputEmail">Email</label>
       <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus />
       <label for="inputPassword">Password</label>
@@ -36,7 +36,7 @@
         </div>
     #}
 
-      <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+      <button class="btn btn-lg btn-primary" type="submit">log in</button>
     {% endif %}
   </form>
 {% endblock %}

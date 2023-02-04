@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //*refuse access unfless email confirmed.
+            //*générer URL à insérer dans le mail 
             $signatureComponents = $verifyEmailHelper->generateSignature(
                 'front_app_verify_email',
                 $user->getId(),
@@ -77,7 +77,6 @@ class RegistrationController extends AbstractController
         if (!$user) {
             throw $this->createNotFoundException();
         }
-
 
         try {
             $verifyEmailHelper->validateEmailConfirmation(
