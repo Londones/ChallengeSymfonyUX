@@ -3,9 +3,13 @@ module.exports = {
   content: [
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
+    './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tw-elements/dist/plugin'),
+    require('@tailwindcss/forms'),
+  ],
 }
