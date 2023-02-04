@@ -5,7 +5,6 @@ namespace App\Service\Mailer;
 use SendinBlue\Client\Model\CreateContact;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Configuration;
-use SendinBlue\Client\Api\EmailCampaignsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use GuzzleHttp\Client;
@@ -18,7 +17,7 @@ class Mailing
     static function config()
     {
         // Configure API key authorization: api-key
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['API_KEY']);
         return $config;
     }
 
@@ -59,7 +58,7 @@ class Mailing
     }
 
     //*envoyer le mail
-    static function sendEmail(User $user)
+    static function sendEmail(User $user, String $signedUrl)
     {
         $config = Mailing::config();
 
@@ -71,7 +70,7 @@ class Mailing
         $sendSmtpEmail = new SendSmtpEmail();
         $sendSmtpEmail['to'] = array(array('email' => $user->getEmail(), 'name' => $user->getName()));
         $sendSmtpEmail['templateId'] = 5;
-        $sendSmtpEmail['params'] = array('NOM' => $user->getName(), 'LIEN_VALIDATION' => 'localhost');
+        $sendSmtpEmail['params'] = array('NOM' => $user->getName(), 'LIEN_VALIDATION' => $signedUrl);
         // $sendSmtpEmail['headers'] = array('X-Mailin-custom' => 'custom_header_1:custom_value_1|custom_header_2:custom_value_2');
 
         try {

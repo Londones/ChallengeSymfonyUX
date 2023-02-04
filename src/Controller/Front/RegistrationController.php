@@ -4,22 +4,25 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\LoginAuthenticator;
+// use App\Security\LoginAuthenticator;
 use App\Service\Mailer\Mailing;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
+// use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use App\Repository\UserRepository;
+
+
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, VerifyEmailHelperInterface $verifyEmailHelper): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -40,56 +43,55 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //*send confirmation email
-            Mailing::sendEmail($user);
-
-            //*refuse access unfless email confirmed.
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
+            //*générer URL à insérer dans le mail 
+            $signatureComponents = $verifyEmailHelper->generateSignature(
+                'front_app_verify_email',
+                $user->getId(),
+                $user->getEmail(),
+                ['id' => $user->getId()]
             );
+
+            $signedUrl = $signatureComponents->getSignedUrl();
+
+            //*send confirmation email
+            Mailing::sendEmail($user, $signedUrl);
+
+            //*envoyer un message d'envoie de mail
+            $this->addFlash('success', "Un mail de confirmation vous a été envoyé à l'adresse suivante ".$user->getEmail()." Veuillez valider celle-ci afin de pouvoir vous connecter");
+            return $this->redirectToRoute('front_home_index');
         }
 
         return $this->render('front/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/verify", name="app_verify_email")
+     */
+    #[Route('/verify', name: 'app_verify_email')]
+    public function verifyUserEmail(EntityManagerInterface $entityManager, Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository)
+    {
+
+        $user = $userRepository->find($request->query->get('id'));
+        if (!$user) {
+            throw $this->createNotFoundException();
+        }
+
+        try {
+            $verifyEmailHelper->validateEmailConfirmation(
+                $request->getUri(),
+                $user->getId(),
+                $user->getEmail(),
+            );
+        } catch (Exception $e) {
+            $this->addFlash('error', "validation échouée");
+            return $this->redirectToRoute('front_app_register');
+        }
+
+        $user->setIsEmailVerified(true);
+        $entityManager->flush();
+        $this->addFlash('success', 'Votre compte a été validé. Vous pouvez à présent vous connecter.');
+        return $this->redirectToRoute('front_app_login');
+    }
 }
-
-
-
-    // //*Update la compagne 
-            // $campaignId = 1;
-            // $emailCampaign = new \SendinBlue\Client\Model\UpdateEmailCampaign();
-            // $emailCampaign['templateId'] = "5ea1551d2e9ad34b8640be9f";
-            // // $emailCampaign['toField'] = '{{contact.FIRSTNAME}} {{contact.LASTNAME}}';
-            // $emailCampaign['recipients'] =  array(
-            //     'listIds' => array($user->getId())
-            // );
-
-            // $emailCampaign['recipients'] =  array(
-            //     'listIds' => array(19, 20), 'exclusionListIds' => array(2)
-            // );
-
-            // $apiInstance->updateEmailCampaign($campaignId, $emailCampaign);
-
-
-
-
-
-
-
-
-            // //*envoyer un email de confirmation 
-            // $email = (new TemplatedEmail())
-            //     ->from(new Address('challengestack@gmail.com', 'noreply'))
-            //     ->to(new Address($user->getEmail(), $user->getName()))
-            //     ->subject('Confirmation de votre adresse mail')
-            //     // ->addTextHeader('templateId', 1)
-            //     ->htmlTemplate('emails/confirme_email.html.twig')
-            //     ->context([
-            //         'user' => $user
-            //     ]);
-            // $mailer->send($email);
