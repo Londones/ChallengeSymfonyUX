@@ -5,14 +5,12 @@
 {% block body %}
 
   <h1>Chat test</h1>
-  <button id="ping">Ping</button>
   
-  <div id="mercure-content-receiver"></div>
-  <form id="mercure-message-form" action="{{ path('front_chat_message') }}" method="post">
-    <label for="mercure-message-input">Message:</label>
-    <input type="text" id="mercure-message-input" name="message"/>
-    <input type="submit" id="mercure-message-btn" value="Send"/>
-  </form>
+  <div id="receveid-messages"></div>
+  <div id="message-inputs">
+    <input type="text" id="message-input" name="message"/>
+    <button id="send-message-button">send</button>
+  </div>
 
 {% endblock %}
 
@@ -20,6 +18,7 @@
     <script type="text/javascript">
         // passing twig env variable to other script
         const mercurePublicUrl = "{{ mercure_public_url }}";
+        const msgSendUrl = "{{ path('front_chat_send') }}"
     </script>
     {{ encore_entry_script_tags('chat') }}
 {% endblock %}

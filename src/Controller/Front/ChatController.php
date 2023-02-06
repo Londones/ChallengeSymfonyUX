@@ -23,21 +23,14 @@ class ChatController extends AbstractController
         return $response;
     }
 
-    #[Route('/message', name: 'message', methods: ["POST"])]
-    public function sendMessage(MessageBusInterface $bus, Request $request): RedirectResponse
+    #[Route('/send', name: 'send', methods: ["POST"])]
+    public function ping(MessageBusInterface $bus, Request $request): RedirectResponse
     {
-        $update = new Update('/messages', json_encode([
-            'message' => $request->request->get('message'),
+        $data = json_decode($request->getContent());
+
+        $update = new Update("/messages/main-chat", json_encode([
+            "content" => $data->content
         ]));
-        $bus->dispatch($update);
-
-        return $this->redirectToRoute("front_chat_index");
-    }
-
-    #[Route('/ping', name: 'ping', methods: ["POST"])]
-    public function ping(MessageBusInterface $bus): RedirectResponse
-    {
-        $update = new Update('http://monsite.com/ping', "[]");
         $bus->dispatch($update);
 
         return $this->redirectToRoute("front_chat_index");

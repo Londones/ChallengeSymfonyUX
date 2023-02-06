@@ -2,12 +2,8 @@
 
 namespace App\Mercure;
 
-use Lcobucci\JWT\Token\Builder;
-use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Encoding\ChainedFormatter;
-use Lcobucci\JWT\Encoding\JoseEncoder;
 use Symfony\Component\HttpFoundation\Cookie;
+use \Firebase\JWT\JWT;
 
 class CookieGenerator
 {
@@ -20,11 +16,13 @@ class CookieGenerator
 
     public function generate(): Cookie
     {
-        $token = (new Builder(new JoseEncoder(), ChainedFormatter::default()))
-            ->withClaim('mercure', ['subscribe' => ['*']])
-            ->getToken(new Sha256(), InMemory::plainText($this->secret));
+        $payload = [
+            "mercure" => [
+                "publish" => ["*"]
+            ],
+        ];
+        $jwt = JWT::encode($payload, $this->secret, "HS256");
 
-
-        return Cookie::create('mercureAuthorization', $token->toString(), 0, '/.well-known/mercure');
+        return Cookie::create('mercureAuthorization', $jwt, 0, '/.well-known/mercure');
     }
 }

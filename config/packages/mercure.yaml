@@ -2,8 +2,6 @@ mercure:
     hubs:
         default:
             url: '%env(MERCURE_URL)%'
-            public_url: '%env(MERCURE_PUBLIC_URL)%'
-            #jwt_provider: App\Mercure\JwtProvider
             jwt:
-                secret: '%env(MERCURE_JWT_SECRET)%'
+                secret: '%env(CADDY_MERCURE_JWT_SECRET)%'
                 publish: '*'
