@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
@@ -59,6 +59,7 @@ class ResetPasswordController extends AbstractController
     #[Route('/check-email', name: 'app_check_email')]
     public function checkEmail(): Response
     {
+
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether or not a user was found with the given email address or not
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
@@ -156,21 +157,21 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('asaci1@myges.fr', 'Alicia'))
-            ->to($user->getEmail())
-            ->subject('Your password reset request')
-            ->htmlTemplate('reset_password/email.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ])
-        ;
+        // $email = (new TemplatedEmail())
+        //     ->from(new Address('asaci1@myges.fr', 'Alicia'))
+        //     ->to($user->getEmail())
+        //     ->subject('Your password reset request')
+        //     ->htmlTemplate('reset_password/email.html.twig')
+        //     ->context([
+        //         'resetToken' => $resetToken,
+        //     ])
+        // ;
 
-        $mailer->send($email);
+        // $mailer->send($email);
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);
 
-        return $this->redirectToRoute('app_check_email');
+        return $this->redirectToRoute('front_app_check_email');
     }
 }

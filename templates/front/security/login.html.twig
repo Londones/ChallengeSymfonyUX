@@ -19,11 +19,11 @@
     {% if not app.user %}
       <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
       <label for="inputEmail">Email</label>
-      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus />
+      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus /><br/>
       <label for="inputPassword">Password</label>
-      <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required />
-
-      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+      <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required /><br/>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" /><br/>
+      <a href="{{ path('front_app_forgot_password_request') }}" class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4">Mot de passe oublié ? cliques sur ce lien.</a><br/><br/>
 
       {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -35,8 +35,7 @@
             </label>
         </div>
     #}
-
-      <button class="btn btn-lg btn-primary" type="submit">log in</button>
+    <button type="submit" class="inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">Log in</button>
     {% endif %}
   </form>
 {% endblock %}
