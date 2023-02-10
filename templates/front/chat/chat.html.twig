@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+
+  <h1>Chat box</h1>
+  
+  <div id="receveid-messages"></div>
+  <div id="message-inputs">
+    <input type="text" id="message-input" name="message"/>
+    <button id="send-message-button">send</button>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        // passing twig env variable to other script
+        const mercurePublicUrl = "{{ mercure_public_url }}";
+        const msgSendUrl = "{{ path('front_chat_send') }}"
+        const channelId = "{{ channelId }}"
+        const connectedUserId = "{{ app.user.id }}"
+    </script>
+    {{ encore_entry_script_tags('chat') }}
+{% endblock %}

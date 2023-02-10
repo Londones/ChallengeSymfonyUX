@@ -4,21 +4,12 @@
 
 {% block body %}
 
-  <h1>Chat test</h1>
-  
-  <div id="receveid-messages"></div>
-  <div id="message-inputs">
-    <input type="text" id="message-input" name="message"/>
-    <button id="send-message-button">send</button>
-  </div>
+  <h1>Chat index</h1>
 
-{% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-        // passing twig env variable to other script
-        const mercurePublicUrl = "{{ mercure_public_url }}";
-        const msgSendUrl = "{{ path('front_chat_send') }}"
-    </script>
-    {{ encore_entry_script_tags('chat') }}
+    {% for channel in channelList %}
+        <a href="{{ path('front_chat_match', {'id': channel.id}) }}">chat avec : {{ channel.user.name }}</a>
+        <br>
+    {% else %} 
+        Vous n'avez pas de match
+    {% endfor %}
 {% endblock %}

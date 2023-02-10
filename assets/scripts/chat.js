@@ -13,7 +13,8 @@ const sendMessage = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "content": messageContent
+            "content": messageContent,
+            "channelId": channelId
         }),
     }).then(() => {
         messageInput.value = "";
@@ -23,7 +24,7 @@ const sendMessage = () => {
 sendButton.addEventListener("click", sendMessage)
 
 const url = new URL(mercurePublicUrl);
-url.searchParams.append("topic", "/messages/main-chat");
+url.searchParams.append("topic", "/messages/channel/" + channelId);
 
 const eventSource = new EventSource(url);
 

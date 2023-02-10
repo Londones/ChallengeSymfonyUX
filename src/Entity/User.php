@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Repository\MatcheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -66,6 +67,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->matches = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->category = new ArrayCollection();
+    }
+
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matche::class)]
+    private Collection $matches;
+
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
+    private Collection $channels;
+
+    public function __construct()
+    {
+        $this->matches = new ArrayCollection();
+        $this->channels = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]
@@ -318,6 +331,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Matche>
+     */
+    public function getMatches(): Collection
+    {
+        return $this->matches;
+    }
+
+    public function addMatch(MatcheRepository $match): self
+    {
+        if (!$this->matches->contains($match)) {
+            $this->matches->add($match);
+            $match->setFirstUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatch(MatcheRepository $match): self
+    {
+        if ($this->matches->removeElement($match)) {
+            // set the owning side to null (unless already changed)
+            if ($match->getFirstUserId() === $this) {
+                $match->setFirstUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Channel>
+     */
+    public function getChannels(): Collection
+    {
+        return $this->channels;
+    }
+
+    public function addChannel(Channel $channel): self
+    {
+        if (!$this->channels->contains($channel)) {
+            $this->channels->add($channel);
+            $channel->setFirstUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChannel(Channel $channel): self
+    {
+        if ($this->channels->removeElement($channel)) {
+            // set the owning side to null (unless already changed)
+            if ($channel->getFirstUserId() === $this) {
+                $channel->setFirstUserId(null);
+            }
+        }
 
         return $this;
     }
