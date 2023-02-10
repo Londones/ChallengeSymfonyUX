@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -78,7 +79,7 @@ class Message
     #[ORM\PrePersist]
     public function setCreationDate(): self
     {
-        $this->creationDate = new \DateTime;
+        $this->creationDate = new \DateTime('now', new DateTimeZone('Europe/Paris'));
 
         return $this;
     }

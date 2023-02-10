@@ -44,6 +44,10 @@ class ChatController extends AbstractController
 
         $connectedUser = $this->getUser();
 
+        if (!$connectedUser) {
+            return $this->redirectToRoute('front_home_index', []);
+        }
+
         $channelListRequest = $user->getChannels($connectedUser);
         $channelList = [];
 
@@ -63,12 +67,16 @@ class ChatController extends AbstractController
     #[Route('/match/{id}', name: 'match')]
     public function chat($id, ChannelRepository $channelRepo, CookieGenerator $cookieGenerator): Response
     {
+        $connectedUser = $this->getUser();
+
         $channel = $channelRepo->find($id);
         $messageList = $channel->getMessages();
+        $chattingWith = $channel->getFirstUser() == $connectedUser ? $channel->getSecondUser() : $channel->getFirstUser();
 
         $response = $this->render('front/chat/chat.html.twig', [
             'channelId' => $channel->getId(),
-            'messages' => $messageList
+            'messages' => $messageList,
+            'chattingWith' => $chattingWith
         ]);
         //$response->headers->setCookie($cookieGenerator->generate());
 
@@ -79,6 +87,10 @@ class ChatController extends AbstractController
     public function sendMessage(MessageRepository $messageRepo, ChannelRepository $channelRepo, MessageBusInterface $bus, Request $request): Response
     {
         $sender = $this->getUser();
+
+        if (!$sender){
+            return new Response("Not authorized", 403);
+        }
 
         $data = json_decode($request->getContent());
 
@@ -91,9 +103,18 @@ class ChatController extends AbstractController
         $message->setChannel($channel);
         $messageRepo->save($message, true);
 
+        // Serialize message to send on json format
+        $messageSerialized = [
+            'content' => $message->getContent(),
+            'user' => [
+                'id' => $message->getSender()->getId(),
+                'name' => $message->getSender()->getName(),
+            ],
+            'date' => $message->getCreationDate(),
+        ];
+
         $update = new Update("/messages/channel/" . $channel->getId(), json_encode([
-            "content" => $content,
-            "sender" => $sender
+            "message" => $messageSerialized,
         ]));
         $bus->dispatch($update);
 

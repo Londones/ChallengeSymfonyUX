@@ -4,15 +4,26 @@
 
 {% block body %}
 
-  <h1>Chat box</h1>
+    <h1>Chat with : {{ chattingWith.name }}</h1>
 
-    {% for message in messages %}
-        <p>{{ message.sender.name }} : {{ message.content }}</p>
-    {% else %}
-        <p>C'est vide par ici...</p>
-    {% endfor %}
+    <div id="message-list">
+        {% for message in messages %}
+            {% if message.sender.id == app.user.id %}
+                <div class="self">
+                    <p class="message-content">{{ message.content }}</p>
+                    <p class="message-date">{{ message.creationDate|date('d/m/Y - H:i') }}</p>
+                </div>
+            {% else %}
+                <div class="other">
+                    <p class="message-content">{{ message.content }}</p>
+                    <p class="message-date">{{ message.creationDate|date('d/m/Y - H:i') }}</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <p id="empty">C'est vide par ici...</p>
+        {% endfor %}
+    </div>
   
-  <div id="receveid-messages"></div>
   <div id="message-inputs">
     <input type="text" id="message-input" name="message"/>
     <button id="send-message-button">send</button>
@@ -22,7 +33,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        // passing twig env variable to other script
+        // passing twig variable to other script
         const mercurePublicUrl = "{{ mercure_public_url }}";
         const msgSendUrl = "{{ path('front_chat_send') }}"
         const channelId = "{{ channelId }}"

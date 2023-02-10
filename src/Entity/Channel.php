@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ChannelRepository;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -73,7 +74,7 @@ class Channel
     #[ORM\PrePersist]
     public function setCreationDate(): self
     {
-        $this->creationDate = new \DateTime();
+        $this->creationDate = new \DateTime('now', new DateTimeZone('Europe/Paris'));
 
         return $this;
     }
