@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,6 +38,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //compte vérifié ou non
     private $is_verified = false;
+
+    #[ORM\OneToMany(mappedBy: 'swipperId', targetEntity: Swipe::class)]
+    private Collection $swipes;
+
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matches::class)]
+    private Collection $matches;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Items::class)]
+    private Collection $items;
+
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
+    private Collection $category;
+
+    public function __construct()
+    {
+        $this->swipes = new ArrayCollection();
+        $this->matches = new ArrayCollection();
+        $this->items = new ArrayCollection();
+        $this->category = new ArrayCollection();
+    }
 
     // #[ORM\Column(length: 255)]
     // private ?string $email = null;
@@ -137,6 +159,120 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $is_verified): self
     {
         $this->is_verified = $is_verified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Swipe>
+     */
+    public function getSwipes(): Collection
+    {
+        return $this->swipes;
+    }
+
+    public function addSwipe(Swipe $swipe): self
+    {
+        if (!$this->swipes->contains($swipe)) {
+            $this->swipes->add($swipe);
+            $swipe->setSwipperId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSwipe(Swipe $swipe): self
+    {
+        if ($this->swipes->removeElement($swipe)) {
+            // set the owning side to null (unless already changed)
+            if ($swipe->getSwipperId() === $this) {
+                $swipe->setSwipperId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Matches>
+     */
+    public function getMatches(): Collection
+    {
+        return $this->matches;
+    }
+
+    public function addMatch(Matches $match): self
+    {
+        if (!$this->matches->contains($match)) {
+            $this->matches->add($match);
+            $match->setFirstUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatch(Matches $match): self
+    {
+        if ($this->matches->removeElement($match)) {
+            // set the owning side to null (unless already changed)
+            if ($match->getFirstUserId() === $this) {
+                $match->setFirstUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Items>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Items $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Items $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getOwner() === $this) {
+                $item->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->category->removeElement($category);
 
         return $this;
     }
