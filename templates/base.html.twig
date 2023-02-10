@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}{% endblock %}
-		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-		{% endblock %}
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>" />
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
-	</head>
-	<body>
-		{#temporary#}
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
+  <body>
+    {# temporary #}
 
-		<nav class="bg-zinc-900">
-			<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-				<div class="relative flex h-16 items-center justify-between">
-					<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-						<div class="hidden sm:ml-6 sm:block">
-							<div class="flex space-x-4">
-								<a href="{{ path('front_home_index') }}" class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-								<a href="{{ path('back_admin_index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
-								<a href="{{ path('front_app_login') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-								<a href="{{ path('front_app_register') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
-								<a href="{{ path('front_app_logout') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+    <nav class="bg-zinc-900">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <a href="{{ path('front_home_index') }}" class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
+                <a href="{{ path('back_admin_index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+                <a href="{{ path('front_app_login') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                <a href="{{ path('front_app_register') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                <a href="{{ path('front_app_logout') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-		</nav>
+    {% for flash in app.flashes('success') %}
+      <div class="bg-green-100 rounded-lg py-5 px-6 mb-3 text-base text-green-700 inline-flex" role="alert"><b>{{ flash }}</b></div>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+      <div class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex" role="alert">{{ flash }}</div>
+    {% endfor %}
 
-		{% for flash in app.flashes('success') %}
-			<div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
-				{{ flash }}
-			</div>
-		{% endfor %}
-		{% for flash in app.flashes('error') %}
-			<div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
-				{{ flash }}
-			</div>
-		{% endfor %}
+    {% block body %}
 
-		{% block body %}{% endblock %}
-	</body>
+    {% endblock %}
+  </body>
 </html>

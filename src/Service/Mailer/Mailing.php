@@ -34,7 +34,7 @@ class Mailing
         $createContact = new CreateContact();
         $createContact['email'] = $user->getEmail();
         $createContact['listIds'] = array($user->getId());
-        $createContact['attributes'] = array('NOM' => $user->getName(), 'LIEN_VALIDATION' => 'https://localhost/login');
+        $createContact['attributes'] = array('NOM' => $user->getName(), 'LIEN_VALIDATION' => $_ENV['URL_SITE']);
 
         // dump($createContact);
         // exit;
@@ -81,23 +81,4 @@ class Mailing
         }
     }
 
-    //update user in contact list
-    static function updateUser()
-    {
-    }
-
-    //delete user from contact list 
-    static function deleteUser()
-    {
-    }
-
-    //create a list of contacts
-    static function createListe()
-    {
-    }
-
-    //update elements of list utile ?
-    static function updateListe()
-    {
-    }
 }
