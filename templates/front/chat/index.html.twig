@@ -6,7 +6,7 @@
 
   <h1>Chat index</h1>
 
-    {% for channel in channelList %}
+    {% for channel in channels %}
         <a href="{{ path('front_chat_match', {'id': channel.id}) }}">chat avec : {{ channel.user.name }}</a>
         <br>
     {% else %} 

@@ -69,16 +69,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->category = new ArrayCollection();
     }
 
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matche::class)]
-    private Collection $matches;
-
     #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
     private Collection $channels;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messages;
 
     public function __construct()
     {
         $this->matches = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]
@@ -336,59 +337,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Matche>
+     * @return Collection<int, Message>
      */
-    public function getMatches(): Collection
+    public function getMessages(): Collection
     {
-        return $this->matches;
+        return $this->messages;
     }
 
-    public function addMatch(MatcheRepository $match): self
+    public function addMessage(Message $message): self
     {
-        if (!$this->matches->contains($match)) {
-            $this->matches->add($match);
-            $match->setFirstUserId($this);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSender($this);
         }
 
         return $this;
     }
 
-    public function removeMatch(MatcheRepository $match): self
+    public function removeMessage(Message $message): self
     {
-        if ($this->matches->removeElement($match)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($match->getFirstUserId() === $this) {
-                $match->setFirstUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Channel>
-     */
-    public function getChannels(): Collection
-    {
-        return $this->channels;
-    }
-
-    public function addChannel(Channel $channel): self
-    {
-        if (!$this->channels->contains($channel)) {
-            $this->channels->add($channel);
-            $channel->setFirstUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChannel(Channel $channel): self
-    {
-        if ($this->channels->removeElement($channel)) {
-            // set the owning side to null (unless already changed)
-            if ($channel->getFirstUserId() === $this) {
-                $channel->setFirstUserId(null);
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
             }
         }
 

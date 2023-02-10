@@ -5,6 +5,12 @@
 {% block body %}
 
   <h1>Chat box</h1>
+
+    {% for message in messages %}
+        <p>{{ message.sender.name }} : {{ message.content }}</p>
+    {% else %}
+        <p>C'est vide par ici...</p>
+    {% endfor %}
   
   <div id="receveid-messages"></div>
   <div id="message-inputs">

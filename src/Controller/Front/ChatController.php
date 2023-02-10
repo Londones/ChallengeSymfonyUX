@@ -12,7 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Channel;
+use App\Entity\Message;
 use App\Entity\User;
+use App\Repository\ChannelRepository;
+use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,7 +27,7 @@ class ChatController extends AbstractController
     {
         //$entityManager = $doctrine->getManager();
 
-        //$firstUser = $user->find(5);
+        $firstUser = $user->find(1);
         //$secondUser = $user->find(4);
 
         //$match = new Matche();
@@ -53,15 +56,19 @@ class ChatController extends AbstractController
         }
 
         return $this->render('front/chat/index.html.twig', [
-            'channelList' => $channelList
+            'channels' => $channelList
         ]);
     }
 
     #[Route('/match/{id}', name: 'match')]
-    public function chat($id, CookieGenerator $cookieGenerator): Response
+    public function chat($id, ChannelRepository $channelRepo, CookieGenerator $cookieGenerator): Response
     {
+        $channel = $channelRepo->find($id);
+        $messageList = $channel->getMessages();
+
         $response = $this->render('front/chat/chat.html.twig', [
-            'channelId' => $id,
+            'channelId' => $channel->getId(),
+            'messages' => $messageList
         ]);
         //$response->headers->setCookie($cookieGenerator->generate());
 
@@ -69,17 +76,27 @@ class ChatController extends AbstractController
     }
 
     #[Route('/send', name: 'send', methods: ["POST"])]
-    public function sendMessage(MessageBusInterface $bus, Request $request): RedirectResponse
+    public function sendMessage(MessageRepository $messageRepo, ChannelRepository $channelRepo, MessageBusInterface $bus, Request $request): Response
     {
-        $data = json_decode($request->getContent());
-        $channelId = $data->channelId;
         $sender = $this->getUser();
 
-        $update = new Update("/messages/channel/" . $channelId, json_encode([
-            "content" => $data->content
+        $data = json_decode($request->getContent());
+
+        $channel = $channelRepo->find($data->channelId);
+        $content = $data->content;
+
+        $message = new Message();
+        $message->setSender($sender);
+        $message->setContent($content);
+        $message->setChannel($channel);
+        $messageRepo->save($message, true);
+
+        $update = new Update("/messages/channel/" . $channel->getId(), json_encode([
+            "content" => $content,
+            "sender" => $sender
         ]));
         $bus->dispatch($update);
 
-        return $this->redirectToRoute("front_chat_index");
+        return new Response("Message successfully sent", 200);
     }
 }
