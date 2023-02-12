@@ -18,7 +18,6 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use App\Repository\UserRepository;
 
 
-
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
@@ -38,7 +37,6 @@ class RegistrationController extends AbstractController
             );
 
             //!assigner le rôle qu'on veut
-
             //*persist and flush
             $entityManager->persist($user);
             $entityManager->flush();

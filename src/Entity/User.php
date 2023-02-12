@@ -11,8 +11,7 @@ use App\Entity\Traits\TimestampableTrait;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'this emails already exists')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 

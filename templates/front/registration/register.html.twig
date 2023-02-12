@@ -20,19 +20,21 @@
                   </div>
                     <p class="mb-4">S'inscrire</p>
                     <div class="mb-4">
-						{{ form_widget(registrationForm.name, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Pseudo'}})}}
+						           {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Pseudo'}})}}
                     </div>
                     <div class="mb-4">
-						{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'E-mail'}})}}
+						            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'E-mail'}})}}
+                       <span style="color:red">{{ form_errors(registrationForm.email) }}</span>
                       </div>
                     <div class="mb-4">
-						{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Mot de passe'}})}}
+					            	{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Mot de passe'}})}}
+                    <span style="color:red">{{ form_errors(registrationForm.plainPassword) }}</span>
                     </div>
                     {# <div class="mb-4">
                       <input type="password" name="password-confirm" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Confirmation de mot de passe" required />
                     </div> #}
                     <div class="text-center pt-1 mb-3 pb-1">
-                      <button class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-indigo-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 bg-indigo-800" type="submit" data-mdb-ripple="true">S'inscrire</button>
+                      <button class="inline-block bg-indigo-800 px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-indigo-500 hover:shadow-lg" type="submit" data-mdb-ripple="true">S'inscrire</button>
                     </div>
 					{{ form_rest(registrationForm) }}
                     <div class="flex items-center justify-between">
