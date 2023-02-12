@@ -6,6 +6,7 @@ use SendinBlue\Client\Model\CreateContact;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use GuzzleHttp\Client;
 use App\Entity\User;
@@ -71,6 +72,32 @@ class Mailing
         $sendSmtpEmail['to'] = array(array('email' => $user->getEmail(), 'name' => $user->getName()));
         $sendSmtpEmail['templateId'] = 5;
         $sendSmtpEmail['params'] = array('NOM' => $user->getName(), 'LIEN_VALIDATION' => $signedUrl);
+        // $sendSmtpEmail['headers'] = array('X-Mailin-custom' => 'custom_header_1:custom_value_1|custom_header_2:custom_value_2');
+
+        try {
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            print_r($result);
+        } catch (Exception $e) {
+            echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
+        }
+    }
+
+    
+    //*envoyer le mail
+    static function sendEmailResetPassword(string $email, ResetPasswordToken $resetPasswordToken)
+    {
+
+        $config = Mailing::config();
+
+        $apiInstance = new TransactionalEmailsApi(
+            new Client(),
+            $config
+        );
+
+        $sendSmtpEmail = new SendSmtpEmail();
+        $sendSmtpEmail['to'] = array(array('email' => $email));
+        $sendSmtpEmail['templateId'] = 6;
+        $sendSmtpEmail['params'] = array('LIEN_RECUPERATION' => $resetPasswordToken);
         // $sendSmtpEmail['headers'] = array('X-Mailin-custom' => 'custom_header_1:custom_value_1|custom_header_2:custom_value_2');
 
         try {
