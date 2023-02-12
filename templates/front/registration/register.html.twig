@@ -1,17 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}
+  S'inscrire
+{% endblock %}
 
 {% block body %}
-	<h1>Register</h1>
-
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.name) }}
-	{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-
-	<button type="submit" class="btn">Register</button>
-	{{ form_end(registrationForm) }}
+  {{ form_start(registrationForm) }}
+  <section class="h-full gradient-form bg-white-200 md:h-screen">
+    <div class="container h-full mx-auto">
+      <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
+        <div class="xl:w-10/12">
+          <div class="block bg-white shadow-lg rounded-lg">
+            <div class="lg:flex lg:flex-wrap g-0">
+              <div class="lg:w-6/12 px-4 md:px-0">
+                <div class="md:p-12 md:mx-6">
+                  <div class="text-center">
+                    {# <img class="mx-auto w-48" src="" alt="logo" /> #}
+                    <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">MatchNCollect</h4>
+                  </div>
+                    <p class="mb-4">S'inscrire</p>
+                    <div class="mb-4">
+						           {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Pseudo'}})}}
+                    </div>
+                    <div class="mb-4">
+						            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'E-mail'}})}}
+                       <span style="color:red">{{ form_errors(registrationForm.email) }}</span>
+                      </div>
+                    <div class="mb-4">
+					            	{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'placeholder' : 'Mot de passe'}})}}
+                    <span style="color:red">{{ form_errors(registrationForm.plainPassword) }}</span>
+                    </div>
+                    {# <div class="mb-4">
+                      <input type="password" name="password-confirm" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Confirmation de mot de passe" required />
+                    </div> #}
+                    <div class="text-center pt-1 mb-3 pb-1">
+                      <button class="inline-block bg-indigo-800 px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-indigo-500 hover:shadow-lg" type="submit" data-mdb-ripple="true">S'inscrire</button>
+                    </div>
+					{{ form_rest(registrationForm) }}
+                    <div class="flex items-center justify-between">
+                      <p class="mb-0 mr-2 mt-0">
+                        Vous avez déjà un compte ? <a class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4" href="{{ path('front_app_login') }}">Se connecter</a>
+                      </p>
+                    </div>
+                </div>
+              </div>
+              <div class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-indigo-800">
+                <div class="text-white px-4 py-6 md:p-12 md:mx-6">
+                  <h4 class="text-xl font-semibold mb-6">write something</h4>
+                  <p class="text-sm">write something</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ form_end(registrationForm) }}
 {% endblock %}

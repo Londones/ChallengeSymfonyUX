@@ -18,7 +18,6 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use App\Repository\UserRepository;
 
 
-
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
@@ -37,8 +36,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            //*assigner le rôle qu'on veut
-
+            //!assigner le rôle qu'on veut
             //*persist and flush
             $entityManager->persist($user);
             $entityManager->flush();
@@ -57,8 +55,8 @@ class RegistrationController extends AbstractController
             Mailing::sendEmail($user, $signedUrl);
 
             //*envoyer un message d'envoie de mail
-            $this->addFlash('success', "Un mail de confirmation vous a été envoyé à l'adresse suivante ".$user->getEmail()." Veuillez valider celle-ci afin de pouvoir vous connecter");
-            return $this->redirectToRoute('front_home_index');
+            $this->addFlash('success', "Un mail de confirmation vous a été envoyé à l'adresse suivante ".$user->getEmail().". Veuillez valider celle-ci afin de pouvoir vous connecter");
+            return $this->redirectToRoute('front_app_register');
         }
 
         return $this->render('front/registration/register.html.twig', [

@@ -1,29 +1,70 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Log in!
+  Se connecter
 {% endblock %}
 
 {% block body %}
   <form method="post">
-    {% if error %}
-      <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     {% if app.user %}
-      <div class="mb-3">
-        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('front_app_logout') }}">Logout</a>
-      </div>
+      {% include 'front/home/index.html.twig' %}
     {% endif %}
 
     {% if not app.user %}
-      <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
-      <label for="inputEmail">Email</label>
-      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus />
-      <label for="inputPassword">Password</label>
-      <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required />
+      <section class="h-full gradient-form bg-white-200 md:h-screen">
+        <div class="container h-full mx-auto">
+          <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
+            <div class="xl:w-10/12">
+              {% if error %}
+            <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+           {% endif %}
+              <div class="block shadow-lg rounded-lg">
+                <div class="lg:flex lg:flex-wrap g-0">
+                  <div class="lg:w-6/12 px-4 md:px-0 bg-slate-50">
+                    <div class="md:p-12 bg-slate-50 md:mx-6">
+                      <div class="text-center">
+                        {# <img class="mx-auto w-48" src="" alt="logo"/> #}
+                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">MatchNCollect</h4>
+                      </div>
+                      <form>
+                        <p class="mb-4">Se connecter</p>
+                        <div class="mb-4">
+                          <input type="email" name="email" value="{{ last_username }}" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="E-mail" autocomplete="email"  required autofocus/>
+                        </div>
+                        <div class="mb-4">
+                          <input type="password" name="password" id="inputPassword"  class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Mot de passe" required />
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" /><br />
+                        <div class="text-center pt-1 mb-3 pb-1">
+                          <button class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-indigo-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 bg-indigo-800" type="submit" data-mdb-ripple="true" data-mdb-ripple-color="light">Se connecter</button>
+                          <a class="text-gray-500" href="{{ path('front_app_forgot_password_request') }}">Mots de passe oublié ? cliques ici.</a>
+                        </div>
+                        <div class="flex items-center justify-between pb-6">
+                          <p class="mb-0 mr-2">Pas encore inscrit ? <a  href="{{ path('front_app_register')}}" class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4">S'inscrire</a></p>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-indigo-800">
+                    <div class="text-white px-4 py-6 md:p-12 md:mx-6">
+                      <h4 class="text-xl font-semibold mb-6">Some texte</h4>
+                      <p class="text-sm">Some other texte</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+      {# <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
+      <label for="inputEmail">Email</label>
+      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus /><br />
+      <label for="inputPassword">Password</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required /><br />
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" /><br />
+      <a href="{{ path('front_app_forgot_password_request') }}" class="text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out mb-4">Mot de passe oublié ? cliques sur ce lien.</a><br /><br /> #}
 
       {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -35,8 +76,7 @@
             </label>
         </div>
     #}
-
-      <button class="btn btn-lg btn-primary" type="submit">log in</button>
+      {# <button type="submit" class="inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">Log in</button> #}
     {% endif %}
   </form>
 {% endblock %}
