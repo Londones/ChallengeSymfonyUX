@@ -21,9 +21,10 @@ class ItemsController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_items_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_items_new')]
     public function new(Request $request, ItemsRepository $itemsRepository): Response
     {
+        
         $item = new Items();
         $form = $this->createForm(ItemsType::class, $item);
         $form->handleRequest($request);
@@ -37,6 +38,7 @@ class ItemsController extends AbstractController
         return $this->renderForm('front/items/new.html.twig', [
             'item' => $item,
             'form' => $form,
+            'owner' => '87'
         ]);
     }
 

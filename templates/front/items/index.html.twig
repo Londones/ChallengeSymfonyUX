@@ -25,8 +25,8 @@
                 <td>{{ item.description }}</td>
                 <td>{{ item.isVerified ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_items_show', {'id': item.id}) }}">show</a>
-                    <a href="{{ path('app_items_edit', {'id': item.id}) }}">edit</a>
+                    <a href="{{ path('front_app_items_show', {'id': item.id}) }}">show</a>
+                    <a href="{{ path('front_app_items_edit', {'id': item.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_items_new') }}">Create new</a>
+    <a href="{{ path('front_app_items_new') }}">Create new</a>
 {% endblock %}
