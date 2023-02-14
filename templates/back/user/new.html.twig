@@ -1,15 +1,15 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Ajouter Utilisateur{% endblock %}
 
 {% block body %}
     <div class="flex bg-gray-100 min-h-screen">
         {% block sidebar %}
-            {% include '_sidebar.html.twig' %}
+            {% include 'back/_sidebar.html.twig' %}
         {% endblock %}
         <div class="flex-grow text-gray-800">
             {% block header %}
-                {% include '_header.html.twig' %}
+                {% include 'back/_header.html.twig' %}
             {% endblock %}
 
             {% block main %}
@@ -32,12 +32,12 @@
                             <div class="block p-6 rounded-lg shadow-lg bg-white w-md">
                                 {{ form_start(form) }}
                                 <div class="form-group mb-6">
-                                <label for="nameUser" class="form-label inline-block mb-2 text-gray-700">Nom</label>
-                                    {{ form_widget(form.name) }}
-                                </div>
-                                <div class="form-group mb-6">
                                 <label for="emailUser" class="form-label inline-block mb-2 text-gray-700">Email</label>
                                     {{ form_widget(form.email) }}
+                                </div>
+                                <div class="form-group mb-6">
+                                <label for="nameUser" class="form-label inline-block mb-2 text-gray-700">Nom</label>
+                                    {{ form_widget(form.name) }}
                                 </div>
                                 <div class="form-group mb-6">
                                     {% for child in form.roles %}
@@ -46,11 +46,13 @@
                                             {{ form_label(child, null, {'label_attr': {'class': 'form-check-label inline-block mb-2 text-gray-700'}}) }}
                                         </div>
                                     {% endfor %}
+                                </div>
                                 <div class="form-group mb-6">
                                 <label for="passwordUser" class="form-label inline-block mb-2 text-gray-700">Mot de passe</label>
-                                    {{ form_widget(form.password) }}
+                                    {{ form_widget(form.plainPassword) }}
                                 </div>
                                 {{ form_widget(form.submit, { 'label': 'Valider' }) }}
+                                {{ form_end(form) }}
                             </div>
                         </div>
                     </section>
