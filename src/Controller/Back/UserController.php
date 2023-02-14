@@ -13,11 +13,11 @@ use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 
-#[Route('/', name: 'user_')]
+#[Route('/user')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET', 'POST'])]
-    public function crud(UserRepository $userRepository, Request $request, DataTableFactory $dataTableFactory): Response
+    public function index(Request $request, DataTableFactory $dataTableFactory): Response
     {
         $table = $dataTableFactory->create()
             ->add('id', TextColumn::class, [
@@ -43,9 +43,9 @@ class UserController extends AbstractController
                 'orderable'=> false, 
                 'render' => function($value, $context) {
                 $user_id = $context->getId();
-                return sprintf('<button type="button" data-user-id="%s"><i class="fa-regular fa-eye"></i></button>
-                <button type="button" data-user-id="%s"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button type="button" data-user-id="%s"><i class="fa-solid fa-trash-can"></i></button>', $user_id, $user_id, $user_id);
+                return sprintf('<a type="button" href="/admin/user/%s"><i class="fa-regular fa-eye"></i></a>
+                <a type="button" href="/admin/user/%s/edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a type="button" href="/admin/user/%s"><i class="fa-solid fa-trash-can"></i></a>', $user_id, $user_id, $user_id);
             }])
             ->createAdapter(ORMAdapter::class, [
                 'entity' => User::class
@@ -56,43 +56,67 @@ class UserController extends AbstractController
             return $table->getResponse();
         }
 
-        $user = new User();
-        $formCreateUser = $this->createForm(UserType::class, $user);
-        $formCreateUser->handleRequest($request);
-
-        if ($formCreateUser->isSubmitted() && $formCreateUser->isValid()) {
-            $userRepository->save($user, true);
-
-            return $this->render('back/user/index.html.twig', [
-                'datatable' => $table,
-                'formCreateUser' => $formCreateUser->createView()
-            ]);
-        }
-
         return $this->render('back/user/index.html.twig', [
             'datatable' => $table,
-            'formCreateUser' => $formCreateUser->createView()
         ]);
         
     }
 
 
-    // #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, UserRepository $userRepository): Response
-    // {
-    //     $user = new User();
-    //     $form = $this->createForm(UserType::class, $user);
-    //     $form->handleRequest($request);
+    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, UserRepository $userRepository): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $userRepository->save($user, true);
-    //     }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
 
-    //     return $this->renderForm('back/user/index.html.twig', [
-    //         'user' => $user,
-    //         'form' => $form,
-    //     ]);
-    // }
+            return $this->redirectToRoute('back_app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('back/user/new.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    public function show(User $user): Response
+    {
+        return $this->render('back/user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('back_app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('back/user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $userRepository->remove($user, true);
+        }
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
 
 // #[Route('/user')]

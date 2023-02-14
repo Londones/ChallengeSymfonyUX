@@ -1,8 +1,93 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
 {% block title %}User{% endblock %}
 
 {% block body %}
+    <div class="flex bg-gray-100 min-h-screen">
+        {% block sidebar %}
+            {% include '_sidebar.html.twig' %}
+        {% endblock %}
+        <div class="flex-grow text-gray-800">
+            {% block header %}
+            {% include '_header.html.twig' %}
+            {% endblock %}
+
+            {% block main %}
+                <main class="p-6 sm:p-10 space-y-6">
+                    <nav class="rounded-md w-full">
+                        <ol class="list-reset flex">
+                            <li><a href= {{ path('back_app_user_index') }} class="text-purple-600 hover:text-purple-700">Liste</a></li>
+                            <li><span class="text-gray-500 mx-2">></span></li>
+                            <li class="text-gray-500">Détails</li>
+                        </ol>
+                    </nav>
+                    <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between"> 
+                        <div class="mr-6">
+                            <h1 class="text-4xl font-semibold mb-2">Gestion d'utilisateurs</h1>
+                            <h2 class="text-gray-600 ml-0.5">Détails d'utilisateur</h2>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="flex justify-center">
+                            <div class="block p-6 rounded-lg shadow-lg bg-white w-lg">
+                                <div class="flex flex-col">
+                                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                            <div class="overflow-hidden">
+                                                <table class="min-w-full">
+                                                    <thead class="border-b bg-purple-100">
+                                                        <tr>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            ID
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Nom
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Email
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Roles
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Mot de passe
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="border-b">
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ user.id }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ user.name }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ user.email }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ user.roles ? user.roles|json_encode : '' }}
+                                                        </td>
+                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            {{ user.password }}
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{# {% block body %}
     <h1>User</h1>
 
     <table class="table">
@@ -51,4 +136,4 @@
     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
 
     {{ include('user/_delete_form.html.twig') }}
-{% endblock %}
+{% endblock %} #}
