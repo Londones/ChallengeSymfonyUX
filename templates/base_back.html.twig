@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {#temporary#}
+        <a href="{{ path('front_home_index') }}">Home</a>
+        <a href="{{ path('back_app_user_index') }}">Admin</a>
+        <a href="{{ path('front_app_login') }}">Login</a>
+        <a href="{{ path('front_app_register') }}">Register</a>
+        <a href="{{ path('front_app_logout') }}">Logout</a>
+        {% block body %}
+            <div class="flex bg-gray-100 min-h-screen">
+                {% block sidebar %}{% endblock %}
+                <div class="flex-grow text-gray-800">
+                    {% block header %}{% endblock %}
+                    {% block main %}
+                        {% block message %}{% endblock %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.js"></script>
+        <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
+        {% block customjs %}{% endblock %}     
+    </body>
+</html>
