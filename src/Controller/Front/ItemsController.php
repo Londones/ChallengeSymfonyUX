@@ -30,10 +30,16 @@ class ItemsController extends AbstractController
         $form = $this->createForm(ItemsType::class, $item);
         $form->handleRequest($request);
 
+        //set le owner 
+        $owner = $this->getUser();
+        if($owner){
+            $item->setOwner($owner);
+        };
+
         if ($form->isSubmitted() && $form->isValid()) {
             $itemsRepository->save($item, true);
 
-            return $this->redirectToRoute('app_items_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('front/items/new.html.twig', [
@@ -52,7 +58,7 @@ class ItemsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_items_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Items $item, ItemsRepository $itemsRepository): Response
+    public function edit(Request $request, Items $item, ItemsRepository $itemsRepository, CategoryRepository $categoryRepository): Response
     {
         $form = $this->createForm(ItemsType::class, $item);
         $form->handleRequest($request);
@@ -66,6 +72,7 @@ class ItemsController extends AbstractController
         return $this->renderForm('front/items/edit.html.twig', [
             'item' => $item,
             'form' => $form,
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 

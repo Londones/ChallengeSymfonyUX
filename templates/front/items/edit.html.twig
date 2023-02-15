@@ -1,13 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Items{% endblock %}
+{% block title %}
+  Edit Items
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Items</h1>
-
-    {{ include('items/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('front_app_items_index') }}">back to list</a>
-
-    {{ include('items/_delete_form.html.twig') }}
+  <a class="inline-block px-6 py-2.5 bg-gray-900 mt-2 ml-6 text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out" href="{{ path('front_app_user_index') }}">Retour</a>
+  {{ include('front/items/_form.html.twig', { button_label: 'Update' }) }}
 {% endblock %}

@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-  <div class="sm:container md:mx-auto mt-8 shadow-lg shadow-indigo-500/20 rounded-lg bg-indigo-800">
-    <div class="flex md:mx-auto h-screen rounded-lg bg-indigo-800 mt-[4rem]">
+  <div class="sm:container md:mx-auto shadow-lg shadow-indigo-500/20 bg-indigo-800">
+    <div class="flex md:mx-auto rounded-lg bg-indigo-800">
       <div class="bg-gray-50 w-1/5 rounded-lg mr-[1rem] ml-[4rem] mt-[4rem] mb-[4rem] shadow-2xl shadow-slate-50/20">
         <div class="rounded-lg m-8 w-48 mx-auto">
           {% if app.user.profilPicturePath %}
@@ -24,12 +24,17 @@
         </div>
       </div>
       <div class="bg-gray-50 w-4/5 rounded-lg ml-[1rem] mr-[4rem] mt-[4rem] mb-[4rem] shadow-2xl shadow-slate-50/20 h-auto">
-        {% include 'front/items/new.html.twig' %}
+        <div class="mx-auto m-[2rem] flex justify-center">
+          <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{ path('front_app_items_new') }}">Ajouter un objet</a>
+        </div>
+        <!-- Cards des objets! -->
+        <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-gray-800 ml-[9rem] underline">Mes objets</h3>
+        {% include "front/items/index.html.twig" %}
       </div>
     </div>
   </div>
-    
-    {# <a href="{{ path('front_app_user_show', {'id': user.id}) }}">show</a>
+
+  {# <a href="{{ path('front_app_user_show', {'id': user.id}) }}">show</a>
     <a href="{{ path('front_app_user_edit', {'id': user.id}) }}">edit</a> #}
   {# <a href="{{ path('front_app_user_new') }}">Create new</a> #}
 {% endblock %}

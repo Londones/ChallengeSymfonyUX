@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\ItemsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,8 +19,15 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+
+        $user = $this->getUser();
+        if($user){
+            $itemsOfUser = $user->getItems();
+        }
+
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'items' => $itemsOfUser,
         ]);
     }
 

@@ -15,9 +15,9 @@ class ItemsType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('status')
-            ->add('description')
-            ->add('isVerified')
+            // ->add('status')
+            ->add('description');
+            // ->add('isVerified');
             // ->add('owner', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id'

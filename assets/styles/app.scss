@@ -13,6 +13,16 @@ body {
             width: 100%
         }
     }
+
+    .description{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        line-height: 20px;
+        max-height: 80px;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
