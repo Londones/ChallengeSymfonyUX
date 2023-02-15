@@ -57,9 +57,9 @@ class UserController extends AbstractController
         }
 
         return $this->render('back/user/index.html.twig', [
+            'nav' => 'user',
             'datatable' => $table,
         ]);
-        
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
@@ -78,6 +78,7 @@ class UserController extends AbstractController
         }
 
         return $this->renderForm('back/user/new.html.twig', [
+            'nav' => 'user',
             'user' => $user,
             'form' => $form,
         ]);
@@ -87,6 +88,7 @@ class UserController extends AbstractController
     public function show(User $user): Response
     {
         return $this->render('back/user/show.html.twig', [
+            'nav' => 'user',
             'user' => $user,
         ]);
     }
@@ -101,12 +103,12 @@ class UserController extends AbstractController
             $userRepository->save($user, true);
             $session = new Session();
             $session->getFlashBag()->add('success_edit_user', "L'utilisateur " .$user->getName() ." a bien été modifié(e).");
-            // $this->addFlash('success', "L'utilisateur " .$user->getName() ." a bien été modifié(e).");
 
             return $this->redirectToRoute('back_app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back/user/edit.html.twig', [
+            'nav' => 'user',
             'user' => $user,
             'form' => $form,
         ]);
@@ -117,6 +119,8 @@ class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
+            $session = new Session();
+            $session->getFlashBag()->add('success_delete_user', "L'user " .$user->getName() ." a bien été supprimé(e).");
         }
 
         return $this->redirectToRoute('back_app_user_index', [], Response::HTTP_SEE_OTHER);

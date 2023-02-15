@@ -1,6 +1,6 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Détails Utilisateur{% endblock %}
+{% block title %}Détails Catégorie{% endblock %}
 
 {% block body %}
     <div class="flex bg-gray-100 min-h-screen">
@@ -16,22 +16,22 @@
                 <main class="p-6 sm:p-10 space-y-6">
                     <nav class="rounded-md w-full">
                         <ol class="list-reset flex">
-                            <li><a href= {{ path('back_app_user_index') }} class="text-purple-600 hover:text-purple-700">Liste</a></li>
+                            <li><a href= {{ path('back_app_category_index') }} class="text-purple-600 hover:text-purple-700">Liste</a></li>
                             <li><span class="text-gray-500 mx-2">></span></li>
                             <li class="text-gray-500">Détails</li>
                         </ol>
                     </nav>
                     <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between"> 
                         <div class="mr-6">
-                            <h1 class="text-4xl font-semibold mb-2">Gestion d'utilisateurs</h1>
-                            <h2 class="text-gray-600 ml-0.5">Détails d'utilisateur</h2>
+                            <h1 class="text-4xl font-semibold mb-2">Gestion de catégories</h1>
+                            <h2 class="text-gray-600 ml-0.5">Détails de catégorie</h2>
                         </div>
                         <div class="flex flex-wrap items-start justify-end -mb-3">
-                            <a type="button" href="{{ path('back_app_user_edit', {'id': user.id}) }}" class="inline-flex px-5 py-3 text-purple-600 hover:text-purple-700 focus:text-purple-700 hover:bg-purple-100 focus:bg-purple-100 border border-purple-600 rounded-md mb-3">
+                            <a type="button" href="{{ path('back_app_category_edit', {'id': category.id}) }}" class="inline-flex px-5 py-3 text-purple-600 hover:text-purple-700 focus:text-purple-700 hover:bg-purple-100 focus:bg-purple-100 border border-purple-600 rounded-md mb-3">
                                 <i class="flex-shrink-0 h-5 w-5 -ml-1 mt-0.5 mr-2 fa-solid fa-pen-to-square"></i>
                                 Editer
                             </a>
-                            {{ include('back/user/_delete_form.html.twig') }}
+                            {{ include('back/category/_delete_form.html.twig') }}
                         </div>
                     </div>
                     <section>
@@ -48,16 +48,10 @@
                                                             ID
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Nom
+                                                            Libellé
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Email
-                                                        </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Email vérifié ?
-                                                        </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Roles
+                                                            Description
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                                             Création le
@@ -70,25 +64,19 @@
                                                     <tbody>
                                                         <tr class="border-b">
                                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.id }}
+                                                            {{ category.id }}
                                                         </td>
                                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.name }}
+                                                            {{ category.name }}
                                                         </td>
                                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.email }}
+                                                            {{ category.description }}
                                                         </td>
                                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.isEmailVerified ? '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">Oui</span>' : '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">Non</span>' }}
+                                                            {{ category.createdAt ? category.createdAt|date('Y-m-d H:i:s') : '' }}
                                                         </td>
                                                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.roles ? user.roles|json_encode : '' }}
-                                                        </td>
-                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
-                                                        </td>
-                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                            {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
+                                                            {{ category.createdAt ? category.createdAt|date('Y-m-d H:i:s') : '' }}
                                                         </td>
                                                         </tr>
                                                     </tbody>

@@ -4,11 +4,11 @@
     </a>
     <div class="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
         <nav class="flex flex-col mx-4 my-6 space-y-4">
-            <a href="#" class="inline-flex items-center justify-center py-3 text-purple-600 bg-white rounded-lg">
+            <a href="{{ path('back_app_user_index') }}" {% if nav == 'user' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
             <span class="sr-only">Gestion d'utilisateurs</span>
             <i class="fa-regular fa-user"></i>
-            </a> {# TODO: add condition {% if nav == 'Category' %} aria-current="page" text-purple-600 bg-white rounded-lg {% endif %} #}
-            <a href="#" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+            </a>
+            <a href="{{ path('back_app_category_index') }}" {% if nav == 'category' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
             <span class="sr-only">Gestion de catégories</span>
             <i class="fa-solid fa-icons"></i>
             </a>
