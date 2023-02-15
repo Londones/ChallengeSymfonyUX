@@ -31,10 +31,10 @@
                 <th>IsEmailVerified</th>
                 <td>{{ user.isEmailVerified ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>ProfilPicturePath</th>
                 <td>{{ user.profilPicturePath }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>CreatedAt</th>
                 <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>

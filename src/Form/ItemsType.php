@@ -18,10 +18,10 @@ class ItemsType extends AbstractType
             ->add('status')
             ->add('description')
             ->add('isVerified')
-            ->add('owner', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id'
-            ]);
+            // ->add('owner', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'id'
+            // ]);
             //!Remettre ça
             // ->add('category', EntityType::class, [
             //     'class' => User::class,

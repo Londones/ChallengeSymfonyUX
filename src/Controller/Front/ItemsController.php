@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Items;
 use App\Form\ItemsType;
+use App\Repository\CategoryRepository;
 use App\Repository\ItemsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class ItemsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_items_new')]
-    public function new(Request $request, ItemsRepository $itemsRepository): Response
+    public function new(Request $request, ItemsRepository $itemsRepository, CategoryRepository $categoryRepository): Response
     {
         
         $item = new Items();
@@ -38,7 +39,7 @@ class ItemsController extends AbstractController
         return $this->renderForm('front/items/new.html.twig', [
             'item' => $item,
             'form' => $form,
-            'owner' => '87'
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 

@@ -1,8 +1,9 @@
 {# {{ form_start(form) }} #}
 
-<div class="sm:container mt-[8rem] rounded-lg mx-auto">
+<div class="sm:container mt-[4rem] rounded-lg mx-auto">
   <div class="flex mx-auto mt-[4rem]">
     <div class="bg-gray-50 w-3/5 rounded-lg h-auto mx-auto">
+    <h1>Ajouter un objet</h1>
       {# <h6 class="font-medium leading-tight -mx-4 mb-6 text-xl mt-0 mb-2 text-gray-800 md:mx-auto">Ajouter un objet</h6> #}
       <div class="flex flex-wrap -mx-3 md:mx-auto">
 
@@ -30,9 +31,9 @@
           <label class="block tracking-wide mb-2 text-gray-700">Catégorie</label>
           <div class="relative">
             <select class="block appearance-none w-full border-indigo-300 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700">
-              <option>Catégorie 1</option>
-              <option>Catégorie 2</option>
-              <option>Catégorie 3</option>
+            {% for categorie in categories %}
+              <option>{{categorie.name}}</option>
+            {% endfor %}
             </select>
           </div>
         </div>
@@ -40,9 +41,8 @@
           <label class="block tracking-wide mb-2 text-gray-700">Statut initial</label>
           <div class="relative ">
             <select class="block appearance-none w-full border-indigo-300 text-gray-900 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700">
-              <option>Statut 1</option>
-              <option>Statut 2</option>
-              <option>Statut 3</option>
+              <option>Certifié</option>
+              <option>Non certifié</option>
             </select>
           </div>
         </div>
@@ -53,6 +53,5 @@
     </div>
   </div>
 </div>
-{# {{ form_widget(form) }} #}
-{# <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }} #}
+{# {{ form_end(form) }} #}
+
