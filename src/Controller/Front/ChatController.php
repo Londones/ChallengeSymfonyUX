@@ -9,11 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Security\Core\Security;
-use App\Entity\Channel;
 use App\Entity\Message;
-use App\Entity\User;
 use App\Repository\ChannelRepository;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
@@ -25,23 +21,6 @@ class ChatController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(UserRepository $user, ManagerRegistry $doctrine): Response
     {
-        //$entityManager = $doctrine->getManager();
-
-        $firstUser = $user->find(1);
-        //$secondUser = $user->find(4);
-
-        //$match = new Matche();
-        //$match->setFirstUser($firstUser);
-        //$match->setSecondUser($secondUser);
-
-        //$channel = new Channel();
-        //$channel->setFirstUser($firstUser);
-        //$channel->setSecondUser($secondUser);
-
-        //$entityManager->persist($match);
-        //$entityManager->persist($channel);
-        //$entityManager->flush();
-
         $connectedUser = $this->getUser();
 
         if (!$connectedUser) {
@@ -70,6 +49,11 @@ class ChatController extends AbstractController
         $connectedUser = $this->getUser();
 
         $channel = $channelRepo->find($id);
+
+        if(($channel->getFirstUser() != $connectedUser) && ($channel->getSecondUser() != $connectedUser)){
+            return $this->redirectToRoute('front_home_index', []);
+        }
+
         $messageList = $channel->getMessages();
         $chattingWith = $channel->getFirstUser() == $connectedUser ? $channel->getSecondUser() : $channel->getFirstUser();
 
@@ -78,7 +62,7 @@ class ChatController extends AbstractController
             'messages' => $messageList,
             'chattingWith' => $chattingWith
         ]);
-        //$response->headers->setCookie($cookieGenerator->generate());
+        $response->headers->setCookie($cookieGenerator->generate());
 
         return $response;
     }
@@ -95,6 +79,11 @@ class ChatController extends AbstractController
         $data = json_decode($request->getContent());
 
         $channel = $channelRepo->find($data->channelId);
+
+        if(($channel->getFirstUser() != $sender) && ($channel->getSecondUser() != $sender)){
+            return new Response("Not allowed to send on this channel", 403);
+        }
+
         $content = $data->content;
 
         $message = new Message();

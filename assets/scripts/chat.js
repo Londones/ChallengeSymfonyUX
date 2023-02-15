@@ -1,10 +1,12 @@
 const receiver = document.getElementById("receveid-messages");
+const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-message-button");
 const messageList = document.getElementById("message-list");
 const isEmpty = document.getElementById("empty");
 
-const sendMessage = () => {
+const sendMessage = (event) => {
+    event.preventDefault()
     const messageContent = messageInput.value
 
     if (!messageContent) return;
@@ -23,7 +25,7 @@ const sendMessage = () => {
     })
 };
 
-sendButton.addEventListener("click", sendMessage)
+messageForm.addEventListener("submit", sendMessage);
 
 const url = new URL(mercurePublicUrl);
 url.searchParams.append("topic", "/messages/channel/" + channelId);
