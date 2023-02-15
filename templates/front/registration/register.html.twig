@@ -6,17 +6,17 @@
 
 {% block body %}
   {{ form_start(registrationForm) }}
-  <section class="h-full gradient-form bg-white-200 md:h-screen">
+  <section class="gradient-form bg-white-200 mt-20">
     <div class="container h-full mx-auto">
       <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
         <div class="xl:w-10/12">
-          <div class="block bg-white shadow-lg rounded-lg">
+          <div class="block bg-white shadow-lg shadow-indigo-500/20 rounded-lg">
             <div class="lg:flex lg:flex-wrap g-0">
               <div class="lg:w-6/12 px-4 md:px-0">
-                <div class="md:p-12 md:mx-6">
+                <div class="md:p-12 md:mx-6 p-4">
                   <div class="text-center">
                     {# <img class="mx-auto w-48" src="" alt="logo" /> #}
-                    <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">MatchNCollect</h4>
+                    <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Match<span class="text-indigo-800">N</span>Collect</h4>
                   </div>
                     <p class="mb-4">S'inscrire</p>
                     <div class="mb-4">
@@ -34,7 +34,7 @@
                       <input type="password" name="password-confirm" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Confirmation de mot de passe" required />
                     </div> #}
                     <div class="text-center pt-1 mb-3 pb-1">
-                      <button class="inline-block bg-indigo-800 px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-indigo-500 hover:shadow-lg" type="submit" data-mdb-ripple="true">S'inscrire</button>
+                      <button class="inline-block bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300" type="submit" data-mdb-ripple="true">S'inscrire</button>
                     </div>
 					{{ form_rest(registrationForm) }}
                     <div class="flex items-center justify-between">
@@ -44,10 +44,10 @@
                     </div>
                 </div>
               </div>
-              <div class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-indigo-800">
+              <div class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-gradient-to-r from-indigo-600 to-violet-600">
                 <div class="text-white px-4 py-6 md:p-12 md:mx-6">
-                  <h4 class="text-xl font-semibold mb-6">write something</h4>
-                  <p class="text-sm">write something</p>
+                  <h4 class="text-xl font-semibold mb-6"> Consequat exercitation cillum amet officia. </h4>
+                  <p class="text-sm">Ex commodo cupidatat dolor ea ullamco exercitation excepteur non mollit dolor labore. Officia ipsum culpa mollit culpa. Amet excepteur velit velit nulla sint labore amet aliquip tempor pariatur ex labore in. Velit sit cillum in officia. Consectetur reprehenderit dolore elit consectetur in laborum velit nostrud consequat ipsum sint nisi.</p>
                 </div>
               </div>
             </div>
