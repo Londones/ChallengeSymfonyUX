@@ -20,16 +20,8 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
 
-        $user = $this->getUser();
-        if($user){
-            $itemsOfUser = $user->getItems();
-        }else{
-            return $this->redirectToRoute('app_home_index');
-        }
-        
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'items' => $itemsOfUser,
         ]);
     }
 
@@ -43,7 +35,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/new.html.twig', [
@@ -53,10 +45,17 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    public function show(User $user, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
+        if($user){
+            $itemsOfUser = $user->getItems();
+        }else{
+            return $this->redirectToRoute('front_app_login');
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'items' => $itemsOfUser,
         ]);
     }
 
@@ -69,7 +68,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
@@ -85,6 +84,6 @@ class UserController extends AbstractController
             $userRepository->remove($user, true);
         }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
