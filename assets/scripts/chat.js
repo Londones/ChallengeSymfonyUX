@@ -36,17 +36,29 @@ eventSource.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const { user, date, content } = data.message
 
-    const elementClass = user.id === connectedUserId ? "self" : "other" 
     const messageDate = new Date(date.date)
 
     if (isEmpty) isEmpty.style.display = "none"
 
-    messageList.insertAdjacentHTML('beforeend', `
-        <div class="${elementClass}">
-            <p class="message-content">${content}</p>
-            <p class="message-date">${formatDate(messageDate)}</p>
-        </div>
-    `);
+    if (user.id === connectedUserId) {
+        messageList.insertAdjacentHTML("beforeend", `
+            <div class="self flex flex-col items-end">
+                <div class="border-violet-700 border-2 p-4 mb-4 mr-4 rounded-3xl">
+                    <p class="message-content mb-2">${content}</p>
+                    <p class="message-date text-xs">${formatDate(messageDate)}</p>
+                </div>
+            </div>
+        `)
+    } else {
+        messageList.insertAdjacentHTML("beforeend", `
+            <div class="other flex flex-col items-start">
+                <div class="bg-violet-700 text-white p-4 mb-4 ml-4 rounded-3xl">
+                    <p class="message-content mb-2">${content}</p>
+                    <p class="message-date text-xs">${formatDate(messageDate)}</p>
+                </div>
+            </div>
+        `)
+    }
 };
 
 function formatDate(date) {

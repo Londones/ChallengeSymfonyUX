@@ -30,6 +30,7 @@ class Channel
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\OneToMany(mappedBy: 'channel', targetEntity: Message::class)]
+    #[ORM\OrderBy(["creationDate" => "ASC"])]
     private Collection $messages;
 
     public function __construct()

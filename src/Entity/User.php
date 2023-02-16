@@ -61,14 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
-    public function __construct()
-    {
-        $this->swipes = new ArrayCollection();
-        $this->matches = new ArrayCollection();
-        $this->items = new ArrayCollection();
-        $this->category = new ArrayCollection();
-    }
-
     #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
     private Collection $channels;
 
@@ -80,6 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->matches = new ArrayCollection();
         $this->channels = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->items = new ArrayCollection();
+        $this->swipes = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]

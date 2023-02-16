@@ -4,12 +4,34 @@
 
 {% block body %}
 
-  <h1>Chat index</h1>
+    <div class="flex flex-col items-center">
+        <h1 class="text-center mt-10 mb-10">Liste des Matchs :</h1>
 
-    {% for channel in channels %}
-        <a href="{{ path('front_chat_match', {'id': channel.id}) }}">chat avec : {{ channel.user.name }}</a>
-        <br>
-    {% else %} 
-        Vous n'avez pas de match
-    {% endfor %}
+        <div class="flex flex-col items-center w-2/3">
+        {% for channel in channels %}
+            <a href="{{ path('front_chat_match', {'id': channel.id}) }}" class="flex justify-around items-center mt-5 h-28 w-full rounded-3xl bg-violet-700">
+                <div class="bg-white rounded-full h-3/4 w-20 flex items-center">
+                    <img src="{{ channel.user.profilPicturePath }}">
+                </div>
+                <div class="text-white h-full flex flex-col justify-around">
+                    <p class="font-bold">{{ channel.user.name }}</p>
+                    {% if channel.lastMessage %}
+                        <p class="italic">{{ channel.lastMessage.content }}</p>
+                    {% else %}
+                        <p class="italic">Aucun message envoyé</p>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if channel.lastMessage %}
+                        <p class="text-white">{{ channel.lastMessage.creationDate|date('d/m/Y - H:i') }}</p>
+                    {% endif %}
+                </div>
+            </a>
+        {% else %} 
+            <div class="bg-indigo-500">
+                <p>Vous n'avez pas de match</p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}

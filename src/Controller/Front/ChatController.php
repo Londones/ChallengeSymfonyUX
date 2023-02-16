@@ -19,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class ChatController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(UserRepository $user, ManagerRegistry $doctrine): Response
+    public function index(UserRepository $user): Response
     {
         $connectedUser = $this->getUser();
 
@@ -32,9 +32,12 @@ class ChatController extends AbstractController
 
         foreach($channelListRequest as $channel) {
             $otherUser = $channel->getFirstUser() == $connectedUser ? $channel->getSecondUser() : $channel->getFirstUser();
+            $lastMessage = $channel->getMessages()->last();
+
             array_push($channelList, [
                 'user' => $otherUser,
                 'id' => $channel->getId(),
+                'lastMessage' => $lastMessage
             ]);
         }
 
