@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Repository\MatcheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,11 +61,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
+    private Collection $channels;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
-        $this->swipes = new ArrayCollection();
         $this->matches = new ArrayCollection();
+        $this->channels = new ArrayCollection();
+        $this->messages = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->swipes = new ArrayCollection();
         $this->category = new ArrayCollection();
     }
 
@@ -318,6 +327,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
+            }
+        }
 
         return $this;
     }

@@ -11,7 +11,6 @@
     {% block stylesheets %}
       {{ encore_entry_link_tags('app') }}
     {% endblock %}
-
     {% block javascripts %}
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
@@ -48,10 +47,10 @@
             <!-- Icon -->
             <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Match</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
+                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
               </li>
               <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférence</a>
