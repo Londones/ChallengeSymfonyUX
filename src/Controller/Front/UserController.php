@@ -23,8 +23,10 @@ class UserController extends AbstractController
         $user = $this->getUser();
         if($user){
             $itemsOfUser = $user->getItems();
+        }else{
+            return $this->redirectToRoute('app_home_index');
         }
-
+        
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
             'items' => $itemsOfUser,

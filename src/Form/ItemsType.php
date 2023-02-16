@@ -22,7 +22,6 @@ class ItemsType extends AbstractType
             //     'class' => User::class,
             //     'choice_label' => 'id'
             // ]);
-            //!Remettre ça
             // ->add('category', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'name'
