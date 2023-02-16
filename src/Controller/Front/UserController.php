@@ -68,7 +68,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
