@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}
+{% endblock %}
 
 {% block body %}
-
+  <div class="bg-indigo-800">
+    <h4 class="text-center font-medium leading-tight text-3xl mt-0 mb-2 text-gray-50 pt-[8rem]">Ajouter un objet</h4>
     {{ include('front/items/_form.html.twig') }}
+  </div>
 {% endblock %}
