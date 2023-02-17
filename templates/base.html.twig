@@ -57,7 +57,7 @@
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférence</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_index') }}">Profil</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_show', { id: app.user.id })}}">Profil</a>
               </li>
               <li class="nav-item p-2">
                 <a href="{{ path('front_app_logout') }}" class="text-pink-800 underline hover:text-gray-900 transition duration-300 ease-in-out mb-4">Déconnecter</a>

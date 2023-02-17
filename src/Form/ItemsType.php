@@ -6,6 +6,8 @@ use App\Entity\Items;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\User;
 
 class ItemsType extends AbstractType
 {
@@ -13,12 +15,17 @@ class ItemsType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('status')
-            ->add('description')
-            ->add('isVerified')
-            ->add('owner')
-            ->add('category')
-        ;
+            // ->add('status')
+            ->add('description');
+            // ->add('isVerified');
+            // ->add('owner', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'id'
+            // ]);
+            // ->add('category', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'name'
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
