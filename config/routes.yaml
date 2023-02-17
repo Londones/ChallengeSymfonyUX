@@ -1,3 +1,10 @@
-controllers:
-    resource: ../src/Controller/
+controllers_front:
+    resource: ../src/Controller/Front/
     type: attribute
+    name_prefix: front_
+
+controllers_back:
+    resource: ../src/Controller/Back/
+    type: attribute
+    prefix: /admin/
+    name_prefix: back_

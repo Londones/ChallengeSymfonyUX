@@ -1,0 +1,51 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Editer Catégorie{% endblock %}
+
+{% block body %}
+    <div class="flex bg-gray-100 min-h-screen">
+        {% block sidebar %}
+            {% include 'back/_sidebar.html.twig' %}
+        {% endblock %}
+        <div class="flex-grow text-gray-800">
+            {% block header %}
+                {% include 'back/_header.html.twig' %}
+            {% endblock %}
+
+            {% block main %}
+                <main class="p-6 sm:p-10 space-y-6">
+                    <nav class="rounded-md w-full">
+                        <ol class="list-reset flex">
+                            <li><a href= {{ path('back_app_user_index') }} class="text-purple-600 hover:text-purple-700">Liste</a></li>
+                            <li><span class="text-gray-500 mx-2">></span></li>
+                            <li class="text-gray-500">Editer</li>
+                        </ol>
+                    </nav>
+                    <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between"> 
+                        <div class="mr-6">
+                            <h1 class="text-4xl font-semibold mb-2">Gestion de catégorie</h1>
+                            <h2 class="text-gray-600 ml-0.5">Editer la catégorie</h2>
+                        </div>
+                    </div>
+                    <section>
+                        <div class="flex justify-center">
+                            <div class="block p-6 rounded-lg shadow-lg bg-white w-1/4">
+                                {{ form_start(form) }}
+                                <div class="form-group mb-6">
+                                <label for="nameCategory" class="form-label inline-block mb-2 text-gray-700">Name</label>
+                                    {{ form_widget(form.name) }}
+                                </div>
+                                <div class="form-group mb-6">
+                                <label for="descCategory" class="form-label inline-block mb-2 text-gray-700">Description</label>
+                                    {{ form_widget(form.description) }}
+                                </div>
+                                {{ form_widget(form.submit, { 'label': 'Valider' }) }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

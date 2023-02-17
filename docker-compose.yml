@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   php:
+    container_name: php_app
     build:
       context: .
       target: app_php
@@ -23,9 +24,10 @@ services:
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
-      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
 
   caddy:
+    container_name: caddy
     build:
       context: .
       target: app_caddy
@@ -55,13 +57,29 @@ services:
         protocol: udp
 
   database:
+    container_name: database
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: ChangeMe
+      POSTGRES_USER: symfony
     volumes:
       - db_data:/var/lib/postgresql/data:rw
+  
+  #adminer
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    depends_on:
+      - database
+    ports:
+     - 8080:8080
+    environment:
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: ChangeMe
+      POSTGRES_DB: app
+
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
