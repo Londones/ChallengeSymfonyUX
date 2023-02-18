@@ -1,0 +1,61 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Liste Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="flex bg-gray-100 min-h-screen">
+        {% block sidebar %}
+            {% include 'back/_sidebar.html.twig' %}
+        {% endblock %}
+        <div class="flex-grow text-gray-800">
+            {% block header %}
+                {% include 'back/_header.html.twig' %}
+            {% endblock %}
+
+            {% block main %}
+                <main class="p-6 sm:p-10 space-y-6">
+                    <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
+                        <div class="mr-6">
+                            <h1 class="text-4xl font-semibold mb-2">Gestion d'utilisateurs</h1>
+                            <h2 class="text-gray-600 ml-0.5">Liste</h2>
+                        </div>
+                    </div>
+                    {% block message %}
+                        {% include 'back/_message.html.twig' %}
+                    {% endblock %}
+
+                    <div class="flex flex-wrap items-start justify-end -mb-3">
+                        <a type="button" href= {{ path('back_app_user_new') }} class="inline-flex px-5 py-3 text-white bg-purple-600 hover:bg-purple-700 focus:bg-purple-700 rounded-md ml-6 mb-3">
+                            <i class="flex-shrink-0 h-6 w-6 text-white -ml-1 mr-2 fa-solid fa-plus"></i>      
+                            Ajouter un utilisateur
+                        </a>
+                    </div>
+                    <section>
+                        <div id="datatable-user">
+                        
+                        </div>
+                    </section>
+                </main>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block customjs %}
+    <script>
+        $(function() {
+            $('#datatable-user').initDataTables({{ datatable_settings(datatable) }}, {
+                searching: true,
+                paging: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+

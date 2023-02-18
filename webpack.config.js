@@ -14,6 +14,12 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
+    // copy files to public/build
+    .copyFiles({ 
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg|svg)$/
+    })
 
     /*
      * ENTRY CONFIG
@@ -23,6 +29,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('match', './assets/match.js')
+    .addEntry('chat', './assets/scripts/chat.js')
 
     .copyFiles({
         from: './assets/images',

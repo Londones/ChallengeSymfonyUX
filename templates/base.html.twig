@@ -11,14 +11,13 @@
     {% block stylesheets %}
       {{ encore_entry_link_tags('app') }}
     {% endblock %}
-
     {% block javascripts %}
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </head>
   <body>
     {# temporary #}
-    {# <nav class="bg-zinc-900">
+    <nav class="bg-zinc-900">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -34,7 +33,7 @@
           </div>
         </div>
       </div>
-    </nav> #}
+    </nav>
 
           <nav class="relative w-full flex flex-wrap items-center justify-between py-2 shadow-md shadow-indigo-500/20 navbar navbar-expand-lg navbar-light">
         <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
@@ -51,7 +50,7 @@
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Match</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
+                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
               </li>
               <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférence</a>

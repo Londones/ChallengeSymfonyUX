@@ -1,0 +1,7 @@
+mercure:
+    hubs:
+        default:
+            url: '%env(MERCURE_URL)%'
+            jwt:
+                secret: '%env(CADDY_MERCURE_JWT_SECRET)%'
+                publish: '*'
