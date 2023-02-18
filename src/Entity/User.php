@@ -329,4 +329,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+     //* SETTERS AND GETTERS OF IMAGES 
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return User
+     */
+    public function setImage(?string $image): User
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     * @return User
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        //!important de rajouter ça 
+        if ($imageFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+
+    public function serialize()
+    {
+        $this->image = base64_encode($this->image);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->image = base64_decode($this->image);
+    }
 }
