@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProfileType extends AbstractType
 {
@@ -15,8 +16,13 @@ class ProfileType extends AbstractType
             ->add('email')
             ->add('password')
             ->add('name')
-            ->add('profilPicturePath')
-        ;
+            ->add(
+                'imageFile',
+                VichImageType::class,
+                [
+                    'required' => false
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
