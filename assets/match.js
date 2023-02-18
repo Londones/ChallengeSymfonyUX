@@ -89,9 +89,6 @@ const listenToMouseEvents = () => {
 
   document.addEventListener('mouseup', handleMoveUp);
 
-  like.addEventListener('mouseup', () => {
-    dismiss(1)
-  });
   // prevent card from being dragged
   element.addEventListener('dragstart', (e) => {
     e.preventDefault();
@@ -156,6 +153,18 @@ const handleMove = (x, y) => {
   }
 }
 
+like.addEventListener('mouseup', () => {
+  dismiss(1);
+});
+
+pass.addEventListener('mouseup', () => {
+  dismiss(-1);
+});
+
+fav.addEventListener('mouseup', () => {
+  dismiss(0);
+});
+
 // mouse event handlers
 const handleMouseMove = (e) => {
   e.preventDefault();
@@ -217,7 +226,7 @@ const dismiss = (direction) => {
     otherImgsCarr.innerHTML = '';
     bottomTags.innerHTML = '';
     next();
-  }, 100);
+  }, 500);
 }
 
 
