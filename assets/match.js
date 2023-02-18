@@ -7,6 +7,9 @@ const imgClass = ['absolute', 'w-full', 'object-cover', 'drop-shadow-lg', 'round
 const carrClass = [ 'm-auto', 'mx-3', 'flex-none', 'w-16' ];
 const imgCarrClass = [ 'w-full', 'object-cover', 'drop-shadow-lg', 'rounded-lg' ];
 const tagsClass = [ 'h-10', 'px-6', 'font-semibold', 'bg-white/40', 'backdrop-blur-sm', 'rounded-full', 'text-slate-900'];
+const like = document.querySelector('.like');
+const pass = document.querySelector('.pass');
+const fav = document.querySelector('.fav');
 
 const dummyData = {
   mainImageUrl: 'https://picsum.photos/400/600',
@@ -19,32 +22,34 @@ const dummyData = {
     'https://picsum.photos/400/600',
   ],
   tags: [
-    'Tag 1',
-    'Tag 2',
-    'Tag 3',
+    '#Tag',
+    '#Tag',
+    '#Tag',
   ]
 }
 
 const dummyData2 = {
-  mainImageUrl: 'https://picsum.photos/400/600',
+  mainImageUrl: 'https://loremflickr.com/400/600',
   user: 'Jane Doe',
-  desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam ultricies, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Sed euismod, nunc ut aliquam ultricies, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc.',
+  desc: 'Sed euismod, nunc ut aliquam ultricies, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Sed euismod, nunc ut aliquam ultricies, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   otherImgs: [
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
-    'https://picsum.photos/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
+    'https://loremflickr.com/400/600',
   ],
   tags: [
     'Tag 1',
     'Tag 2',
     'Tag 3',
+    'Tag 4',
   ]
 }
 
@@ -68,6 +73,10 @@ const listenToTouchEvents = () => {
 
   document.addEventListener('touchend', handleTouchEnd);
   document.addEventListener('cancel', handleTouchEnd);
+
+  like.addEventListener('click', () => {
+      dismiss(1)
+  });
 }
 
 const listenToMouseEvents = () => {
@@ -80,6 +89,9 @@ const listenToMouseEvents = () => {
 
   document.addEventListener('mouseup', handleMoveUp);
 
+  like.addEventListener('mouseup', () => {
+    dismiss(1)
+  });
   // prevent card from being dragged
   element.addEventListener('dragstart', (e) => {
     e.preventDefault();
@@ -131,16 +143,16 @@ const handleMove = (x, y) => {
   offsetX = x - startPoint.x;
   offsetY = y - startPoint.y;
   const rotate = offsetX * 0.1;
-  // lower the opacity of the wrapper content as the card is dragged
-  //wrapper.style.opacity = 1 - Math.abs(offsetX) / 100;
-  userName.style.opacity = 1 - Math.abs(offsetX) / 1000;
-  description.style.opacity = 1 - Math.abs(offsetX) / 1000;
-  otherImgsCarr.style.opacity = 1 - Math.abs(offsetX) / 1000;
-  bottomTags.style.opacity = 1 - Math.abs(offsetX) / 1000;
+  userName.style.opacity = 1 - Math.abs(offsetX) / 500;
+  description.style.opacity = 1 - Math.abs(offsetX) / 500;
+  otherImgsCarr.style.opacity = 1 - Math.abs(offsetX) / 500;
+  bottomTags.style.opacity = 1 - Math.abs(offsetX) / 500;
   element.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
   // dismiss card
   if (Math.abs(offsetX) > element.clientWidth * 0.7) {
     dismiss(offsetX > 0 ? 1 : -1);
+  } else if (Math.abs(offsetY) > element.clientHeight * 0.7) {
+    dismiss(0);
   }
 }
 
@@ -156,7 +168,6 @@ const handleMoveUp = () => {
   startPoint = null;
   document.removeEventListener('mousemove', handleMouseMove);
   element.style.transform = '';
-  wrapper.style.opacity = 1;
   userName.style.opacity = 1;
   description.style.opacity = 1;
   otherImgsCarr.style.opacity = 1;
@@ -176,7 +187,10 @@ const handleTouchEnd = () => {
   startPoint = null;
   document.removeEventListener('touchmove', handleTouchMove);
   element.style.transform = '';
-  wrapper.style.opacity = 1;
+  userName.style.opacity = 1;
+  description.style.opacity = 1;
+  otherImgsCarr.style.opacity = 1;
+  bottomTags.style.opacity = 1;
 }
 
 const dismiss = (direction) => {
@@ -186,15 +200,24 @@ const dismiss = (direction) => {
   document.removeEventListener('touchend', handleTouchEnd);
   document.removeEventListener('touchmove', handleTouchMove);
   element.style.transition = 'transform 1s';
-  element.style.transform = `translate(${direction * window.innerWidth}px, ${offsetY}px) rotate(${90 * direction}deg)`;
+  if (direction === 0) {
+    element.style.transform = `translate(${offsetX}px, ${- window.innerHeight}px) rotate(0deg)`;
+  } else {
+    element.style.transform = `translate(${direction * window.innerWidth}px, ${offsetY}px) rotate(${90 * direction}deg)`;
+  }
   element.classList.add('dismissing');
+  userName.style.opacity = 1;
+  description.style.opacity = 1;
+  otherImgsCarr.style.opacity = 1;
+  bottomTags.style.opacity = 1;
   setTimeout(() => {
     element.remove();
     userName.innerHTML = '';
     description.innerHTML = '';
-    otherImgsCarr.remove();
-    bottomTags.remove();
-  }, 1000);
+    otherImgsCarr.innerHTML = '';
+    bottomTags.innerHTML = '';
+    next();
+  }, 100);
 }
 
 

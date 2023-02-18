@@ -12,7 +12,7 @@
     .mw { max-width: 850px;}
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style> 
-<div class=" my-24 mx-auto mw">
+<div class=" my-20 mx-auto mw">
    <div class="flex font-sans lg:flex">
   <div class="margin-auto flex-none w-[20rem] relative card">
   </div>
@@ -33,5 +33,10 @@
     </div>
   </div>
 </div>
+  <div class="flex justify-end items-center w-11/12 h-24 relative z-10">
+    <img class=" cursor-pointer hover:opacity-80 pass" src="{{ asset('build/images/pass.png') }}">
+    <img class=" cursor-pointer hover:opacity-80 fav" src="{{ asset('build/images/fav.png') }} ">
+    <img class=" cursor-pointer hover:opacity-80 like" src="{{ asset('build/images/like.png') }} ">
+  </div>
 </div>
 {% endblock %}
