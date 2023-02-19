@@ -73,6 +73,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $result;
     }
 
+    public function getSameCategoryUsers(User $user)
+    {
+        $categories = $user->getCategory();
+        $categoriesId = [];
+        foreach($categories as $category){
+            array_push($categoriesId, $category->getId());
+        }
+
+        $qb->select('s.s')
+        //$swipedUsersSubquery = 
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u')
+            ->from(User::class, 'u')
+            ->join('u.category', 'c')
+            ->where('c.id IN (:categoriesId)')
+            ->andWhere('u.id != :userId')
+            ->setParameter('categoriesId', $categoriesId)
+            ->setParameter('userId', $user->getId());
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
