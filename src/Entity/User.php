@@ -57,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $image = null;
 
     /**
+     * @Vich\UploadableField(mapping="users", fileNameProperty="image")
      * @Ignore()
      */
     #[Vich\UploadableField(mapping: 'users_images', fileNameProperty: 'image')]

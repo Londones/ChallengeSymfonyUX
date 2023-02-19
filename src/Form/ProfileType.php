@@ -20,7 +20,10 @@ class ProfileType extends AbstractType
                 'imageFile',
                 VichImageType::class,
                 [
-                    'required' => false
+                    'required' => false,
+                    'allow_delete' => true,
+                    'delete_label' => 'Suppression de l\'image',
+                    'download_label' => 'Télécharger l\'image',
                 ]
             );
     }
