@@ -14,11 +14,9 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password')
+            ->add('password', null)
             ->add('name')
-            ->add(
-                'imageFile',
-                VichImageType::class,
+            ->add('imageFile',VichImageType::class,
                 [
                     'required' => false,
                     'allow_delete' => true,
