@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ObjectFiles index{% endblock %}
+
+{% block body %}
+    <h1>ObjectFiles index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>File</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for object_file in object_files %}
+            <tr>
+                <td>{{ object_file.id }}</td>
+                <td>{{ object_file.file }}</td>
+                <td>{{ object_file.createdAt ? object_file.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ object_file.updatedAt ? object_file.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_object_files_show', {'id': object_file.id}) }}">show</a>
+                    <a href="{{ path('app_object_files_edit', {'id': object_file.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_object_files_new') }}">Create new</a>
+{% endblock %}

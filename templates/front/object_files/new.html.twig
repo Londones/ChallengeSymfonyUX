@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ObjectFiles{% endblock %}
+
+{% block body %}
+    <h1>Create new ObjectFiles</h1>
+
+    {{ include('object_files/_form.html.twig') }}
+
+    <a href="{{ path('app_object_files_index') }}">back to list</a>
+{% endblock %}

@@ -35,9 +35,13 @@ class Items
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'item_id', targetEntity: ObjectFiles::class, orphanRemoval: true)]
+    private Collection $objectfile;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->objectfile = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +129,36 @@ class Items
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObjectFiles>
+     */
+    public function getObjectfile(): Collection
+    {
+        return $this->objectfile;
+    }
+
+    public function addObjectfile(ObjectFiles $objectfile): self
+    {
+        if (!$this->objectfile->contains($objectfile)) {
+            $this->objectfile->add($objectfile);
+            $objectfile->setItemId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObjectfile(ObjectFiles $objectfile): self
+    {
+        if ($this->objectfile->removeElement($objectfile)) {
+            // set the owning side to null (unless already changed)
+            if ($objectfile->getItemId() === $this) {
+                $objectfile->setItemId(null);
+            }
+        }
 
         return $this;
     }
