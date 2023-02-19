@@ -14,10 +14,10 @@ class Swipe
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'swipes')]
-    private ?User $swipperId = null;
+    private ?User $swipper = null;
 
     #[ORM\ManyToOne]
-    private ?User $swippedId = null;
+    private ?User $swipped = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isSwipeRight = null;
@@ -27,26 +27,26 @@ class Swipe
         return $this->id;
     }
 
-    public function getSwipperId(): ?User
+    public function getSwipper(): ?User
     {
-        return $this->swipperId;
+        return $this->swipper;
     }
 
-    public function setSwipperId(?User $swipperId): self
+    public function setSwipperId(?User $swipper): self
     {
-        $this->swipperId = $swipperId;
+        $this->swipper = $swipper;
 
         return $this;
     }
 
-    public function getSwippedId(): ?User
+    public function getSwipped(): ?User
     {
-        return $this->swippedId;
+        return $this->swipped;
     }
 
-    public function setSwippedId(?User $swippedId): self
+    public function setSwipped(?User $swipped): self
     {
-        $this->swippedId = $swippedId;
+        $this->swipped = $swipped;
 
         return $this;
     }
