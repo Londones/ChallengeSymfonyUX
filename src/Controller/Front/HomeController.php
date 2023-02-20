@@ -11,13 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(UserRepository $userRepo): Response
+    public function index(): Response
     {
-        $connectedUser = $this->getUser();
-        $userToSwipe = $userRepo->getUserToSwipe($connectedUser);
-
-        return $this->render('front/home/index.html.twig', [
-            'userToSwipe' => $userToSwipe
-        ]);
+        return $this->render('front/home/index.html.twig', []);
     }
 }
