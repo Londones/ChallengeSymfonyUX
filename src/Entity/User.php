@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $profilPicturePath = "null";
 
-    #[ORM\OneToMany(mappedBy: 'swipperId', targetEntity: Swipe::class)]
+    #[ORM\OneToMany(mappedBy: 'swipper', targetEntity: Swipe::class)]
     private Collection $swipes;
 
     #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matches::class)]
@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Channel::class)]
     private Collection $channels;
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]

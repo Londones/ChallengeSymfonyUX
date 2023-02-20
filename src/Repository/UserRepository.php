@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Channel;
+use App\Entity\Swipe;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -73,25 +74,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $result;
     }
 
-    public function getSameCategoryUsers(User $user)
+    public function getUserToSwipe(User $user)
     {
-        $categories = $user->getCategory();
-        $categoriesId = [];
-        foreach($categories as $category){
-            array_push($categoriesId, $category->getId());
-        }
+        $categories = $user->getCategory()->toArray();
+        $categoriesId = array_values(array_map(function($category) {
+            return $category->getId();
+        }, $categories));
 
-        $qb->select('s.s')
-        //$swipedUsersSubquery = 
-        
+        $swipes = $user->getSwipes()->toArray();
+        $swippedId = array_values(array_map(function($swipe) {
+            return $swipe->getSwipped()->getId();
+        }, $swipes));
+
         $qb = $this->getEntityManager()->createQueryBuilder();
+        
         $qb->select('u')
             ->from(User::class, 'u')
             ->join('u.category', 'c')
             ->where('c.id IN (:categoriesId)')
             ->andWhere('u.id != :userId')
+            ->andWhere('u.id NOT IN (:swippedId)')
             ->setParameter('categoriesId', $categoriesId)
-            ->setParameter('userId', $user->getId());
+            ->setParameter('swippedId', $swippedId)
+            ->setParameter('userId', $user->getId())
+            ->orderBy('u.createdAt', 'ASC')
+            ->setMaxResults(1);
         $query = $qb->getQuery();
         $result = $query->getResult();
 

@@ -32,7 +32,7 @@ class Swipe
         return $this->swipper;
     }
 
-    public function setSwipperId(?User $swipper): self
+    public function setSwipper(?User $swipper): self
     {
         $this->swipper = $swipper;
 
