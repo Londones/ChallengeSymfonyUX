@@ -74,7 +74,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $result;
     }
 
-    public function getUserToSwipe(User $user)
+    public function getUserToSwipe(User $user) 
     {
         $categories = $user->getCategory()->toArray();
         $categoriesId = array_values(array_map(function($category) {
@@ -93,16 +93,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('u.category', 'c')
             ->where('c.id IN (:categoriesId)')
             ->andWhere('u.id != :userId')
-            ->andWhere('u.id NOT IN (:swippedId)')
             ->setParameter('categoriesId', $categoriesId)
-            ->setParameter('swippedId', $swippedId)
             ->setParameter('userId', $user->getId())
             ->orderBy('u.createdAt', 'ASC')
             ->setMaxResults(1);
+        if($swippedId){
+            $qb->andWhere('u.id NOT IN (:swippedId)')
+                ->setParameter('swippedId', $swippedId);
+        }
+
         $query = $qb->getQuery();
         $result = $query->getResult();
 
-        return $result;
+        return $result[0];
     }
 
 //    /**
