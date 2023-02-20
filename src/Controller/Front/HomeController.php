@@ -14,10 +14,11 @@ class HomeController extends AbstractController
     public function index(UserRepository $userRepo): Response
     {
         $connectedUser = $this->getUser();
-        $test = $userRepo->getSameCategoryUsers($connectedUser);
-        //dd($test);
+        $userToSwipe = $userRepo->getUserToSwipe($connectedUser);
+        dd($userToSwipe);
 
-
-        return $this->render('front/home/index.html.twig');
+        return $this->render('front/home/index.html.twig', [
+            'userToSwipe' => $userToSwipe
+        ]);
     }
 }
