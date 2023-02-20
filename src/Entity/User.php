@@ -12,10 +12,17 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
@@ -46,8 +53,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isEmailVerified = false;
 
-    #[ORM\Column(length: 255)]
-    private ?string $profilPicturePath = "null";
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="users", fileNameProperty="image")
+     * @Ignore()
+     */
+    #[Vich\UploadableField(mapping: 'users_images', fileNameProperty: 'image')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
+        mimeTypesMessage: 'Fichier accepté : png / jpeg'
+    )]
+    private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'swipperId', targetEntity: Swipe::class)]
     private Collection $swipes;
@@ -205,18 +226,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfilPicturePath(): ?string
-    {
-        return $this->profilPicturePath;
-    }
-
-    public function setProfilPicturePath(string $profilPicturePath): self
-    {
-        $this->profilPicturePath = $profilPicturePath;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Swipe>
      */
@@ -331,6 +340,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+     //* SETTERS AND GETTERS OF IMAGES 
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return User
+     */
+    public function setImage(?string $image): User
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     * @return User
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        //!important de rajouter ça 
+        if ($imageFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+     }
+     
     /**
      * @return Collection<int, Message>
      */
@@ -349,6 +400,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function serialize()
+    {
+        $this->image = base64_encode($this->image);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->image = base64_decode($this->image);
+    }
+    
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {

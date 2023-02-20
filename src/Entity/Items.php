@@ -6,6 +6,7 @@ use App\Repository\ItemsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ItemsRepository::class)]
 class Items
@@ -19,7 +20,7 @@ class Items
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    private ?string $status = "disponible";  //par défaut
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;

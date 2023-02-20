@@ -1,4 +1,40 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="sm:container mx-auto bg-indigo-800 h-screen">
+  <div class="flex mx-auto bg-indigo-800">
+    <div class="bg-gray-50 w-2/5 rounded-lg h-auto mx-auto mt-[2rem]">
+
+     <div class="flex flex-wrap -mx-3 md:mx-auto">
+        <div class="w-full px-3 md:mb-0 mb-2 mt-2">
+          <label class="block tracking-wide mb-2 text-gray-700">Pseudo</label>
+            {{ form_widget(form.name, {'attr': {'class': 'appearance-none block w-full border-indigo-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500', 'placeholder' : 'nom'}})}}
+        </div>
+      </div>
+
+      <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
+        <div class="w-full px-3 md:mb-0 mb-2">
+          <label class="block tracking-wide mb-2 text-gray-700">Email</label>
+          	{{ form_widget(form.email, {'attr': {'class': 'appearance-none block w-full border-indigo-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white', 'placeholder' : 'email'}})}}
+        </div>
+      </div>
+
+      <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
+        <div class="w-full px-3 md:mb-0 mb-2">
+          <label class="block tracking-wide mb-2 text-gray-700">Mot de passe</label>
+            {{ form_widget(form.password, {'attr': {'class': 'appearance-none block w-full border-indigo-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500', 'placeholder' : 'Nouveau mot de passe', 'type' : 'password'}})}}
+        </div>
+      </div>
+
+
+      <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
+        <div class="w-full px-3 md:mb-0 mb-2 w-1/6">
+          <label class="block tracking-wide mb-2 text-gray-700">Photo de profil</label>
+            {{ form_widget(form.imageFile)}}
+        </div>
+      </div>
+      <div class="space-x-2 m-4">
+        <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
 {{ form_end(form) }}
