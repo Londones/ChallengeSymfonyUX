@@ -53,7 +53,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isEmailVerified = false;
 
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
