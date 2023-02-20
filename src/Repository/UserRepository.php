@@ -93,8 +93,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('u.category', 'c')
             ->where('c.id IN (:categoriesId)')
             ->andWhere('u.id != :userId')
+            ->andWhere('u.id NOT IN (:swippedId)')
             ->setParameter('categoriesId', $categoriesId)
-            ->setParameter('userId', $user->getId());
+            ->setParameter('swippedId', $swippedId)
+            ->setParameter('userId', $user->getId())
+            ->orderBy('u.createdAt', 'ASC')
+            ->setMaxResults(1);
         $query = $qb->getQuery();
         $result = $query->getResult();
 
