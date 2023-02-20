@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Channel;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,6 +55,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->add($user, true);
+    }
+
+    public function getChannels(User $user)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c')
+            ->from(Channel::class, 'c')
+            ->where($qb->expr()->orX(
+                $qb->expr()->eq('c.firstUser', ':userId'),
+                $qb->expr()->eq('c.secondUser', ':userId')
+            ))
+            ->setParameter('userId', $user->getId());
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return $result;
     }
 
 //    /**
