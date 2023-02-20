@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     {
         $connectedUser = $this->getUser();
         $userToSwipe = $userRepo->getUserToSwipe($connectedUser);
-        dd($userToSwipe);
+        //dd($userToSwipe);
 
         return $this->render('front/home/index.html.twig', [
             'userToSwipe' => $userToSwipe
