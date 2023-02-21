@@ -11,7 +11,7 @@
         {% for channel in channels %}
             <a href="{{ path('front_chat_match', {'id': channel.id}) }}" class="flex justify-around items-center mt-5 h-28 w-full rounded-3xl bg-violet-700">
                 <div class="bg-white rounded-full h-3/4 w-20 flex items-center">
-                    <img src="{{ channel.user.profilPicturePath }}">
+                    {#<img src="{{ channel.user.profilPicturePath }}">#}
                 </div>
                 <div class="text-white h-full flex flex-col justify-around">
                     <p class="font-bold">{{ channel.user.name }}</p>

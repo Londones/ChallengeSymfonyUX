@@ -2,7 +2,11 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Channel;
+use App\Entity\Matches;
 use App\Entity\Swipe;
+use App\Repository\ChannelRepository;
+use App\Repository\MatchesRepository;
 use App\Repository\SwipeRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +48,7 @@ class SwipeController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['POST'])]
-    public function new(Request $request, UserRepository $userRepo, SwipeRepository $swipeRepo): Response
+    public function new(Request $request, UserRepository $userRepo, SwipeRepository $swipeRepo, MatchesRepository $matchRepo, ChannelRepository $channelRepo): Response
     {
         $connectedUser = $this->getUser();
 
@@ -61,8 +65,23 @@ class SwipeController extends AbstractController
         $alreadySwiped = $swipeRepo->findOneBy(array('swipper' => $swippedUser->getId()));
         $isMatch = false;
 
-        if ($alreadySwiped && $alreadySwiped->getIsSwipeRight()){
-            $isMatch = true;
+        if ($alreadySwiped && $alreadySwiped->getIsSwipeRight() && $swipe->getIsSwipeRight()){
+            //Only to handle js mistake
+            $alreadyExistingMatch = $matchRepo->getExistingMatch($connectedUser, $swippedUser);
+
+            if(!$alreadyExistingMatch){
+                $isMatch = true;
+
+                $newMatch = new Matches;
+                $newMatch->setFirstUser($connectedUser);
+                $newMatch->setSecondUser($swippedUser);
+                $matchRepo->save($newMatch, true);
+
+                $newChannel = new Channel;
+                $newChannel->setFirstUser($connectedUser);
+                $newChannel->setSecondUser($swippedUser);
+                $channelRepo->save($newChannel, true);
+            }
         }
 
         return new Response(json_encode(array(

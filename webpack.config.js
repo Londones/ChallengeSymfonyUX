@@ -28,7 +28,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('match', './assets/match.js')
+    .addEntry('match', './assets/scripts/match.js')
     .addEntry('chat', './assets/scripts/chat.js')
 
     .copyFiles({

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Matches;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,28 @@ class MatchesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getExistingMatch(User $firstUser, User $secondUser)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('m')
+            ->from(Matches::class, 'm')
+            ->where($qb->expr()->andX(
+                $qb->expr()->eq('m.firstUser', ':firstUserId'),
+                $qb->expr()->eq('m.secondUser', ':secondUserId')
+            ))
+            ->orWhere($qb->expr()->andX(
+                $qb->expr()->eq('m.firstUser', ':secondUserId'),
+                $qb->expr()->eq('m.secondUser', ':firstUserId')
+            ))
+            ->setParameter('firstUserId', $firstUser->getId())
+            ->setParameter('secondUserId', $secondUser->getId())
+            ->setMaxResults(1);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    } 
 
 //    /**
 //     * @return Matches[] Returns an array of Matches objects
