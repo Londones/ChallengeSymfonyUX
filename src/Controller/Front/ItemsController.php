@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Items;
+use App\Entity\User;
 use App\Form\ItemsType;
 use App\Repository\CategoryRepository;
 use App\Repository\ItemsRepository;
@@ -87,5 +88,21 @@ class ItemsController extends AbstractController
         }
 
         return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    
+    #[Route('/exchange-with-user/{id}', name: 'app_items_exchange', methods: ['GET'])]
+    public function itemExchange(ItemsRepository $itemsRepository,  User $secondeUser): Response
+    {
+        if ($secondeUser) {
+            $items = $secondeUser->getItems();
+
+            if ($items) {
+                return $this->render('front/items/userItemsExchange.html.twig', [
+                    'items' => $items,
+                    'secondeUser' => $secondeUser,
+                ]);
+            }
+        }
     }
 }
