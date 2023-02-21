@@ -14,19 +14,19 @@ class Deal
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'deals')]
-    private ?User $firstUserId = null;
+    private ?User $firstUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'deals')]
-    private ?User $secondUserId = null;
+    private ?User $secondUser = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'deals')]
-    private ?Items $firstUserObjectId = null;
+    private ?Items $firstUserObject = null;
 
     #[ORM\ManyToOne(inversedBy: 'deals')]
-    private ?Items $secondUserObjectId = null;
+    private ?Items $secondUserObject = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $firstUserResponse = null;
@@ -39,26 +39,26 @@ class Deal
         return $this->id;
     }
 
-    public function getFirstUserId(): ?User
+    public function getFirstUser(): ?User
     {
-        return $this->firstUserId;
+        return $this->firstUser;
     }
 
-    public function setFirstUserId(?User $firstUserId): self
+    public function setFirstUser(?User $firstUser): self
     {
-        $this->firstUserId = $firstUserId;
+        $this->firstUser = $firstUser;
 
         return $this;
     }
 
-    public function getSecondUserId(): ?User
+    public function getSecondUser(): ?User
     {
-        return $this->secondUserId;
+        return $this->secondUser;
     }
 
-    public function setSecondUserId(?User $secondUserId): self
+    public function setSecondUser(?User $secondUser): self
     {
-        $this->secondUserId = $secondUserId;
+        $this->secondUser = $secondUser;
 
         return $this;
     }
@@ -75,26 +75,26 @@ class Deal
         return $this;
     }
 
-    public function getFirstUserObjectId(): ?Items
+    public function getFirstUserObject(): ?Items
     {
-        return $this->firstUserObjectId;
+        return $this->firstUserObject;
     }
 
-    public function setFirstUserObjectId(?Items $firstUserObjectId): self
+    public function setFirstUserObject(?Items $firstUserObject): self
     {
-        $this->firstUserObjectId = $firstUserObjectId;
+        $this->firstUserObject = $firstUserObject;
 
         return $this;
     }
 
-    public function getSecondUserObjectId(): ?Items
+    public function getSecondUserObject(): ?Items
     {
-        return $this->secondUserObjectId;
+        return $this->secondUserObject;
     }
 
-    public function setSecondUserObjectId(?Items $secondUserObjectId): self
+    public function setSecondUserObject(?Items $secondUserObject): self
     {
-        $this->secondUserObjectId = $secondUserObjectId;
+        $this->secondUserObject = $secondUserObject;
 
         return $this;
     }

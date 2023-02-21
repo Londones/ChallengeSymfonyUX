@@ -35,47 +35,50 @@
       </div>
     </nav>#}
 
-          <nav class="relative w-full flex flex-wrap items-center justify-between py-2 shadow-md shadow-indigo-500/20 navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-          <div class="collapse navbar-collapse flex-grow items-center">
-            <a class="flex font-bold items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1" href="#">Match<span class="text-indigo-800">N</span>Collect</a>
-          </div>
-          <!-- Collapsible wrapper -->
-          <!-- Right elements -->
-          <div class="flex items-center relative">
-            <!-- Icon -->
-            <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
+    <nav class="relative w-full flex flex-wrap items-center justify-between py-2 shadow-md shadow-indigo-500/20 navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
+        <div class="collapse navbar-collapse flex-grow items-center">
+          <a class="flex font-bold items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1" href="#">Match<span class="text-indigo-800">N</span>Collect</a>
+        </div>
+        <!-- Collapsible wrapper -->
+        <!-- Right elements -->
+        <div class="flex items-center relative">
+          <!-- Icon -->
+          <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
             {% if app.user %}
-                <li class="nav-item p-2">
+              <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
               </li>
               <li class="nav-item p-2">
                 <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
               </li>
               <li class="nav-item p-2">
+                <a href="{{ path('front_app_deal_index') }}" class="nav-link text-gray-900 hover:text-gray-700" href="#">Demandes d'échange</a>
+              </li>
+              <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférences</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_show', { id: app.user.id })}}">Profil</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_show', { id: app.user.id }) }}">Profil</a>
               </li>
               <li class="nav-item p-2">
-                <a href="{{ path('front_app_logout') }}" class="hover:text-gray-900 transition duration-300 ease-in-out mb-4"> <img class="w-6" src=" {{ asset('build/images/logout.png') }} "> </a>
+                <a href="{{ path('front_app_logout') }}" class="hover:text-gray-900 transition duration-300 ease-in-out mb-4"><img class="w-6" src=" {{ asset('build/images/logout.png') }} " /></a>
               </li>
             {% else %}
               <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="/">Accueil</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_register')}}">S'inscrire</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_register') }}">S'inscrire</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_login')}}">Se connecter</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_login') }}">Se connecter</a>
               </li>
             {% endif %}
-            </ul>
-          </div>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
     {% for flash in app.flashes('success') %}
       <div class="bg-green-100 rounded-lg py-5 px-6 mb-3 text-base text-green-700 inline-flex" role="alert">
         <b>{{ flash }}</b>

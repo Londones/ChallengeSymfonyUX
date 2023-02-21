@@ -91,18 +91,18 @@ class ItemsController extends AbstractController
     }
 
     
-    #[Route('/exchange-with-user/{id}', name: 'app_items_exchange', methods: ['GET'])]
-    public function itemExchange(ItemsRepository $itemsRepository,  User $secondeUser): Response
-    {
-        if ($secondeUser) {
-            $items = $secondeUser->getItems();
+    // #[Route('/exchange-with-user/{id}', name: 'app_items_exchange', methods: ['GET'])]
+    // public function itemExchange(User $secondeUser): Response
+    // {
+    //     if ($secondeUser) {
+    //         $items = $secondeUser->getItems();
 
-            if ($items) {
-                return $this->render('front/items/userItemsExchange.html.twig', [
-                    'items' => $items,
-                    'secondeUser' => $secondeUser,
-                ]);
-            }
-        }
-    }
+    //         if ($items) {
+    //             return $this->render('front/items/userItemsExchange.html.twig', [
+    //                 'items' => $items,
+    //                 'secondeUser' => $secondeUser,
+    //             ]);
+    //         }
+    //     }
+    // }
 }

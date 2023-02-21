@@ -67,4 +67,22 @@ class ProfileController extends AbstractController
 
         return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/public/{id}', name: 'app_user_show_public', methods: ['GET'])]
+    public function showPublicProfil(User $user, UserRepository $userRepository): Response
+    {
+        if ($user) {
+            $items = $user->getItems();
+
+            if ($items) {
+                return $this->render('user/show_public.html.twig', [
+                    'items' => $items,
+                    'user' => $user,
+                ]);
+            }
+        }
+        // return $this->render('user/show_public.html.twig', [
+        //     'user' => $user,
+        // ]);
+    }
 }

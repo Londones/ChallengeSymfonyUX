@@ -14,11 +14,11 @@ class DealType extends AbstractType
         $builder
             ->add('status')
             ->add('firstUserResponse')
-            ->add('secondeUserResponse')
-            ->add('firstUserId')
-            ->add('secondUserId')
-            ->add('firstUserObjectId')
-            ->add('secondUserObjectId')
+            // ->add('secondeUserResponse')
+            // ->add('firstUserId')
+            // ->add('secondUserId')
+            // ->add('firstUserObjectId')
+            // ->add('secondUserObjectId')
         ;
     }
 
