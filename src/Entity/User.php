@@ -88,6 +88,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Deal::class)]
+    private Collection $deals;
+
     public function __construct()
     {
         $this->matches = new ArrayCollection();
@@ -96,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->items = new ArrayCollection();
         $this->swipes = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->deals = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]
@@ -416,6 +420,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($message->getSender() === $this) {
                 $message->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deal>
+     */
+    public function getDeals(): Collection
+    {
+        return $this->deals;
+    }
+
+    public function addDeal(Deal $deal): self
+    {
+        if (!$this->deals->contains($deal)) {
+            $this->deals->add($deal);
+            $deal->setFirstUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeal(Deal $deal): self
+    {
+        if ($this->deals->removeElement($deal)) {
+            // set the owning side to null (unless already changed)
+            if ($deal->getFirstUserId() === $this) {
+                $deal->setFirstUserId(null);
             }
         }
 

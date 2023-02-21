@@ -35,9 +35,13 @@ class Items
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
+    private Collection $deals;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->deals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +129,36 @@ class Items
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deal>
+     */
+    public function getDeals(): Collection
+    {
+        return $this->deals;
+    }
+
+    public function addDeal(Deal $deal): self
+    {
+        if (!$this->deals->contains($deal)) {
+            $this->deals->add($deal);
+            $deal->setFirstUserObjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeal(Deal $deal): self
+    {
+        if ($this->deals->removeElement($deal)) {
+            // set the owning side to null (unless already changed)
+            if ($deal->getFirstUserObjectId() === $this) {
+                $deal->setFirstUserObjectId(null);
+            }
+        }
 
         return $this;
     }
