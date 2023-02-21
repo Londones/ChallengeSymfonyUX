@@ -2,7 +2,7 @@ let startPoint;
 let offsetX;
 let offsetY;
 let element;
-let userName, otherImgsCarr, bottomTags, wrapper;
+let userIdToSwipe, userName, otherImgsCarr, bottomTags, wrapper;
 const imgClass = ['absolute', 'w-full', 'object-cover', 'drop-shadow-lg', 'rounded-lg'];
 const carrClass = [ 'm-auto', 'mx-3', 'flex-none', 'w-16' ];
 const imgCarrClass = [ 'w-full', 'object-cover', 'drop-shadow-lg', 'rounded-lg' ];
@@ -17,7 +17,7 @@ const isTouchDevice = () => {
         (navigator.msMaxTouchPoints > 0));
 }
 
-const listenToTouchEvents = (userId) => {
+const listenToTouchEvents = () => {
     element.addEventListener('touchstart', (e) => {
         const touch = e.changedTouches[0];
         if (!touch) return;
@@ -31,7 +31,7 @@ const listenToTouchEvents = (userId) => {
     document.addEventListener('cancel', handleTouchEnd);
 
     like.addEventListener('click', () => {
-        swipe(1, userId)
+        swipe(1)
     });
 }
 
@@ -83,14 +83,10 @@ const updateUser = (userId, mainImageUrl, user, otherImgs, tags) => {
     });
 
     if (isTouchDevice()) {
-        listenToTouchEvents(userId);
+        listenToTouchEvents();
     } else {
-        listenToMouseEvents(userId);
+        listenToMouseEvents();
     }
-
-    like.addEventListener('mouseup', () => swipe(1, userId));
-    pass.addEventListener('mouseup', () => swipe(-1, userId));
-    fav.addEventListener('mouseup', () => swipe(0, userId));
 }
 
 const handleMove = (x, y) => {
@@ -103,11 +99,15 @@ const handleMove = (x, y) => {
     element.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
     // dismiss card
     if (Math.abs(offsetX) > element.clientWidth * 0.7) {
-        dismiss(offsetX > 0 ? 1 : -1);
+        swipe(offsetX > 0 ? 1 : -1);
     } else if (Math.abs(offsetY) > element.clientHeight * 0.7) {
-        dismiss(0);
+        swipe(0);
     }
 }
+
+like.addEventListener('mouseup', () => swipe(1));
+pass.addEventListener('mouseup', () => swipe(-1));
+fav.addEventListener('mouseup', () => swipe(0));
 
 // mouse event handlers
 const handleMouseMove = (e) => {
@@ -144,7 +144,7 @@ const handleTouchEnd = () => {
     bottomTags.style.opacity = 1;
 }
 
-const swipe = (direction, userId) => {
+const swipe = (direction) => {
     startPoint = null;
     document.removeEventListener('mouseup', handleMoveUp);
     document.removeEventListener('mousemove', handleMouseMove);
@@ -161,9 +161,9 @@ const swipe = (direction, userId) => {
     otherImgsCarr.style.opacity = 1;
     bottomTags.style.opacity = 1;
 
+    console.log(userIdToSwipe)
     let isSwipeRight 
     direction >= 0 ? isSwipeRight = true : isSwipeRight = false
-    console.log(userId)
 
     fetch("/swipe/new", {
         method: "POST",
@@ -171,7 +171,7 @@ const swipe = (direction, userId) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "swippedId": userId,
+            "swippedId": userIdToSwipe,
             "isSwipeRight": isSwipeRight
         }),
     })
@@ -189,16 +189,18 @@ const swipe = (direction, userId) => {
         userName.innerHTML = '';
         otherImgsCarr.innerHTML = '';
         bottomTags.innerHTML = '';
-        getNextUser();
+        nextUser();
     }, 500);
 }
 
-const getNextUser = () => {
+
+const nextUser = () => {
     fetch("/swipe/next")
     .then((response) => response.json())
     .then((data) => {
         const { user } = data
         console.log(user)
+        userIdToSwipe = user.id
         updateUser(
             user.id,
             user.imageUrl ? `/images/users/${user.imageUrl}` : "https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg",
@@ -214,4 +216,4 @@ const getNextUser = () => {
     })
 }
 
-getNextUser();
+nextUser();
