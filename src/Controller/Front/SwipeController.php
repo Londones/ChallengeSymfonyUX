@@ -58,8 +58,16 @@ class SwipeController extends AbstractController
         $swipe->setIsSwipeRight($data->isSwipeRight);
         $swipeRepo->save($swipe, true);
 
-        return new Response(json_encode(array(
+        $alreadySwiped = $swipeRepo->findOneBy(array('swipper' => $swippedUser->getId()));
+        $isMatch = false;
 
+        if ($alreadySwiped && $alreadySwiped->getIsSwipeRight()){
+            $isMatch = true;
+        }
+
+        return new Response(json_encode(array(
+            'isMatch' => $isMatch,
+            'userName' => $swippedUser->getName()
         )), 200);
     }
 }
