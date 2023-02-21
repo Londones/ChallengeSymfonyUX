@@ -88,17 +88,9 @@ const updateUser = (userId, mainImageUrl, user, otherImgs, tags) => {
         listenToMouseEvents(userId);
     }
 
-    like.addEventListener('mouseup', () => {
-        swipe(1, userId);
-    });
-
-    pass.addEventListener('mouseup', () => {
-        swipe(-1, userId);
-    });
-
-    fav.addEventListener('mouseup', () => {
-        swipe(0, userId);
-    });
+    like.addEventListener('mouseup', () => swipe(1, userId));
+    pass.addEventListener('mouseup', () => swipe(-1, userId));
+    fav.addEventListener('mouseup', () => swipe(0, userId));
 }
 
 const handleMove = (x, y) => {
@@ -184,7 +176,13 @@ const swipe = (direction, userId) => {
         }),
     })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+        const { isMatch, userName } = data
+        console.log(isMatch)
+        if(isMatch) {
+            alert(`You matched with ${userName} !`)
+        }
+    })
 
     setTimeout(() => {
         element.remove();

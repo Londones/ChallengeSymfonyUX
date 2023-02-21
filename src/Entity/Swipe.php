@@ -51,7 +51,7 @@ class Swipe
         return $this;
     }
 
-    public function isIsSwipeRight(): ?bool
+    public function getIsSwipeRight(): ?bool
     {
         return $this->isSwipeRight;
     }
