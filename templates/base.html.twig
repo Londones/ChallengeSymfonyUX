@@ -46,11 +46,14 @@
             <!-- Icon -->
             <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
             {% if app.user %}
-                <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
+              <li class="nav-item p-2">
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_home_index') }}">Accueil</a>
               </li>
               <li class="nav-item p-2">
-                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_favorite_index') }}">Favoris</a>
+              </li>
+              <li class="nav-item p-2">
+                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Chat</a>
               </li>
               <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférences</a>
