@@ -35,9 +35,13 @@ class Items
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'itemRequested', targetEntity: VerificationRequest::class)]
+    private Collection $verificationRequests;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->verificationRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +129,36 @@ class Items
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VerificationRequest>
+     */
+    public function getVerificationRequests(): Collection
+    {
+        return $this->verificationRequests;
+    }
+
+    public function addVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if (!$this->verificationRequests->contains($verificationRequest)) {
+            $this->verificationRequests->add($verificationRequest);
+            $verificationRequest->setItemRequested($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if ($this->verificationRequests->removeElement($verificationRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($verificationRequest->getItemRequested() === $this) {
+                $verificationRequest->setItemRequested(null);
+            }
+        }
 
         return $this;
     }

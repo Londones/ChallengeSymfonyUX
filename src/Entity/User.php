@@ -62,12 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'requestedBy', targetEntity: VerificationRequest::class)]
+    private Collection $verificationRequests;
+
     public function __construct()
     {
         $this->swipes = new ArrayCollection();
         $this->matches = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->verificationRequests = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]
@@ -320,6 +324,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VerificationRequest>
+     */
+    public function getVerificationRequests(): Collection
+    {
+        return $this->verificationRequests;
+    }
+
+    public function addVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if (!$this->verificationRequests->contains($verificationRequest)) {
+            $this->verificationRequests->add($verificationRequest);
+            $verificationRequest->setRequestedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if ($this->verificationRequests->removeElement($verificationRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($verificationRequest->getRequestedBy() === $this) {
+                $verificationRequest->setRequestedBy(null);
+            }
+        }
 
         return $this;
     }
