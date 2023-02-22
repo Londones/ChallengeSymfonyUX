@@ -31,10 +31,10 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    # access_control:                                           #*décommenter une fois les rôles attribués aux utilisateurs
-    #     - { path: ^/admin, roles: ROLE_ADMIN }
-    #     - { path: ^/login, roles: PUBLIC_ACCESS }
-    #     - { path: ^/, roles: ROLE_USER }
+    access_control:                                           #*décommenter une fois les rôles attribués aux utilisateurs
+       - { path: ^/admin, roles: ROLE_ADMIN }
+       - { path: ^/login, roles: PUBLIC_ACCESS }
+       - { path: ^/, roles: ROLE_USER }
 
 when@test:
     security:

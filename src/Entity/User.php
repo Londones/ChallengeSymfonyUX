@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Repository\MatcheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,12 +12,17 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
@@ -47,8 +53,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isEmailVerified = false;
 
-    #[ORM\Column(length: 255)]
-    private ?string $profilPicturePath = "null";
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="users", fileNameProperty="image")
+     * @Ignore()
+     */
+    #[Vich\UploadableField(mapping: 'users_images', fileNameProperty: 'image')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
+        mimeTypesMessage: 'Fichier accepté : png / jpeg'
+    )]
+    private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'swipperId', targetEntity: Swipe::class)]
     private Collection $swipes;
@@ -65,11 +85,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'requestedBy', targetEntity: VerificationRequest::class)]
     private Collection $verificationRequests;
 
+    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
+    private Collection $channels;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
-        $this->swipes = new ArrayCollection();
         $this->matches = new ArrayCollection();
+        $this->channels = new ArrayCollection();
+        $this->messages = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->swipes = new ArrayCollection();
         $this->category = new ArrayCollection();
         $this->verificationRequests = new ArrayCollection();
     }
@@ -198,18 +226,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsEmailVerified(bool $isEmailVerified): self
     {
         $this->isEmailVerified = $isEmailVerified;
-
-        return $this;
-    }
-
-    public function getProfilPicturePath(): ?string
-    {
-        return $this->profilPicturePath;
-    }
-
-    public function setProfilPicturePath(string $profilPicturePath): self
-    {
-        $this->profilPicturePath = $profilPicturePath;
 
         return $this;
     }
@@ -354,7 +370,87 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $verificationRequest->setRequestedBy(null);
             }
         }
+        return $this;
+    }
 
+     //* SETTERS AND GETTERS OF IMAGES 
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return User
+     */
+    public function setImage(?string $image): User
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     * @return User
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        //!important de rajouter ça 
+        if ($imageFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+     }
+     
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function serialize()
+    {
+        $this->image = base64_encode($this->image);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->image = base64_decode($this->image);
+    }
+    
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
+            }
+        }
         return $this;
     }
 }

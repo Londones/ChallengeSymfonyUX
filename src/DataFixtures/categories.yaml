@@ -1,0 +1,17 @@
+- name: Cartes Pokémon
+  description: Ensemble de toutes les cartes pokémons de toutes les générations
+
+- name: Cartes Yu-Gi-Oh
+  description: Ensemble de toutes les cartes Yu-Gi-Oh de toutes les générations
+
+- name: Jeux Gamecube
+  description: Jeux venant de la console Gamecube
+
+- name: Barbies
+  description: Objets relatifs à l'univers barbie
+
+- name: Figurines POP
+  description: Figurines de la marque POP
+
+- name: Figurines Goldorak
+  description: Figurines goldoraks de notre enfance

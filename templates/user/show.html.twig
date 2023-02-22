@@ -6,14 +6,14 @@
 
 {% block body %}
   <div class="sm:container md:mx-auto shadow-lg shadow-indigo-500/20 bg-indigo-800">
-    <div class="flex md:mx-auto rounded-lg bg-indigo-800 mt-[4rem]">
+    <div class="flex md:mx-auto rounded-lg bg-indigo-800">
       <div class="bg-gray-50 w-1/5 rounded-lg mr-[1rem] ml-[4rem] mt-[4rem] mb-[4rem] shadow-2xl shadow-slate-50/20">
         <div class="rounded-lg m-8 w-48 mx-auto">
-          {% if user.profilPicturePath %}
-            <img class="rounded-lg" src="{{ user.profilPicturePath }}" rel="profil-picture" />
+          {% if user.image %}
+          		<img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}">
           {% endif %}
 
-          {% if user.profilPicturePath == null %}
+          {% if user.image == null %}
             <img class="rounded-lg" src="https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg" rel="profil-picture" />
           {% endif %}
         </div>
