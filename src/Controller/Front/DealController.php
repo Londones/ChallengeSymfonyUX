@@ -27,9 +27,9 @@ class DealController extends AbstractController
         //*les demandes d'échanges reçue par le user actuels
         if ($receivedExchangeRequests = $dealRepository->findBy(['secondUser' => $currentUser])) {
             for ($i = 0; $i < count($receivedExchangeRequests); $i++) {
-                $secondUserId = $receivedExchangeRequests[$i]->getSecondUser()->getId();
-                $secondtUser = $userRepository->findOneBy([
-                    'id' =>  $secondUserId
+                $firstUserId = $receivedExchangeRequests[$i]->getFirstUser()->getId();
+                $firstUser = $userRepository->findOneBy([
+                    'id' =>  $firstUserId
                 ]);
 
                 $objectId = $receivedExchangeRequests[$i]->getSecondUserObject()->getId();
@@ -37,8 +37,8 @@ class DealController extends AbstractController
                     'id' =>   $objectId
                 ]);
 
-                if ($secondtUser && $object) {
-                    $receivedExchangeRequests[$i]->setSecondUser($secondtUser);
+                if ($firstUser && $object) {
+                    $receivedExchangeRequests[$i]->setSecondUser($firstUser);
                     $receivedExchangeRequests[$i]->setSecondUserObject($object);
                 }
             }
@@ -59,7 +59,7 @@ class DealController extends AbstractController
 
                 if ($secondtUser && $object) {
                     $sentExchangeRequests[$i]->setSecondUser($secondtUser);
-                    $sentExchangeRequests[$i]->setFirstUserObject($object);
+                    $sentExchangeRequests[$i]->setSecondUserObject($object);
                 }
             }
         }
@@ -74,24 +74,30 @@ class DealController extends AbstractController
     public function new(Request $request, DealRepository $dealRepository, Items $item, UserRepository $userRepository): Response
     {
 
-        if ($item) {
-            $firstUser = $this->getUser();
-            $secondUserId = $item->getOwner();
-            $secondtUser = $userRepository->find($secondUserId);
+        //si le deal existe déjà, le modifer 
+        $dealId = $request->query->get('deal');
 
-            $deal = new Deal();
-            $deal->setFirstUser($firstUser);
-            $deal->setSecondUser($secondtUser);
-            $deal->setFirstUserObject(null); //first user object que le user 1 VEUT.
+        if ($dealId && $item) {
+            return $this->redirectToRoute('front_app_deal_edit', ['id' =>  $dealId, 'item' => $item->getId()], Response::HTTP_SEE_OTHER);
+        } else {
+            if ($item) {
+                $firstUser = $this->getUser();
+                $secondUserId = $item->getOwner();
+                $secondtUser = $userRepository->find($secondUserId);
 
-            $deal->setSecondUserObject($item);
-            $deal->setFirstUserResponse(null);
-            $deal->setSecondeUserResponse(null);
-            $deal->setStatus("Crée");
+                $deal = new Deal();
+                $deal->setFirstUser($firstUser);
+                $deal->setSecondUser($secondtUser);
+                $deal->setFirstUserObject(null); //first user object que le user 1 VEUT.
 
-            $dealRepository->save($deal, true);
+                $deal->setSecondUserObject($item);
+                $deal->setFirstUserResponse(true);
+                $deal->setSecondeUserResponse(null);
+                $deal->setStatus("Crée");
+
+                $dealRepository->save($deal, true);
+            }
         }
-
         return $this->redirectToRoute('front_app_deal_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -104,20 +110,50 @@ class DealController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_deal_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Deal $deal, DealRepository $dealRepository): Response
+    public function edit(Request $request, Deal $deal, DealRepository $dealRepository, ItemsRepository $itemsRepository): Response
     {
-        $form = $this->createForm(DealType::class, $deal);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $dealRepository->save($deal, true);
+        //si le deal existe déjà, et que le user 2 a choisi l'objet qu'il souhaite echanger
+        $userId = $request->query->get('userId');
+        $userNumber = $request->query->get('user');
+        if ($itemId = $request->query->get('item')) {
+            if ($deal) {
+                if ($dealResponse = $dealRepository->findOneBy(['id' => $deal->getId()])) {
+                    $firstUserObject =  $itemsRepository->findOneBy(['id' => $itemId]);
+                    $dealResponse->setFirstUserObject($firstUserObject);
+                    $dealResponse->setSecondeUserResponse("true");
+                }
+            }
+        } else if ($response = $request->query->get('response')) {
+            if ($response == "no" && $userNumber == 'first') {
+                $deal->setFirstUserResponse("false");
+                $deal->setStatus("refusée");
+            }
 
-            return $this->redirectToRoute('front_app_deal_index', [], Response::HTTP_SEE_OTHER);
+            if ($response == "yes" && $userNumber == 'first') {
+                $deal->setFirstUserResponse("true");
+                $deal->setStatus("accepté");
+            }
+
+            if ($response == "no" && $userNumber == 'second') {
+                $deal->setSecondeUserResponse("false");
+                $deal->setStatus("refusée");
+            }
+
+            if ($response == "yes" && $userNumber == 'second') {
+                $deal->setSecondeUserResponse("true");
+                $deal->setStatus("accepté");
+            }
+
+            $firstUserResponse = $deal->isFirstUserResponse();
+            $secondUserResponse = $deal->isFirstUserResponse();
+
         }
 
-        return $this->renderForm('front/deal/edit.html.twig', [
+        $dealRepository->save($deal, true);
+
+        return $this->render('front/deal/show.html.twig', [
             'deal' => $deal,
-            'form' => $form,
         ]);
     }
 
