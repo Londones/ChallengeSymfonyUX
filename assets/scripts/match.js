@@ -161,9 +161,14 @@ const swipe = (direction) => {
     otherImgsCarr.style.opacity = 1;
     bottomTags.style.opacity = 1;
 
-    console.log(userIdToSwipe)
-    let isSwipeRight 
-    direction >= 0 ? isSwipeRight = true : isSwipeRight = false
+    let isSwipeRight = false
+    let isFavorite = false
+    
+    if(direction === 1){
+        isSwipeRight = true   
+    } else if (direction === 0){
+        isFavorite = true
+    }
 
     fetch("/swipe/new", {
         method: "POST",
@@ -172,7 +177,8 @@ const swipe = (direction) => {
         },
         body: JSON.stringify({
             "swippedId": userIdToSwipe,
-            "isSwipeRight": isSwipeRight
+            "isSwipeRight": isSwipeRight,
+            "isFavorite": isFavorite
         }),
     })
     .then((response) => response.json())
@@ -199,8 +205,8 @@ const nextUser = () => {
     .then((response) => response.json())
     .then((data) => {
         const { user } = data
-        console.log(user)
         userIdToSwipe = user.id
+
         updateUser(
             user.id,
             user.imageUrl ? `/images/users/${user.imageUrl}` : "https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg",

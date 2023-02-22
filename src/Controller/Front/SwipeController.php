@@ -3,12 +3,14 @@
 namespace App\Controller\Front;
 
 use App\Entity\Channel;
+use App\Entity\Favorite;
 use App\Entity\Matches;
 use App\Entity\Swipe;
 use App\Repository\ChannelRepository;
 use App\Repository\MatchesRepository;
 use App\Repository\SwipeRepository;
 use App\Repository\UserRepository;
+use App\Repository\FavoriteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +50,7 @@ class SwipeController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['POST'])]
-    public function new(Request $request, UserRepository $userRepo, SwipeRepository $swipeRepo, MatchesRepository $matchRepo, ChannelRepository $channelRepo): Response
+    public function new(Request $request, UserRepository $userRepo, SwipeRepository $swipeRepo, MatchesRepository $matchRepo, ChannelRepository $channelRepo, FavoriteRepository $favoriteRepo): Response
     {
         $connectedUser = $this->getUser();
 
@@ -65,6 +67,7 @@ class SwipeController extends AbstractController
         $alreadySwiped = $swipeRepo->findOneBy(array('swipper' => $swippedUser->getId()));
         $isMatch = false;
 
+        //check if swipped user already swippe connected user and if it's a right swipe
         if ($alreadySwiped && $alreadySwiped->getIsSwipeRight() && $swipe->getIsSwipeRight()){
             //Only to handle js mistake
             $alreadyExistingMatch = $matchRepo->getExistingMatch($connectedUser, $swippedUser);
@@ -82,6 +85,11 @@ class SwipeController extends AbstractController
                 $newChannel->setSecondUser($swippedUser);
                 $channelRepo->save($newChannel, true);
             }
+        } else if($data->isFavorite){
+            $newFavorite = new Favorite;
+            $newFavorite->setFavSender($connectedUser);
+            $newFavorite->setFavReceiver($swippedUser);
+            $favoriteRepo->save($newFavorite, true);
         }
 
         return new Response(json_encode(array(
