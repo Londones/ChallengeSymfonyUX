@@ -9,12 +9,9 @@
     <div class="flex justify-around flex-wrap">
     {% for favorite in favorites %}
     <div class="flex-none w-[20rem] relative mt-5 bg-white border rounded-lg shadow">
-        <a href="#">
-            {#<img class="w-xs rounded-t-lg" src={{favorite.user.image}} alt="" />#}
-            <img class="w-xs rounded-t-lg" src={{(favorite.user.image) ? '/images/users/'~favorite.user.image : 'https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg'}} />
-        </a>
+        <img class="w-xs rounded-t-lg" src={{(favorite.user.image) ? '/images/users/'~favorite.user.image : 'https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg'}} />
         <div class="p-5 flex flex-col items-center">
-            <a href="#">
+            <a href="{{ path('front_profil_user', {'id': favorite.user.id}) }}" class="underline cursor-pointer">
                 <p class="text-center mb-2 text-2xl font-bold tracking-tight">{{ favorite.user.name }}</p>
             </a>
             {% if favorite.isLiked %}

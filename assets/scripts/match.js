@@ -62,6 +62,7 @@ const updateUser = (userId, mainImageUrl, user, otherImgs, tags) => {
 
     userName = document.querySelector('.userid');
     userName.innerHTML = user;
+    userName.href = `/profil/public/${userId}`
 
     otherImgsCarr = document.querySelector('.carr');
     otherImgs.forEach((img) => {
