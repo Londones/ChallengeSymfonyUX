@@ -8,7 +8,7 @@
 
         <div class="flex justify-around items-center sticky top-0 z-10 h-20 border-black border-opacity-25 border-b">
             <div class="bg-white rounded-full h-3/4 w-20 flex items-center">
-                <img src="{{ chattingWith.image }}">
+                {#<img src="{{ chattingWith.profilPicturePath }}">#}
             </div>
             <a href="{{ path('front_app_user_show_public', {'id': chattingWith.id}) }}" class="underline cursor-pointer">{{ chattingWith.name }}</a>
             <a class="rounded-3xl bg-violet-700 text-white p-4" href="{{ path('front_app_items_exchange', {'id': chattingWith.id}) }}">Échange</a>
