@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favoris{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('favorite') }}
+{% endblock %}
+
+{% block body %}
+    <div class="flex justify-around flex-wrap">
+    {% for favorite in favorites %}
+    <div class="flex-none w-[20rem] relative mt-5 bg-white border rounded-lg shadow">
+        <a href="#">
+            {#<img class="w-xs rounded-t-lg" src={{favorite.user.image}} alt="" />#}
+            <img class="w-xs rounded-t-lg" src={{(favorite.user.image) ? '/images/users/'~favorite.user.image : 'https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg'}} />
+        </a>
+        <div class="p-5 flex flex-col items-center">
+            <a href="#">
+                <p class="text-center mb-2 text-2xl font-bold tracking-tight">{{ favorite.user.name }}</p>
+            </a>
+            {% if favorite.isLiked %}
+            <p>Vous avez déjà liké ce profil</p>
+            {% else %}
+            <img class="cursor-pointer hover:opacity-80 like" data-id={{favorite.user.id}} src="{{ asset('build/images/like.png') }} ">
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+        <p>Vous n'avez pas de favoris</p>
+    {% endfor %}
+    </div>
+{% endblock %}

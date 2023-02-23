@@ -15,7 +15,7 @@
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </head>
-  <body>
+  <body class=" h-screen flex flex-col">
           <nav class="relative w-full flex flex-wrap items-center justify-between py-2 shadow-md shadow-indigo-500/20 navbar navbar-expand-lg navbar-light">
         <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
           <div class="collapse navbar-collapse flex-grow items-center">
@@ -28,23 +28,19 @@
             <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
             {% if app.user %}
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_home_index') }}">Accueil</a>
               </li>
               <li class="nav-item p-2">
-                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_favorite_index') }}">Favoris</a>
+              </li>
+              <li class="nav-item p-2">
+                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Chat</a>
               </li>
               <li class="nav-item p-2">
                 <a href="{{ path('front_app_deal_index') }}" class="nav-link text-gray-900 hover:text-gray-700" href="#">Demandes d'échange</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférences</a>
-              </li>
-              <li class="nav-item p-2">
-<<<<<<< HEAD
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_show', { id: app.user.id }) }}">Profil</a>
-=======
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_profil_me')}}">Profil</a>
->>>>>>> 331b55a... fix(profil): fix mistakes
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_profil_me') }}">Profil</a>
               </li>
               <li class="nav-item p-2">
                 <a href="{{ path('front_app_logout') }}" class="hover:text-gray-900 transition duration-300 ease-in-out mb-4"><img class="w-6" src=" {{ asset('build/images/logout.png') }} " /></a>

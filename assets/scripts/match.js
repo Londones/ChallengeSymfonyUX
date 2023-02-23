@@ -184,9 +184,8 @@ const swipe = (direction) => {
     .then((response) => response.json())
     .then((data) => {
         const { isMatch, userName } = data
-        console.log(isMatch)
         if(isMatch) {
-            alert(`You matched with ${userName} !`)
+            alert(`Vous avez matché avec ${userName} !`)
         }
     })
 

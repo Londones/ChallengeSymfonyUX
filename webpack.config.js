@@ -30,6 +30,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('match', './assets/scripts/match.js')
     .addEntry('chat', './assets/scripts/chat.js')
+    .addEntry('favorite', './assets/scripts/favorite.js')
 
     .copyFiles({
         from: './assets/images',

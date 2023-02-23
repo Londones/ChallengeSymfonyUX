@@ -2,15 +2,8 @@
 
 namespace App\Controller\Front;
 
-<<<<<<< HEAD
 use App\Entity\User;
-use App\Entity\Deal;
 use App\Form\ProfileType;
-use App\Repository\DealRepository;
-use App\Repository\ItemsRepository;
-=======
-use App\Form\ProfileType;
->>>>>>> 331b55a... fix(profil): fix mistakes
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,11 +63,11 @@ class ProfileController extends AbstractController
         return $this->redirectToRoute('front_app_login');
     }
 
-    #[Route('/public/{id}/', name: 'app_user_show_public', methods: ['GET'])]
+    #[Route('/public/{id}/', name: 'user', methods: ['GET'])]
     public function showPublicProfil(User $user): Response
     {
         if ($user) {
-            return $this->render('user/show_public.html.twig', [
+            return $this->render('front/profil/show_public.html.twig', [
                 'user' => $user,
             ]);
         }
