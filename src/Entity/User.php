@@ -53,7 +53,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isEmailVerified = false;
 
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
@@ -70,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?File $imageFile = null;
 
-    #[ORM\OneToMany(mappedBy: 'swipperId', targetEntity: Swipe::class)]
+    #[ORM\OneToMany(mappedBy: 'swipper', targetEntity: Swipe::class)]
     private Collection $swipes;
 
     #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matches::class)]
@@ -82,14 +81,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Channel::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Channel::class)]
     private Collection $channels;
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
     private Collection $messages;
 
+
     #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Deal::class)]
     private Collection $deals;
+    #[ORM\OneToMany(mappedBy: 'favSender', targetEntity: Favorite::class, orphanRemoval: true)]
+    private Collection $favorites;
 
     public function __construct()
     {
@@ -100,6 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->swipes = new ArrayCollection();
         $this->category = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     // #[ORM\Column(length: 255)]
@@ -440,6 +443,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->deals->add($deal);
             $deal->setFirstUserId($this);
         }
+        
+        return $this;
+    }
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setFavSender($this);
+        }
 
         return $this;
     }
@@ -449,7 +468,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->deals->removeElement($deal)) {
             // set the owning side to null (unless already changed)
             if ($deal->getFirstUserId() === $this) {
-                $deal->setFirstUserId(null);
+                $deal->setFirstUserId(null);    
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            // set the owning side to null (unless already changed)
+            if ($favorite->getFavSender() === $this) {
+                $favorite->setFavSender(null);
             }
         }
 
