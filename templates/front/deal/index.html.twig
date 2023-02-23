@@ -21,7 +21,7 @@
           </p>
 
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
-            <b>Demande envoyé par</b>: <a class="underline" href="{{ path('front_app_user_show_public', { id: receivedExchange.firstUser.id, deal: receivedExchange.id }) }}">{{ receivedExchange.firstUser.email }}</a>
+            <b>Demande envoyé par</b>: <a class="underline" href="{{ path('front_profil_user', { id: receivedExchange.firstUser.id, deal: receivedExchange.id }) }}">{{ receivedExchange.firstUser.email }}</a>
           </p>
 
           <div class="flex">
@@ -77,7 +77,7 @@
             <b>Réponse de {{ sentExchange.secondUser.name }}</b> : {{ sentExchange.secondeUserResponse ? '' : '' }}
           </p>
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
-            <b>Demande envoyé à</b>: <a class="underline" href="{{ path('front_app_user_show_public', { id: sentExchange.secondUser.id, deal: sentExchange.id }) }}">{{ sentExchange.secondUser.email }}</a>
+            <b>Demande envoyé à</b>: <a class="underline" href="{{ path('front_profil_user', { id: sentExchange.secondUser.id, deal: sentExchange.id }) }}">{{ sentExchange.secondUser.email }}</a>
           </p>
 
           <div class="flex mr-2">

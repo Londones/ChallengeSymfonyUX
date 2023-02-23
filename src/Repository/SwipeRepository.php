@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Swipe;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,23 @@ class SwipeRepository extends ServiceEntityRepository
         }
     }
 
+    public function getExistingSwipe(User $swipper, User $swipped)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s')
+            ->from(Swipe::class, 's')
+            ->where(
+                $qb->expr()->eq('s.swipper', ':swipperId'),
+                $qb->expr()->eq('s.swipped', ':swippedId')
+            )
+            ->setParameter('swipperId', $swipper->getId())
+            ->setParameter('swippedId', $swipped->getId())
+            ->setMaxResults(1);
+        $query = $qb->getQuery();
+        $result = $query->getOneOrNullResult();
+
+        return $result;
+    }
 //    /**
 //     * @return Swipe[] Returns an array of Swipe objects
 //     */
