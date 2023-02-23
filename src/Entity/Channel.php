@@ -19,11 +19,11 @@ class Channel
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'channels')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $firstUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'channels')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $secondUser = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

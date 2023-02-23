@@ -62,6 +62,7 @@ const updateUser = (userId, mainImageUrl, user, otherImgs, tags) => {
 
     userName = document.querySelector('.userid');
     userName.innerHTML = user;
+    userName.href = `/profil/public/${userId}`
 
     otherImgsCarr = document.querySelector('.carr');
     otherImgs.forEach((img) => {
@@ -184,9 +185,8 @@ const swipe = (direction) => {
     .then((response) => response.json())
     .then((data) => {
         const { isMatch, userName } = data
-        console.log(isMatch)
         if(isMatch) {
-            alert(`You matched with ${userName} !`)
+            alert(`Vous avez matché avec ${userName} !`)
         }
     })
 

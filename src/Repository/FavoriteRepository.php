@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Favorite;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,23 @@ class FavoriteRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getExistingFavorite(User $favSender, User $favReceiver)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('f')
+            ->from(Favorite::class, 'f')
+            ->where(
+                $qb->expr()->eq('f.favSender', ':favSenderId'),
+                $qb->expr()->eq('f.favReceiver', ':favReceiverId')
+            )
+            ->setParameter('favSenderId', $favSender->getId())
+            ->setParameter('favReceiverId', $favReceiver->getId());
+        $query = $qb->getQuery();
+        $result = $query->getOneOrNullResult();
+
+        return $result;
     }
 
 //    /**

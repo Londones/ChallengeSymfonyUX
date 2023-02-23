@@ -17,11 +17,11 @@ class Matches
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'matches')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $firstUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $secondUser = null;
 
     public function getId(): ?int

@@ -64,7 +64,7 @@ class SwipeController extends AbstractController
         $swipe->setIsSwipeRight($data->isSwipeRight);
         $swipeRepo->save($swipe, true);
 
-        $alreadySwiped = $swipeRepo->findOneBy(array('swipper' => $swippedUser->getId()));
+        $alreadySwiped = $swipeRepo->getExistingSwipe($swippedUser, $connectedUser);
         $isMatch = false;
 
         //check if swipped user already swippe connected user and if it's a right swipe
@@ -90,6 +90,57 @@ class SwipeController extends AbstractController
             $newFavorite->setFavSender($connectedUser);
             $newFavorite->setFavReceiver($swippedUser);
             $favoriteRepo->save($newFavorite, true);
+        }
+
+        return new Response(json_encode(array(
+            'isMatch' => $isMatch,
+            'userName' => $swippedUser->getName()
+        )), 200);
+    }
+
+    #[Route('/update', name: 'update', methods: ['POST'])]
+    public function update(Request $request, UserRepository $userRepo, SwipeRepository $swipeRepo, MatchesRepository $matchRepo, ChannelRepository $channelRepo, FavoriteRepository $favoriteRepo): Response
+    {
+        $connectedUser = $this->getUser();
+
+        $data = json_decode($request->getContent());
+
+        $swippedUser = $userRepo->find($data->swippedId);
+
+        $existingFavorite = $favoriteRepo->getExistingFavorite($connectedUser, $swippedUser);
+        if(!$existingFavorite){
+            return new Response("This user is not on your favorites", 404);
+        }
+
+        $existingSwipe = $swipeRepo->getExistingSwipe($connectedUser, $swippedUser);
+        if(!$existingSwipe){
+            return new Response("Error with the swipe", 404);
+        }
+        $existingSwipe->setIsSwipeRight(true);
+        $swipeRepo->save($existingSwipe, true);
+
+        $otherUserSwipe = $swipeRepo->getExistingSwipe($swippedUser, $connectedUser);
+        $isMatch = false;
+
+        if ($otherUserSwipe && $otherUserSwipe->getIsSwipeRight()){
+            $isMatch = true;
+
+            $newMatch = new Matches;
+            $newMatch->setFirstUser($connectedUser);
+            $newMatch->setSecondUser($swippedUser);
+            $matchRepo->save($newMatch, true);
+
+            $newChannel = new Channel;
+            $newChannel->setFirstUser($connectedUser);
+            $newChannel->setSecondUser($swippedUser);
+            $channelRepo->save($newChannel, true);
+
+            //Deleting favorite because of match
+            $favoriteRepo->remove($existingFavorite, true);
+            $otherFavorite = $favoriteRepo->getExistingFavorite($swippedUser, $connectedUser);
+            if($otherFavorite){
+                $favoriteRepo->remove($otherFavorite, true);
+            }
         }
 
         return new Response(json_encode(array(
