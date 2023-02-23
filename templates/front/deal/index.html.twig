@@ -21,16 +21,20 @@
           </p>
 
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
-            <b>Demande envoyé par</b>: <a class="underline" href="{{ path('front_app_user_show_public', { id: receivedExchange.firstUser.id, deal: receivedExchange.id }) }}">{{ receivedExchange.firstUser.email }}</a>
+            <b>Demande envoyé par</b>: <a class="underline" href="{{ path('front_app_user_show_public', { id: receivedExchange.firstUser.id }) }}">{{ receivedExchange.firstUser.email }}</a>
           </p>
 
           <div class="flex">
             {% if receivedExchange %}
-              {% if receivedExchange.firstUser and receivedExchange.secondUser and receivedExchange.firstUserObject and receivedExchange.secondUserObject and app.user == receivedExchange.firstUser and not receivedExchange.firstUserResponse %}
+              {% if receivedExchange.firstUser and receivedExchange.secondUser and receivedExchange.firstUserObject and receivedExchange.secondUserObject and app.user == receivedExchange.firstUser and not receivedExchange.firstUserResponse and receivedExchange.status == "Crée" %}
                 <a href="{{ path('front_app_deal_edit', { id: receivedExchange.id, response: 'yes', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 mr-[1rem] text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-800"><b>Accepter l'échange</b></a>
                 <a href="{{ path('front_app_deal_edit', { id: receivedExchange.id, response: 'no', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 mr-[1rem] text-sm font-medium text-center text-white bg-yellow-500 rounded-lg hover:bg-yellow-800"><b>Refuser l'échange</b></a>
               {% endif %}
 
+              {% if receivedExchange.status == "Crée" %}
+                          <a href="{{ path('front_app_items_exchange_response', { id: receivedExchange.firstUser.id, deal: receivedExchange.id }) }}" class="inline-flex bg-blue-600 items-center px-3 py-2 mr-[1rem] text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Explorer les objets de {{ receivedExchange.firstUser.name }}</a>
+              {% endif %}
+      
               {% if receivedExchange.secondeUserResponse != null and app.user == receivedExchange.secondUser %}
                 {% if receivedExchange.secondeUserResponse == true %}
                   <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
@@ -82,7 +86,7 @@
 
           <div class="flex mr-2">
             {% if sentExchange %}
-              {% if sentExchange.firstUser and sentExchange.secondUser and sentExchange.firstUserObject and sentExchange.secondUserObject and app.user == sentExchange.firstUser and not sentExchange.firstUserResponse %}
+              {% if sentExchange.firstUser and sentExchange.secondUser and sentExchange.firstUserObject and sentExchange.secondUserObject and app.user == sentExchange.firstUser and not sentExchange.firstUserResponse and sentExchange.status == "Crée" %}
                 <a href="{{ path('front_app_deal_edit', { id: sentExchange.id, response: 'yes', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 mr-[1rem] text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-800"><b>Accepter l'échange</b></a>
                 <a href="{{ path('front_app_deal_edit', { id: sentExchange.id, response: 'no', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 mr-[1rem] text-sm font-medium text-center text-white bg-yellow-500 rounded-lg hover:bg-yellow-800"><b>Refuser l'échange</b></a>
               {% endif %}
