@@ -9,13 +9,13 @@
     <h5 class="text-2xl dark:text-gray-700" style="margin-top:2rem; text-align:center">Demande(s) d'échange reçue(s)</h5>
     <div class="flex flex-col mx-auto justify-center flex-wrap mt-[2rem]">
       {% for receivedExchange in receivedExchangeRequests %}
-        <div class="w-1/2 p-6 bg-white rounded-lg shadow dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
+        <div class="w-1/2 p-6 bg-white rounded-lg dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Demande d'échange pour l'objet {{ receivedExchange.secondUserObject.name }}</h5>
 
           <p>
-            <b>{{ receivedExchange.firstUser.name }}</b> a demandé un échange contre votre objet <b>{{ receivedExchange.secondUserObject.name }}</b>. Explorez ses objet pour faire une contre proposition d'échange.
+            <b>{{ receivedExchange.firstUser.name }}</b> a demandé un échange contre votre objet <b>{{ receivedExchange.secondUserObject.name }}</b>. Explorez ses objets pour faire une contre proposition d'échange.
           </p>
-          <span class="text-xs font-normal py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ receivedExchange.status }}</span>
+          <span class="text-xs font-normal py-1 px-2 rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ receivedExchange.status }}</span>
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
             <b>Statut de la demande</b>: {{ receivedExchange.secondeUserResponse ? '' : '' }}
           </p>
@@ -33,21 +33,21 @@
 
               {% if receivedExchange.secondeUserResponse != null and app.user == receivedExchange.secondUser %}
                 {% if receivedExchange.secondeUserResponse == true %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
                 {% endif %}
 
                 {% if receivedExchange.secondeUserResponse == false %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
                 {% endif %}
               {% endif %}
 
               {% if receivedExchange.firstUserResponse != null and app.user == receivedExchange.firstUser %}
                 {% if receivedExchange.firstUserResponse == true %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
                 {% endif %}
 
                 {% if receivedExchange.firstUserResponse == false %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
                 {% endif %}
               {% endif %}
             {% endif %}
@@ -70,9 +70,9 @@
     <h5 class="text-2xl dark:text-gray-700" style="margin-top:2rem; text-align:center">Demande(s) d'échange envoyé(s)</h5>
     <div class="flex flex-col mx-auto justify-center flex-wrap mt-[2rem]">
       {% for sentExchange in sentExchangeRequests %}
-        <div class="w-1/2 p-6 bg-white rounded-lg shadow dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
+        <div class="w-1/2 p-6 bg-white rounded-lg dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
           <a href="#"><h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Demande d'échange pour l'objet {{ sentExchange.secondUserObject.name }}</h5></a>
-          <span class="text-xs font-normal py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ sentExchange.status }}</span>
+          <span class="text-xs font-normal py-1 px-2 rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ sentExchange.status }}</span>
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
             <b>Réponse de {{ sentExchange.secondUser.name }}</b> : {{ sentExchange.secondeUserResponse ? '' : '' }}
           </p>
@@ -89,21 +89,21 @@
 
               {% if sentExchange.secondeUserResponse != null and app.user == sentExchange.secondUser %}
                 {% if sentExchange.secondeUserResponse == true %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
                 {% endif %}
 
                 {% if sentExchange.secondeUserResponse == false %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
                 {% endif %}
               {% endif %}
 
               {% if sentExchange.firstUserResponse != null and app.user == sentExchange.firstUser %}
                 {% if sentExchange.firstUserResponse == true %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
                 {% endif %}
 
                 {% if sentExchange.firstUserResponse == false %}
-                  <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+                  <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
                 {% endif %}
               {% endif %}
             {% endif %}

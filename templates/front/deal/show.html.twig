@@ -7,12 +7,12 @@
 {% block body %}
   <h5 class="text-2xl dark:text-gray-700" style="margin-top:2rem; text-align:center">Détail de la demande d'échange</h5>
   <div class="flex flex-col mx-auto justify-center flex-wrap mt-[2rem]">
-    <div class="w-1/2 p-6 bg-white rounded-lg shadow dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
+    <div class="w-1/2 p-6 bg-white rounded-lg dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Demande d'échange pour l'objet {{ deal.secondUserObject.name }}</h5>
-      <span class="text-xs font-normal py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ deal.status }}</span>
+      <span class="text-xs font-normal py-1 px-2 rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actuel de la demande : {{ deal.status }}</span>
 
       <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
-        <b>Statut actul de l'objet</b>: {{ deal.secondUserObject.status }}
+        <b>Statut actuel de l'objet</b>: {{ deal.secondUserObject.status }}
       </p>
 
       <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
@@ -36,21 +36,21 @@
 
           {% if deal.secondeUserResponse != null and app.user == deal.secondUser %}
             {% if deal.secondeUserResponse == true %}
-              <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+              <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
             {% endif %}
 
             {% if deal.secondeUserResponse == false %}
-              <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+              <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
             {% endif %}
           {% endif %}
 
           {% if deal.firstUserResponse != null and app.user == deal.firstUser %}
             {% if deal.firstUserResponse == true %}
-              <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
+              <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-green-800 bg-green-200 last:mr-0 mr-1">Echange accepté par vous</span>
             {% endif %}
 
             {% if deal.firstUserResponse == false %}
-              <span class="inline-flex items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
+              <span class="items-center text-xs font-normal inline-block py-1 px-2 rounded text-red-800 bg-red-200 last:mr-0 mr-1">Echange refusé par vous</span>
             {% endif %}
           {% endif %}
         {% endif %}
