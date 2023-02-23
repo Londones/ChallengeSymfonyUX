@@ -1,41 +1,33 @@
-{% extends 'base.html.twig' %}
+{% block title %}
 
-{% block title %}Items index{% endblock %}
+{% endblock %}
 
 {% block body %}
-    <h1>Items index</h1>
+  <div class="flex justify-center flex-wrap">
+    {% for item in items %}
+      <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-3">
+        <a href="#!"><img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="https://images.unsplash.com/photo-1621568670868-24a7dfc590e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80" alt="" /></a>
+        <div class="p-6 mt-6">
+          <h5 class="text-gray-900 text-xl font-medium mb-2">{{ item.name }}</h5>
+          <div style="width:fit-content" class="text-sm px-3 bg-blue-200 text-blue-800 rounded-full capitalize">{{ item.status }}</div>
+          {% if item.isVerified == 1 %}
+            <div style="width:fit-content" class="mt-1 text-sm px-3 bg-green-200 text-green-800 rounded-full">Certifié</div>
+          {% endif %}
+          {% if item.isVerified != 1 %}
+            <div style="width:fit-content" class="mt-1 text-sm px-3 bg-red-200 text-red-800 rounded-full">Non certifié</div>
+          {% endif %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Description</th>
-                <th>IsVerified</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.isVerified ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_items_show', {'id': item.id}) }}">show</a>
-                    <a href="{{ path('app_items_edit', {'id': item.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_items_new') }}">Create new</a>
+          <p class="text-gray-700 text-base my-4 description">{{ item.description }}</p>
+          <div class="flex flex-nowrap justify-between">
+            <a class="inline-block px-6 py-2.5 bg-gray-600 text-white font-medium text-xs uppercase rounded shadow-md hover:bg-gray-700" href="{{ path('front_app_items_show', { id: item.id }) }}">Voir plus</a>
+            <a class="inline-block px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium text-xs uppercase rounded shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300 focus:ring-0 transition duration-150 ease-in-out" href="{{ path('front_app_items_edit', { id: item.id }) }}">Modifier</a>
+            {{ include('front/items/_delete_form.html.twig') }}
+          </div>
+          {% for category in item.category %}
+            <div style="width:fit-content" class="text-sm px-3 bg-indigo-200 text-indigo-800 rounded-full mt-2">{{ category.name }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

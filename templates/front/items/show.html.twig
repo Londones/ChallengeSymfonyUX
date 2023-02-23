@@ -1,38 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Items{% endblock %}
+{% block title %}
+
+{% endblock %}
 
 {% block body %}
-    <h1>Items</h1>
+  <a class="inline-block mt-4 self-center px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium text-xs uppercase rounded shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300 transition duration-150 ease-in-out" href="{{ path('front_app_user_show', {'id': user.id}) }}">Retour</a>
+  <div class="flex justify-center flex-wrap">
+    <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-4 mb-4">
+      <a href="#!"><img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="https://images.unsplash.com/photo-1621568670868-24a7dfc590e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80" alt="" /></a>
+      <div class="p-6 mt-6">
+        <h5 class="text-gray-900 text-xl font-medium mb-2">{{ item.name }}</h5>
+        <div style="width:fit-content" class="text-sm px-3 bg-green-200 text-blue-800 rounded-full capitalize">{{ item.status }}</div>
+        {% if item.isVerified == 1 %}
+          <div style="width:fit-content" class="mt-1 text-sm px-3 bg-pink-200 text-pink-800 rounded-full">Certifié</div>
+        {% endif %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ item.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ item.name }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ item.status }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ item.description }}</td>
-            </tr>
-            <tr>
-                <th>IsVerified</th>
-                <td>{{ item.isVerified ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_items_index') }}">back to list</a>
-
-    <a href="{{ path('app_items_edit', {'id': item.id}) }}">edit</a>
-
-    {{ include('items/_delete_form.html.twig') }}
+        <p class="text-gray-700 text-base my-4">{{ item.description }}</p>
+        {% for category in item.category %}
+          <div style="width:fit-content" class="text-sm px-3 bg-indigo-200 text-indigo-800 rounded-full mt-2">{{ category.name }}</div>
+        {% endfor %}
+        <div class="flex flex-nowrap justify-around pt-2">
+          <a class="inline-block px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium text-xs uppercase rounded shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300 focus:ring-0 transition duration-150 ease-in-out" href="{{ path('front_app_items_edit', { id: item.id }) }}">Modifier</a>
+          {{ include('front/items/_delete_form.html.twig') }}
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

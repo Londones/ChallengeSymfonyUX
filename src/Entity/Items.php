@@ -6,6 +6,7 @@ use App\Repository\ItemsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ItemsRepository::class)]
 class Items
@@ -19,7 +20,7 @@ class Items
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    private ?string $status = "disponible";  //par défaut
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -28,15 +29,19 @@ class Items
     private ?bool $isVerified = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $owner = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
+    private Collection $deals;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->deals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,6 +129,36 @@ class Items
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deal>
+     */
+    public function getDeals(): Collection
+    {
+        return $this->deals;
+    }
+
+    public function addDeal(Deal $deal): self
+    {
+        if (!$this->deals->contains($deal)) {
+            $this->deals->add($deal);
+            $deal->setFirstUserObjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeal(Deal $deal): self
+    {
+        if ($this->deals->removeElement($deal)) {
+            // set the owning side to null (unless already changed)
+            if ($deal->getFirstUserObjectId() === $this) {
+                $deal->setFirstUserObjectId(null);
+            }
+        }
 
         return $this;
     }

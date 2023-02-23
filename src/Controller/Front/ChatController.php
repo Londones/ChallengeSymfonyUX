@@ -13,21 +13,16 @@ use App\Entity\Message;
 use App\Repository\ChannelRepository;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/chat', name: 'chat_')]
 class ChatController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(UserRepository $user): Response
+    public function index(UserRepository $userRepo): Response
     {
         $connectedUser = $this->getUser();
 
-        if (!$connectedUser) {
-            return $this->redirectToRoute('front_home_index', []);
-        }
-
-        $channelListRequest = $user->getChannels($connectedUser);
+        $channelListRequest = $userRepo->getChannels($connectedUser);
         $channelList = [];
 
         foreach($channelListRequest as $channel) {

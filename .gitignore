@@ -60,3 +60,9 @@ ehthumbs_vista.db
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+/docker/php/docker-entrypoint.sh
+/bin/console
+/bin/phpunit
+
+public/images/users/*

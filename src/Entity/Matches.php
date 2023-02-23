@@ -17,12 +17,12 @@ class Matches
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'matches')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $firstUserId = null;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $firstUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $secondUserId = null;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $secondUser = null;
 
     public function getId(): ?int
     {
@@ -41,26 +41,26 @@ class Matches
         return $this;
     }
 
-    public function getFirstUserId(): ?User
+    public function getFirstUser(): ?User
     {
-        return $this->firstUserId;
+        return $this->firstUser;
     }
 
-    public function setFirstUserId(?User $firstUserId): self
+    public function setFirstUser(?User $firstUser): self
     {
-        $this->firstUserId = $firstUserId;
+        $this->firstUser = $firstUser;
 
         return $this;
     }
 
-    public function getSecondUserId(): ?User
+    public function getSecondUser(): ?User
     {
-        return $this->secondUserId;
+        return $this->secondUser;
     }
 
-    public function setSecondUserId(?User $secondUserId): self
+    public function setSecondUser(?User $secondUser): self
     {
-        $this->secondUserId = $secondUserId;
+        $this->secondUser = $secondUser;
 
         return $this;
     }

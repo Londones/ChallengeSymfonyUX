@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Items{% endblock %}
+{% block title %}
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Items</h1>
-
-    {{ include('items/_form.html.twig') }}
-
-    <a href="{{ path('app_items_index') }}">back to list</a>
+  <div class="h-full flex flex-col justify-center">
+    <h4 class="text-center font-medium leading-tight text-3xl mt-0 mb-2 text-black ">Ajouter un objet</h4>
+    {{ include('front/items/_form.html.twig', { button_label: 'Ajouter' }) }}
+  </div>
 {% endblock %}
