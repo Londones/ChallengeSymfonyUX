@@ -10,8 +10,8 @@
             <div class="bg-white rounded-full h-3/4 w-20 flex items-center">
                 {#<img src="{{ chattingWith.profilPicturePath }}">#}
             </div>
-            <p class="underline cursor-pointer">{{ chattingWith.name }}</p>
-            <button class="rounded-3xl bg-violet-700 text-white p-4">Échange</button>
+            <a href="{{ path('front_app_user_show_public', {'id': chattingWith.id}) }}" class="underline cursor-pointer">{{ chattingWith.name }}</a>
+            <a class="rounded-3xl bg-violet-700 text-white p-4" href="{{ path('front_app_items_exchange', {'id': chattingWith.id}) }}">Échange</a>
         </div>
 
         <div id="message-list" class="overflow-y-auto overflow-x-hidden">

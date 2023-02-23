@@ -3,7 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Entity\User;
+use App\Entity\Deal;
 use App\Form\ProfileType;
+use App\Repository\DealRepository;
 use App\Repository\ItemsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,9 +31,9 @@ class ProfileController extends AbstractController
     public function show(User $user, UserRepository $userRepository): Response
     {
         $user = $this->getUser();
-        if($user){
+        if ($user) {
             $itemsOfUser = $user->getItems();
-        }else{
+        } else {
             return $this->redirectToRoute('front_app_login');
         }
         return $this->render('user/show.html.twig', [
@@ -49,7 +51,7 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('front_app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
@@ -61,10 +63,20 @@ class ProfileController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
         }
 
         return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/public/{id}/', name: 'app_user_show_public', methods: ['GET'])]
+    public function showPublicProfil(User $user): Response
+    {
+        if ($user) {
+            return $this->render('user/show_public.html.twig', [
+                'user' => $user,
+            ]);
+        }
     }
 }
