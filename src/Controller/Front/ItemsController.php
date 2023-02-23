@@ -42,7 +42,7 @@ class ItemsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $itemsRepository->save($item, true);
 
-            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('front/items/new.html.twig', [
@@ -71,7 +71,7 @@ class ItemsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $itemsRepository->save($item, true);
 
-            return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('front/items/edit.html.twig', [
@@ -89,7 +89,7 @@ class ItemsController extends AbstractController
             $itemsRepository->remove($item, true);
         }
 
-        return $this->redirectToRoute('front_app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
     }
 
 

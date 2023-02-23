@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Repository\SwipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,10 +11,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class FavoriteController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(SwipeRepository $swipeRepo): Response
     {
-        return $this->render('favorite/index.html.twig', [
-            'controller_name' => 'FavoriteController',
+        $connectedUser = $this->getUser();
+        $favorites = $connectedUser->getFavorites();
+
+        $favList = [];
+        foreach($favorites as $favorite){
+            $user = $favorite->getFavReceiver();
+
+            //Check that, even if it's in favorite, user maybe have like this user
+            $isLiked = false;
+            $existingSwipe = $swipeRepo->getExistingSwipe($connectedUser, $user);
+            if($existingSwipe->getIsSwipeRight()){
+                $isLiked = true;
+            }
+
+            array_push($favList, [
+                'user' => $user,
+                'isLiked' => $isLiked
+            ]);
+        }
+
+        return $this->render('front/favorite/index.html.twig', [
+            'favorites' => $favList,
         ]);
     }
 }

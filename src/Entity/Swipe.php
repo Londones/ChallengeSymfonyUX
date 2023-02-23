@@ -14,9 +14,11 @@ class Swipe
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'swipes')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $swipper = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $swipped = null;
 
     #[ORM\Column(nullable: true)]
