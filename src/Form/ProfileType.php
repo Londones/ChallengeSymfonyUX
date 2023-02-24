@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 
 class ProfileType extends AbstractType
 {
@@ -14,7 +16,10 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password', null)
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'required' => false,
+            ])
             ->add('name')
             ->add('imageFile',VichImageType::class,
                 [
