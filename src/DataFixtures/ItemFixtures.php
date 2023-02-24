@@ -22,7 +22,7 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i < 51; $i++) {
             $item = new Items;
             $item->setName("random-item-n". $i);
-            $item->setStatus("available");
+            $item->setStatus("Disponible");
             $item->setDescription("This is the description of random item number ". $i);
             $item->setIsVerified(false);
             $item->addCategory($faker->randomElement($categories));

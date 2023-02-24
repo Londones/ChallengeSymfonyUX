@@ -8,14 +8,14 @@
   <div class="sm:container md:mx-auto flex-auto overflow-hidden">
     <div class="flex md:mx-auto h-full">
       <div class=" flex flex-col justify-center  bg-white/50 backdrop-blur-sm w-1/5 rounded-lg mr-[1rem] ml-[4rem] mt-[2rem] mb-8 border border-gray-100 shadow-lg shadow-purple-300/40">
-        <div class="rounded-lg m-8 w-48 mx-auto">
+        <div class="rounded-lg m-8 max-w-[12rem] mx-auto">
           {% if user.image %}
           	<img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}">
           {% else %}
             <img class="rounded-lg" src="https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg" rel="profil-picture" />
           {% endif %}
         </div>
-        <div class="rounded-lg m-8 w-48 mx-auto">
+        <div class="rounded-lg m-8 max-w-[12rem] mx-auto">
           <p class="font-semibold">{{ user.name }}</p>
           <p class="font-thin">{{ user.email }}</p>
           <p>Membre depuis le {{ user.createdAt|date('m/d/Y') }}</p>

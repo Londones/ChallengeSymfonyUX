@@ -4,28 +4,28 @@
 
 {% block body %}
 
-    <div class="flex flex-col max-h-screen bg-inherit">
+    <div class="flex flex-col h-full bg-inherit overflow-hidden">
 
-        <div class="flex justify-around items-center sticky top-0 z-10 h-20 border-black border-opacity-25 border-b">
+        <div class="flex justify-around py-4 items-center sticky top-0 z-10 h-20 border-black border-opacity-25 border-b">
             <div class="bg-white rounded-full h-3/4 w-20 flex items-center">
                 {#<img src="{{ chattingWith.profilPicturePath }}">#}
             </div>
-            <a href="{{ path('front_profil_user', {'id': chattingWith.id}) }}" class="underline cursor-pointer">{{ chattingWith.name }}</a>
-            <a class="rounded-3xl bg-violet-700 text-white p-4" href="{{ path('front_app_items_exchange', {'id': chattingWith.id}) }}">Échange</a>
+            <a href="{{ path('front_profil_user', {'id': chattingWith.id}) }}" class="cursor-pointer">{{ chattingWith.name }}</a>
+            <a class="py-2.5 px-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 uppercase font-medium text-xs shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300 text-white rounded" href="{{ path('front_app_items_exchange', {'id': chattingWith.id}) }}">Échange</a>
         </div>
 
-        <div id="message-list" class="overflow-y-auto overflow-x-hidden">
+        <div id="message-list" class="overflow-y-auto overflow-x-hidden w-[80%] mb-20 mx-auto" style="overflow-anchor:none;">
             {% for message in messages %}
                 {% if message.sender.id == app.user.id %}
                     <div class="self flex flex-col items-end">
-                        <div class="border-violet-700 border-2 p-4 mb-4 mr-4 rounded-3xl">
+                        <div class="border-violet-700 bg-white border-2 p-4 my-2 mr-4 rounded-3xl">
                             <p class="message-content mb-2">{{ message.content }}</p>
                             <p class="message-date text-xs">{{ message.creationDate|date('d/m/Y - H:i') }}</p>
                         </div>
                     </div>
                 {% else %}
                     <div class="other flex flex-col items-start">
-                        <div class="bg-violet-700 text-white p-4 mb-4 ml-4 rounded-3xl">
+                        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-4 my-2 ml-4 rounded-3xl">
                             <p class="message-content mb-2">{{ message.content }}</p>
                             <p class="message-date text-xs">{{ message.creationDate|date('d/m/Y - H:i') }}</p>
                         </div>
@@ -34,12 +34,13 @@
             {% else %}
                 <p id="empty">C'est vide par ici...</p>
             {% endfor %}
+            <div id="anchor" style="overflow-anchor:auto; height:1px;"></div>
         </div>
       
-        <div class="flex justify-center items-center fixed h-20 bottom-0 bg-inherit w-full border-black border-opacity-25 border-t">
+        <div class="flex justify-center items-center fixed h-20 bottom-0 w-full border-black border-opacity-25 border-t">
             <form id="message-form" class="w-full flex justify-center">
                 <input type="text" id="message-input" class="rounded-3xl w-2/4 mr-10" placeholder="Entrez votre message" name="message"/>
-                <button id="send-message-button" class="rounded-3xl bg-violet-700 text-white p-4">Envoyer</button>
+                <button id="send-message-button" class="py-2.5 px-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 uppercase font-medium text-xs shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300 text-white rounded">Envoyer</button>
             </form>
         </div>
     </div>
