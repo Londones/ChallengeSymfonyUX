@@ -33,7 +33,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:                                           #*décommenter une fois les rôles attribués aux utilisateurs
        - { path: ^/admin, roles: ROLE_ADMIN }
-       - { path: ^/register, roles: PUBLIC_ACCESS }
        - { path: ^/login, roles: PUBLIC_ACCESS }
        - { path: ^/register, roles: PUBLIC_ACCESS }
        - { path: ^/reset-password, roles: PUBLIC_ACCESS }
