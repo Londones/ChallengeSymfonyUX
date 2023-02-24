@@ -27,6 +27,11 @@
             <!-- Icon -->
             <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
             {% if app.user %}
+              {% if "ROLE_ADMIN" in app.user.roles %}
+              <li class="nav-item p-2">
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('back_app_user_index') }}">Admin</a>
+              </li>
+              {% endif %}
               <li class="nav-item p-2">
                   <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_home_index') }}">Accueil</a>
               </li>
@@ -58,16 +63,9 @@
             {% endif %}
           </ul>
         </div>
-      </div>
-    </nav>
-    {% for flash in app.flashes('success') %}
-      <div class="bg-green-100 rounded-lg py-5 px-6 mb-3 text-base text-green-700 inline-flex" role="alert">
-        <b>{{ flash }}</b>
-      </div>
-    {% endfor %}
-    {% for flash in app.flashes('error') %}
-      <div class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex" role="alert">{{ flash }}</div>
-    {% endfor %}
+      </nav>
+
+    {% include 'front/_message.html.twig' %}
 
     {% block body %}
 

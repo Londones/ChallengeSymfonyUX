@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/profil', name: 'profil_')]
@@ -32,14 +33,17 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/me/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, UserRepository $userRepository): Response
+    public function edit(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
 
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {$data = $form->getData();
+            $password = $passwordHasher->hashPassword($user, $data->getPassword());
+            $user->setPassword($password);
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('front_profil_me',[], Response::HTTP_SEE_OTHER);

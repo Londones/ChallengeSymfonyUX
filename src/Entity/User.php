@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
 #[Vich\Uploadable]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface,  \Serializable
 {
     use TimestampableTrait;
 
@@ -80,6 +80,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'users')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'requestedBy', targetEntity: VerificationRequest::class)]
+    private Collection $verificationRequests;
+
     #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Channel::class)]
     private Collection $channels;
 
@@ -100,6 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->items = new ArrayCollection();
         $this->swipes = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->verificationRequests = new ArrayCollection();
         $this->deals = new ArrayCollection();
         $this->favorites = new ArrayCollection();
     }
@@ -346,6 +350,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, VerificationRequest>
+     */
+    public function getVerificationRequests(): Collection
+    {
+        return $this->verificationRequests;
+    }
+
+    public function addVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if (!$this->verificationRequests->contains($verificationRequest)) {
+            $this->verificationRequests->add($verificationRequest);
+            $verificationRequest->setRequestedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if ($this->verificationRequests->removeElement($verificationRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($verificationRequest->getRequestedBy() === $this) {
+                $verificationRequest->setRequestedBy(null);
+            }
+        }
+        return $this;
+    }
+
      //* SETTERS AND GETTERS OF IMAGES 
     /**
      * @return string|null
@@ -408,12 +441,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function serialize()
     {
-        $this->image = base64_encode($this->image);
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
     }
 
     public function unserialize($serialized)
     {
-        $this->image = base64_decode($this->image);
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
     }
     
     public function removeMessage(Message $message): self
@@ -424,10 +465,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $message->setSender(null);
             }
         }
-
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+    
     /**
      * @return Collection<int, Deal>
      */
