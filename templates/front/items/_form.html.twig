@@ -29,11 +29,9 @@
         <div class="w-full px-3 mb-6 md:mb-0">
           <label class="block tracking-wide mb-2 text-gray-700">Catégorie</label>
           <div class="relative">
-            <select class="block appearance-none w-full border-indigo-300 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700">
-            {% for categorie in categories %}
-              <option>{{categorie.name}}</option>
-            {% endfor %}
-            </select>
+            <div>
+                   {{ form_widget(form.category)}}
+            </div>
           </div>
         </div>
       </div>

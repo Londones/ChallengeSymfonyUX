@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Items;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,17 +16,15 @@ class ItemsType extends AbstractType
     {
         $builder
             ->add('name')
-            // ->add('status')
-            ->add('description');
-            // ->add('isVerified');
-            // ->add('owner', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id'
-            // ]);
-            // ->add('category', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'name'
-            // ]);
+            ->add('description')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'data-te-select-init multiple appearance-none w-full border-indigo-300 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
