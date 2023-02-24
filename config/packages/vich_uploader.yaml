@@ -2,8 +2,14 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-       users_images:
-           uri_prefix: /images/users
-           upload_destination: '%kernel.project_dir%/public/images/users'
-           namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        users_images:
+            uri_prefix: /images/users
+            upload_destination: '%kernel.project_dir%/public/images/users'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        proofs_images:
+            uri_prefix: /images/proofs
+            upload_destination: '%kernel.project_dir%/public/images/proofs'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_update: true
+
 

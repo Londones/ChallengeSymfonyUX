@@ -1,0 +1,119 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Demande de vérifications{% endblock %}
+
+{% block body %}
+    <div class="flex bg-gray-100 min-h-screen">
+        {% block sidebar %}
+            {% include 'back/_sidebar.html.twig' %}
+        {% endblock %}
+        <div class="flex-grow text-gray-800">
+            {% block header %}
+                {% include 'back/_header.html.twig' %}
+            {% endblock %}
+
+            {% block main %}
+                <main class="p-6 sm:p-10 space-y-6">
+                    <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
+                        <div class="mr-6">
+                            <h1 class="text-4xl font-semibold mb-2">Gestion de demande de vérification</h1>
+                            <h2 class="text-gray-600 ml-0.5">Liste</h2>
+                        </div>
+                    </div>
+                    {% block message %}
+                        {% include 'back/_message.html.twig' %}
+                    {% endblock %}
+
+                    <section>
+                        <div class="flex justify-center">
+                            <div class="block p-6 rounded-lg shadow-lg bg-white w-lg">
+                                <div class="flex flex-col">
+                                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                            <div class="overflow-hidden">
+                                                <table class="min-w-full">
+                                                    <thead class="border-b bg-purple-100">
+                                                        <tr>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            ID
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Utilisateur
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Item
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Message
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Status
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Image
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Action
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for verification_request in verification_requests %}
+                                                            <tr class="border-b">
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ verification_request.id }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ verification_request.requestedBy }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ verification_request.itemRequested }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ verification_request.message }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {% if verification_request.status == "Accepté" %}
+                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-success-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-success-700">
+                                                                        Accepté
+                                                                    </span>
+                                                                {% elseif verification_request.status == "En cours" %}
+                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-warning-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-warning-800">
+                                                                        En cours
+                                                                    </span>
+                                                                {% else %}
+                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700">
+                                                                        Annulé
+                                                                    </span>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {# {{ verification_request.image }} #}
+
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
+                                                                    Valider
+                                                                </a>
+                                                                <a type="button" href="{{ path('front_app_verification_request_refuse', {id: verification_request.id}) }}" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
+                                                                   Annuler
+                                                                </a>
+                                                            </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </section>
+                </main>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+

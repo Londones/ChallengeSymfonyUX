@@ -14,14 +14,14 @@
             {% if item.isVerified == 1 %}
               <div style="width:fit-content" class="text-sm px-3 bg-green-200 text-green-800 rounded-full">Certifié</div>
             {% endif %}
-            {% if item.isVerified != 1 %}
+            {% if item.isVerified == 0 %}
               <div style="width:fit-content" class="text-sm px-3 bg-red-200 text-red-800 rounded-full">Non certifié</div>
             {% endif %}
           </div>
           <br>
           {# <p class="text-gray-700 text-base mb-4 description">{{ item.description }}</p> #}
           <div class="flex justify-center space-x-2"> 
-            <a type="button" href="#" class="inline-block rounded-full border-2 border-primary px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10"
+            <a type="button" href="{{ path('front_app_verification_request_new', { id: item.id }) }}" class="inline-block rounded-full border-2 border-primary px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10"
               data-te-ripple-init>
               Demander une vérification
             </a>  

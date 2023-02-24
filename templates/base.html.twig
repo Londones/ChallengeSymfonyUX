@@ -76,14 +76,8 @@
           </div>
         </div>
       </nav>
-    {% for flash in app.flashes('success') %}
-      <div class="bg-green-100 rounded-lg py-5 px-6 mb-3 text-base text-green-700 inline-flex" role="alert">
-        <b>{{ flash }}</b>
-      </div>
-    {% endfor %}
-    {% for flash in app.flashes('error') %}
-      <div class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex" role="alert">{{ flash }}</div>
-    {% endfor %}
+
+    {% include 'front/_message.html.twig' %}
 
     {% block body %}
 
