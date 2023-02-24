@@ -9,7 +9,9 @@
   <div class="flex justify-center flex-wrap">
     <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-4 mb-4">
       {% if item.image %}
-        <img src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ item.name }}" />
+        <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ item.name }}" />
+      {% else %}
+        <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" rel="item-picture" />
       {% endif %}
 
       <div class="p-6 mt-6">

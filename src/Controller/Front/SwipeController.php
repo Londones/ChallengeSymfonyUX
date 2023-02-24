@@ -25,6 +25,12 @@ class SwipeController extends AbstractController
         $connectedUser = $this->getUser();
         $userToSwipe = $userRepo->getUserToSwipe($connectedUser);
 
+        if (!$userToSwipe){
+            return new Response(json_encode(array(
+                'user' => null
+            )), 200);
+        }
+
         // TODO put when items have images
         //$itemsImages = []
         //foreach($userToSwipe->getImage() as $item){

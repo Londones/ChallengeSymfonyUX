@@ -3,28 +3,34 @@
 {% block title %}Demande de vérification{% endblock %}
 
 {% block body %}
+<div class="flex flex-col h-full justify-center">
     <h1 class="flex justify-center items-center">Demande de vérification de l'item {{ item_name }}</h1>
     <br>
     <div class="flex justify-center items-center">
-        <div class="block p-4 rounded-lg shadow-lg bg-white w-1/4">
+        <div class="block p-4">
             <p class="text-center">Vous avez choisi de demander une vérification de l'item {{ item_name }}.</p>
             <p class="text-center">Pour cela, veuillez remplir le formulaire ci-dessous.</p>
             <p class="text-center">Une fois la demande envoyée, vous ne pourrez plus la modifier.</p>
         </div>
     </div>
     <div class="flex justify-center items-center">
-        <div class="block p-4 rounded-lg shadow-lg bg-white w-1/4">
+        <div class="bg-gray-50/50 backdrop-blur-sm border border-gray-100 shadow-lg shadow-purple-300/40 w-2/5 p-5 rounded-lg h-auto mx-auto mt-[2rem]">
             {{ form_start(form) }}
             <div class="form-group mb-6">
             <label for="message" class="form-label inline-block mb-2 text-gray-700">Message</label>
                 {{ form_widget(form.message) }}
             </div>
-            <div class="form-group mb-6">
-            <label for="file" class="form-label inline-block mb-2 text-gray-700">File</label>
-                {{ form_widget(form.imageFile) }}
+            <div class="form-group flex flex-wrap -mx-3 md:mx-auto mb-2">
+            <div class="w-full mb-6 md:mb-0">
+            <label for="file" class="form-label inline-block whitespace-nowrap tracking-wide mb-2 text-gray-700">File</label>
+                {{ form_widget(form.imageFile, {'attr': {'class': 'shadow-inner shadow-indigo-300/50 block rounded py-3 px-4 mr-8 leading-tight focus:outline-none focus:border-gray-500 w-full'}} ) }}
             </div>
-            {{ form_widget(form.submit, { 'label': 'Valider' }) }}
+            </div>
+            <div class="space-x-2 m-4 flex justify-center">
+            {{ form_widget(form.submit, { 'label': 'Valider', 'attr': {'class': 'inline-block px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium text-xs uppercase rounded shadow-md shadow-violet-300 hover:shadow-lg hover:shadow-violet-300'} }) }}
             {{ form_end(form) }}
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}
