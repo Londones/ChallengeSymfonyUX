@@ -34,6 +34,7 @@ security:
     access_control:                                           #*décommenter une fois les rôles attribués aux utilisateurs
        - { path: ^/admin, roles: ROLE_ADMIN }
        - { path: ^/login, roles: PUBLIC_ACCESS }
+       - { path: ^/register, roles: PUBLIC_ACCESS }
        - { path: ^/, roles: ROLE_USER }
 
 when@test:
