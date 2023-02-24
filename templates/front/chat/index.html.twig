@@ -12,11 +12,10 @@
             <a href="{{ path('front_chat_match', {'id': channel.id}) }}" class="flex justify-around items-center mt-5 h-28 w-full rounded-3xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-slate-300">
                 <div class="bg-white rounded-full overflow-hidden h-3/4 w-20 flex items-center">
                 {% if channel.user.image %}
-          	        <img class="rounded-full" src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}">
+          	        <img class="rounded-full" src="{{ vich_uploader_asset(channel.user, 'imageFile') }}" alt="{{ channel.user.name }}">
                 {% else %}
                     <img class="rounded-full" src="https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg" rel="profil-picture" />
                 {% endif %}
-                    {#<img src="{{ channel.user.profilPicturePath }}">#}
                 </div>
                 <div class="text-white h-full flex flex-col justify-center">
                     <p class="font-bold">{{ channel.user.name }}</p>
