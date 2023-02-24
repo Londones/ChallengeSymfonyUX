@@ -8,3 +8,9 @@ controllers_back:
     type: attribute
     prefix: /admin/
     name_prefix: back_
+
+not_found:
+    path: /{wildcard}
+    controller: App\Controller\Front\HomeController::redirectAction
+    requirements:
+      wildcard: ".+"

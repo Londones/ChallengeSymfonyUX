@@ -101,9 +101,13 @@ class DealController extends AbstractController
         return $this->redirectToRoute('front_app_deal_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'app_deal_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_deal_show', methods: ['GET'], requirements:["id"=>"\d+"])]
     public function show(Deal $deal): Response
     {
+        if(!$deal){
+            return $this->redirectToRoute('front_home_index');
+        }
+
         return $this->render('front/deal/show.html.twig', [
             'deal' => $deal,
         ]);

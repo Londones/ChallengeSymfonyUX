@@ -23,4 +23,11 @@ class HomeController extends AbstractController
             'haveCategory' => $haveCategory
         ]);
     }
+
+
+    //#[Route('/{wildcard}', name: 'not_found')]
+    //public function redirectAction(): Response
+    //{
+        //return $this->redirectToRoute('front_home_index');
+    //}
 }
