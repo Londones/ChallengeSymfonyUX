@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'swipper', targetEntity: Swipe::class)]
     private Collection $swipes;
 
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matches::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Matches::class)]
     private Collection $matches;
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Items::class)]
@@ -86,9 +86,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
     private Collection $messages;
 
-
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Deal::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Deal::class)]
     private Collection $deals;
+
     #[ORM\OneToMany(mappedBy: 'favSender', targetEntity: Favorite::class, orphanRemoval: true)]
     private Collection $favorites;
 

@@ -35,7 +35,7 @@ class Items
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
-    #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUserObject', targetEntity: Deal::class)]
     private Collection $deals;
 
     public function __construct()

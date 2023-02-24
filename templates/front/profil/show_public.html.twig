@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Profil
+  Profil de {{ user.name }}
 {% endblock %}
 
 {% block body %}
-  <div class="sm:container md:mx-auto shadow-lg shadow-indigo-500/20 bg-indigo-800 rounded-lg">
-    <div class="flex md:mx-auto rounded-lg bg-indigo-800 justify-center">
-      <div class="bg-gray-50 w-2/5 rounded-lg mr-[1rem] ml-[4rem] mt-[4rem] mb-[4rem] shadow-2xl shadow-slate-50/20">
+  <div class="sm:container md:mx-auto flex-auto overflow-hidden">
+    <div class="flex md:mx-auto h-full">
+      <div class=" flex flex-col justify-center  bg-white/50 backdrop-blur-sm w-1/5 rounded-lg mr-[1rem] ml-[4rem] mt-[2rem] mb-8 border border-gray-100 shadow-lg shadow-purple-300/40">
         <div class="rounded-lg m-8 w-48 mx-auto">
           {% if user.image %}
-            <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}" />
-          {% endif %}
-
-          {% if user.image == null %}
+          	<img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}">
+          {% else %}
             <img class="rounded-lg" src="https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg" rel="profil-picture" />
           {% endif %}
         </div>
@@ -23,5 +21,15 @@
           <p>Membre depuis le {{ user.createdAt|date('m/d/Y') }}</p>
         </div>
       </div>
+      <div class="bg-gray-50/50 backdrop-blur-sm w-4/5 rounded-lg ml-[1rem] mr-[4rem] mt-[2rem] mb-8 overflow-y-scroll pb-4 border border-gray-100 shadow-lg shadow-purple-300/40 h-auto">
+        <!-- Cards des objets! -->
+        {% if user.items|length == 0 %}
+          <h3 class="font-medium leading-tight text-3xl mt-8 mb-2 text-gray-400 uppercase ml-[9rem]">Aucun objet</h3>
+        {% else %}
+          <h3 class="font-medium leading-tight text-3xl mt-8 mb-2 text-gray-400 uppercase ml-[9rem]">Ses objets</h3>
+          {% include 'front/items/show_public_items.html.twig' %}
+        {% endif %}
+      </div>
+    </div>
   </div>
 {% endblock %}
