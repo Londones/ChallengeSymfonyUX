@@ -16,9 +16,9 @@
             <span class="sr-only">Gestion d'échange</span>
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
             </a>
-            <a href="#" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+            <a href="{{ path('front_app_verification_request_index') }}" {% if nav == 'verification_request' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
             <span class="sr-only">Gestion de badge</span>
-            <i class="fa-solid fa-certificate"></i>
+            <i class="fa-solid fa-certificate"></i> {# TODO: restrict access #}
             </a>
         </nav>
         <div class="inline-flex items-center justify-center h-20 w-20 border-t border-gray-700">
