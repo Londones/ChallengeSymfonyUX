@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/profil', name: 'profil_')]
 #[UniqueEntity(fields: ['email'], message: "Le user existe déjà")]
@@ -32,7 +33,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/me/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, UserRepository $userRepository): Response
+    public function edit(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
 
@@ -40,6 +41,15 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if (!empty($data->getPassword())){
+                $password = $passwordHasher->hashPassword($user, $data->getPassword());
+                $user->setPassword($password); 
+            } else {
+                //$user->setPassword(null); 
+            }
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('front_profil_me',[], Response::HTTP_SEE_OTHER);

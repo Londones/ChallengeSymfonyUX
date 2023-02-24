@@ -34,6 +34,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                     $user, "password"
                 )
             );
+            $user->setRoles(["ROLE_USER"]);
             $user->setIsEmailVerified(true);
             $userCategories = $faker->randomElements($categories, 2);
             $user->addCategory($userCategories[0]);
@@ -43,8 +44,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $user = new User;
-        $user->setName("userAdmin");
-        $user->setEmail("userAdmin@gmail.com");
+        $user->setName("admin");
+        $user->setEmail("admin@gmail.com");
         $user->setPassword(
             $this->userPasswordHasherInterface->hashPassword(
                 $user, $_ENV['ADMIN_PASSWORD']

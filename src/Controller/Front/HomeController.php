@@ -12,6 +12,15 @@ class HomeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('front/home/index.html.twig', []);
+        $connectedUser = $this->getUser();
+        $haveCategory = true;
+
+        if(!$connectedUser->getCategory()->toArray()){
+            $haveCategory = false;
+        }
+
+        return $this->render('front/home/index.html.twig', [
+            'haveCategory' => $haveCategory
+        ]);
     }
 }

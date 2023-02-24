@@ -3,9 +3,17 @@
 {% block title %}
   Accueil
 {% endblock %}
-   {% block javascripts %}
-      {{ encore_entry_script_tags('match') }}
-    {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        const haveCategory = "{{ haveCategory }}"
+        if(!haveCategory){
+            alert("Vous devez sélectionner au moins une catégorie dans votre profil pour pouvoir swiper d'autres profils !")
+            window.location.href = "/profil/me/edit"
+        }
+    </script>
+    {{ encore_entry_script_tags('match') }}
+{% endblock %}
 
 {% block body %}
 {% if app.user %}
