@@ -42,7 +42,9 @@ class ResetPasswordController extends AbstractController
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
                 $mailer,
@@ -134,6 +136,7 @@ class ResetPasswordController extends AbstractController
 
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
     {
+
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
         ]);
@@ -145,29 +148,8 @@ class ResetPasswordController extends AbstractController
         }
 
         try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);          
+            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     '%s - %s',
-            //     $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),
-            //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
-            // ));
-
-                
-        // $email = (new TemplatedEmail())
-        //     ->from(new Address('asaci1@myges.fr', 'Alicia'))
-        //     ->to($user->getEmail())
-        //     ->subject('Your password reset request')
-        //     ->htmlTemplate('reset_password/email.html.twig')
-        //     ->context([
-        //         'resetToken' => $resetToken,
-        //     ])
-        // ;
-
             return $this->redirectToRoute('front_app_check_email');
         }
 
