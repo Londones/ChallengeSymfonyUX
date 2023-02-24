@@ -15,30 +15,11 @@
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </head>
-  <body>
-    {# temporary 
-    <nav class="bg-zinc-900">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4">
-                <a href="{{ path('front_home_index') }}" class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-                <a href="{{ path('back_admin_index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
-                <a href="{{ path('front_app_login') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                <a href="{{ path('front_app_register') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
-                <a href="{{ path('front_app_logout') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>#}
-
+  <body class=" h-screen flex flex-col">
           <nav class="relative w-full flex flex-wrap items-center justify-between py-2 shadow-md shadow-indigo-500/20 navbar navbar-expand-lg navbar-light">
         <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
           <div class="collapse navbar-collapse flex-grow items-center">
-            <a class="flex font-bold items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1" href="#">Match<span class="text-indigo-800">N</span>Collect</a>
+              <a class="flex font-bold items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1" href="{{ path('front_home_index') }}">Match<span class="text-indigo-800">N</span>Collect</a>
           </div>
           <!-- Collapsible wrapper -->
           <!-- Right elements -->
@@ -46,34 +27,36 @@
             <!-- Icon -->
             <ul class="navbar-nav flex flex-row pl-0 list-style-none mr-auto">
             {% if app.user %}
-                <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Favoris</a>
+              <li class="nav-item p-2">
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_home_index') }}">Accueil</a>
               </li>
               <li class="nav-item p-2">
-                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Match</a>
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_favorite_index') }}">Favoris</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="#">Préférences</a>
+                <a href="{{ path('front_chat_index') }}" class="nav-link text-gray-900 hover:text-gray-700">Chat</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_user_show', { id: app.user.id })}}">Profil</a>
+                <a href="{{ path('front_app_deal_index') }}" class="nav-link text-gray-900 hover:text-gray-700" href="#">Demandes d'échange</a>
               </li>
               <li class="nav-item p-2">
-                <a href="{{ path('front_app_logout') }}" class="hover:text-gray-900 transition duration-300 ease-in-out mb-4"> <img class="w-6" src=" {{ asset('build/images/logout.png') }} "> </a>
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_profil_me') }}">Profil</a>
+              </li>
+              <li class="nav-item p-2">
+                <a href="{{ path('front_app_logout') }}" class="hover:text-gray-900 transition duration-300 ease-in-out mb-4"><img class="w-6" src=" {{ asset('build/images/logout.png') }} " /></a>
               </li>
             {% else %}
               <li class="nav-item p-2">
                 <a class="nav-link text-gray-900 hover:text-gray-700" href="/">Accueil</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_register')}}">S'inscrire</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_register') }}">S'inscrire</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_login')}}">Se connecter</a>
+                <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_login') }}">Se connecter</a>
               </li>
             {% endif %}
-            </ul>
-          </div>
+          </ul>
         </div>
       </nav>
 

@@ -45,7 +45,7 @@ class VerificationRequestController extends AbstractController
             $session = new Session();
             $session->getFlashBag()->add('success_create_request', "La demande de certifier l'item " .$itemName ." a bien été envoyée.");
 
-            return $this->redirectToRoute('front_app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('front/verification_request/new.html.twig', [
             'controller_name' => 'VerificationRequestController',

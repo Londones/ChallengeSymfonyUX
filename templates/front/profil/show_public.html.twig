@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Profil
+{% endblock %}
+
+{% block body %}
+  <div class="sm:container md:mx-auto shadow-lg shadow-indigo-500/20 bg-indigo-800 rounded-lg">
+    <div class="flex md:mx-auto rounded-lg bg-indigo-800 justify-center">
+      <div class="bg-gray-50 w-2/5 rounded-lg mr-[1rem] ml-[4rem] mt-[4rem] mb-[4rem] shadow-2xl shadow-slate-50/20">
+        <div class="rounded-lg m-8 w-48 mx-auto">
+          {% if user.image %}
+            <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.name }}" />
+          {% endif %}
+
+          {% if user.image == null %}
+            <img class="rounded-lg" src="https://png.pngtree.com/png-clipart/20210608/ourlarge/pngtree-dark-gray-simple-avatar-png-image_3418404.jpg" rel="profil-picture" />
+          {% endif %}
+        </div>
+        <div class="rounded-lg m-8 w-48 mx-auto">
+          <p class="font-semibold">{{ user.name }}</p>
+          <p class="font-thin">{{ user.email }}</p>
+          <p>Membre depuis le {{ user.createdAt|date('m/d/Y') }}</p>
+        </div>
+      </div>
+  </div>
+{% endblock %}

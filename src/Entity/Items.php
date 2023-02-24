@@ -29,7 +29,7 @@ class Items
     private ?bool $isVerified = false;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $owner = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
@@ -37,11 +37,14 @@ class Items
 
     #[ORM\OneToMany(mappedBy: 'itemRequested', targetEntity: VerificationRequest::class)]
     private Collection $verificationRequests;
+    #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
+    private Collection $deals;
 
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->verificationRequests = new ArrayCollection();
+        $this->deals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +150,36 @@ class Items
             $this->verificationRequests->add($verificationRequest);
             $verificationRequest->setItemRequested($this);
         }
+        
+        return $this;
+    }
+     
+    /**
+     * @return Collection<int, Deal>
+     */
+    public function getDeals(): Collection
+    {
+        return $this->deals;
+    }
+
+    public function addDeal(Deal $deal): self
+    {
+        if (!$this->deals->contains($deal)) {
+            $this->deals->add($deal);
+            $deal->setFirstUserObjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeal(Deal $deal): self
+    {
+        if ($this->deals->removeElement($deal)) {
+            // set the owning side to null (unless already changed)
+            if ($deal->getFirstUserObjectId() === $this) {
+                $deal->setFirstUserObjectId(null);
+            }
+        }
 
         return $this;
     }
@@ -162,7 +195,7 @@ class Items
 
         return $this;
     }
-
+    
     public function __toString()
     {
         return $this->name;
