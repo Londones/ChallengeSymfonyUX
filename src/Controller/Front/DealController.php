@@ -91,7 +91,6 @@ class DealController extends AbstractController
                 $deal->setFirstUserObject(null); //first user object que le user 1 VEUT.
 
                 $deal->setSecondUserObject($item);
-                $deal->setFirstUserResponse(true);
                 $deal->setSecondeUserResponse(null);
                 $deal->setStatus("Crée");
 
@@ -121,27 +120,27 @@ class DealController extends AbstractController
                 if ($dealResponse = $dealRepository->findOneBy(['id' => $deal->getId()])) {
                     $firstUserObject =  $itemsRepository->findOneBy(['id' => $itemId]);
                     $dealResponse->setFirstUserObject($firstUserObject);
-                    $dealResponse->setSecondeUserResponse("true");
+                    $dealResponse->setSecondeUserResponse(true);
                 }
             }
         } else if ($response = $request->query->get('response')) {
             if ($response == "no" && $userNumber == 'first') {
-                $deal->setFirstUserResponse("false");
+                $deal->setFirstUserResponse(false);
                 $deal->setStatus("refusée");
             }
 
             if ($response == "yes" && $userNumber == 'first') {
-                $deal->setFirstUserResponse("true");
+                $deal->setFirstUserResponse(true);
                 $deal->setStatus("accepté");
             }
 
             if ($response == "no" && $userNumber == 'second') {
-                $deal->setSecondeUserResponse("false");
+                $deal->setSecondeUserResponse(false);
                 $deal->setStatus("refusée");
             }
 
             if ($response == "yes" && $userNumber == 'second') {
-                $deal->setSecondeUserResponse("true");
+                $deal->setSecondeUserResponse(true);
                 $deal->setStatus("accepté");
             }
 
