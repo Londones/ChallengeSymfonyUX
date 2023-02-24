@@ -7,10 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use App\Entity\Traits\TimestampableTrait;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ItemsRepository::class)]
-class Items
+#[Vich\Uploadable]
+class Items implements \Serializable
 {
+
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,22 +35,43 @@ class Items
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isVerified = null;
+    #[ORM\Column]
+    private ?bool $isVerified = false;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $owner = null;
 
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="users", fileNameProperty="image")
+     * @Ignore()
+     */
+    #[Vich\UploadableField(mapping: 'items_images', fileNameProperty: 'image')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
+        mimeTypesMessage: 'Fichier accepté : png / jpeg'
+    )]
+    private ?File $imageFile = null;
+
+
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
 
+    #[ORM\OneToMany(mappedBy: 'itemRequested', targetEntity: VerificationRequest::class)]
+    private Collection $verificationRequests;
     #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
     private Collection $deals;
 
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->verificationRequests = new ArrayCollection();
         $this->deals = new ArrayCollection();
     }
 
@@ -134,6 +165,24 @@ class Items
     }
 
     /**
+     * @return Collection<int, VerificationRequest>
+     */
+    public function getVerificationRequests(): Collection
+    {
+        return $this->verificationRequests;
+    }
+
+    public function addVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if (!$this->verificationRequests->contains($verificationRequest)) {
+            $this->verificationRequests->add($verificationRequest);
+            $verificationRequest->setItemRequested($this);
+        }
+        
+        return $this;
+    }
+     
+    /**
      * @return Collection<int, Deal>
      */
     public function getDeals(): Collection
@@ -161,5 +210,77 @@ class Items
         }
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+        ) = unserialize($serialized);
+    }
+
+    //* SETTERS AND GETTERS OF IMAGES 
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return Items
+     */
+    public function setImage(?string $image): Items
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param mixed $imageFile
+     * @return Items
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+     }
+
+    public function removeVerificationRequest(VerificationRequest $verificationRequest): self
+    {
+        if ($this->verificationRequests->removeElement($verificationRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($verificationRequest->getItemRequested() === $this) {
+                $verificationRequest->setItemRequested(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }

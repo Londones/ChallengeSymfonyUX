@@ -66,3 +66,4 @@ yarn-error.log
 /bin/phpunit
 
 public/images/users/*
+public/images/items/*

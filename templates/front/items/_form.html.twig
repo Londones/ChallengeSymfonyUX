@@ -16,24 +16,21 @@
         <div class="w-full px-3">
           <label class="block tracking-wide mb-2 text-gray-700">Description</label>
             {{ form_widget(form.description, {'attr': {'class': 'appearance-none block w-full border-indigo-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500', 'placeholder' : 'Description'}})}}
-          {# <textarea class="appearance-none block w-full border-indigo-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Description"></textarea> #}
         </div>
       </div>
-      <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
-        <div class="w-full px-3">
-          <label class="block tracking-wide mb-2 text-gray-700">Uploader une image</label>
-          <input class="shadow-inner shadow-indigo-300/50 block w-full rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" type="file" placeholder="Description" />
+       <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
+        <div class="px-3 md:mb-0 my-2 w-1/6">
+          <label class=" inline-block whitespace-nowrap tracking-wide mb-2 text-gray-700">Photo de profil</label>
+            {{ form_widget(form.imageFile, {'attr': {'class': 'shadow-inner shadow-indigo-300/50 block rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500'}} )}}
         </div>
       </div>
       <div class="flex flex-wrap -mx-3 md:mx-auto mb-2">
         <div class="w-full px-3 mb-6 md:mb-0">
           <label class="block tracking-wide mb-2 text-gray-700">Catégorie</label>
           <div class="relative">
-            <select class="block appearance-none w-full border-indigo-300 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700">
-            {% for categorie in categories %}
-              <option>{{categorie.name}}</option>
-            {% endfor %}
-            </select>
+            <div>
+                   {{ form_widget(form.category)}}
+            </div>
           </div>
         </div>
       </div>

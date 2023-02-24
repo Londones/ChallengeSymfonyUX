@@ -2,11 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+
 
 class ProfileType extends AbstractType
 {
@@ -14,7 +18,10 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password', null)
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'required' => false,
+            ])
             ->add('name')
             ->add('imageFile',VichImageType::class,
                 [
@@ -23,7 +30,14 @@ class ProfileType extends AbstractType
                     'delete_label' => 'Suppression de l\'image',
                     'download_label' => 'Télécharger l\'image',
                 ]
-            );
+            )
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'by_reference' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
