@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
 #[Vich\Uploadable]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface,  \Serializable
 {
     use TimestampableTrait;
 
@@ -374,14 +374,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function serialize()
     {
-        $this->image = base64_encode($this->image);
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
     }
 
     public function unserialize($serialized)
     {
-        $this->image = base64_decode($this->image);
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
     }
+    
 }
