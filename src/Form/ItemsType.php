@@ -24,7 +24,16 @@ class ItemsType extends AbstractType
                 'attr' => [
                     'class' => 'data-te-select-init multiple appearance-none w-full border-indigo-300 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-gray-700',
                 ],
-            ]);
+            ])
+            ->add('imageFile',VichImageType::class,
+                [
+                    'required' => false,
+                    'allow_delete' => true,
+                    'delete_label' => 'Suppression de l\'image',
+                    'download_label' => 'Télécharger l\'image',
+                ]
+            );
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

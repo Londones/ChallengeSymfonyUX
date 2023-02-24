@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ItemsRepository::class)]
+#[Vich\Uploadable]
 class Items
 {
     #[ORM\Id]
@@ -31,6 +37,24 @@ class Items
     #[ORM\ManyToOne(inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $owner = null;
+
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="users", fileNameProperty="image")
+     * @Ignore()
+     */
+    #[Vich\UploadableField(mapping: 'items_images', fileNameProperty: 'image')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
+        mimeTypesMessage: 'Fichier accepté : png / jpeg'
+    )]
+    private ?File $imageFile = null;
+
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'items')]
     private Collection $category;
