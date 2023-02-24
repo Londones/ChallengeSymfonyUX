@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande de vérification{% endblock %}
+
+{% block body %}
+    <h1 class="flex justify-center items-center">Demande de vérification de l'item {{ item_name }}</h1>
+    <br>
+    <div class="flex justify-center items-center">
+        <div class="block p-4 rounded-lg shadow-lg bg-white w-1/4">
+            <p class="text-center">Vous avez choisi de demander une vérification de l'item {{ item_name }}.</p>
+            <p class="text-center">Pour cela, veuillez remplir le formulaire ci-dessous.</p>
+            <p class="text-center">Une fois la demande envoyée, vous ne pourrez plus la modifier.</p>
+        </div>
+    </div>
+    <div class="flex justify-center items-center">
+        <div class="block p-4 rounded-lg shadow-lg bg-white w-1/4">
+            {{ form_start(form) }}
+            <div class="form-group mb-6">
+            <label for="message" class="form-label inline-block mb-2 text-gray-700">Message</label>
+                {{ form_widget(form.message) }}
+            </div>
+            <div class="form-group mb-6">
+            <label for="file" class="form-label inline-block mb-2 text-gray-700">File</label>
+                {{ form_widget(form.imageFile) }}
+            </div>
+            {{ form_widget(form.submit, { 'label': 'Valider' }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
