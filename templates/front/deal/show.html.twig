@@ -29,7 +29,7 @@
 
       <div class="flex justify-evenly">
         {% if deal %}
-          {% if deal.firstUser and deal.secondUser and deal.firstUserObject and deal.secondUserObject and app.user == deal.firstUser and not deal.firstUserResponse and deal.status == "Crée" %}
+          {% if deal.firstUser and deal.secondUser and deal.firstUserObject and deal.secondUserObject and app.user == deal.firstUser and not deal.firstUserResponse and deal.status == "Créée" %}
             <a href="{{ path('front_app_deal_edit', { id: deal.id, response: 'yes', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 text-white text-xs leading-tight uppercase rounded shadow-lg text-center bg-gradient-to-r from-green-500 to-green-400 hover:shadow-lg hover:shadow-green-500/50"><b>Accepter l'échange</b></a>
             <a href="{{ path('front_app_deal_edit', { id: deal.id, response: 'no', userId: app.user.id, user: 'first' }) }}" class="inline-flex items-center px-3 py-2 text-white text-xs leading-tight uppercase rounded shadow-lg font-medium text-center bg-gradient-to-r from-yellow-500 to-yellow-400 hover:shadow-lg hover:shadow-yellow-500/50"><b>Refuser l'échange</b></a>
           {% endif %}

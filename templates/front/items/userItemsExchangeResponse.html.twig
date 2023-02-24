@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-  <h3 class="flex justify-center font-medium leading-tight text-1xl mb-2 text-gray-800 ml-[9rem] w-1/2 mt-[3rem]">Objets de {{ firstUser.name }} pas déjà demandé en échange</h3>
+  <h3 class="flex justify-center font-medium leading-tight text-1xl mb-2 text-gray-800 ml-[9rem] w-1/2 mt-[3rem]">Objets de {{ firstUser.name }} disponibles</h3>
   <div class="flex justify-center flex-wrap mx-auto rounded-lg">
     {% if items %}
       {% for item in items %}
