@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Items;
 use App\Form\VerificationRequestType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 #[Route('/request')]
+#[Security("is_granted('edit')")]
 class VerificationRequestController extends AbstractController
 {
     #[Route('/', name: 'app_verification_request_index', methods: ['GET'])]
@@ -24,11 +26,11 @@ class VerificationRequestController extends AbstractController
         return $this->render('back/verification_request/index.html.twig', [
             'nav' => 'verification_request',
             'verification_requests' => $verificationRequestRepository->findAll(),
-        ]); //TODO: add restriction to only show requests for authentificator by voter
+        ]);
     }
 
     #[Route('/item/{id}', name: 'app_verification_request_new', methods: ['GET', 'POST'])]
-    public function createVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
+    public function createVerificationRequest(Items $item, ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
     {
         $user = $this->getUser();
         $id = $request->get('id');
@@ -61,9 +63,10 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/accept', name: 'app_verification_request_accept', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function acceptVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
-        $id = $request->get('id'); //TODO: add blameable
+        $id = $request->get('id');
         $verificationRequest = $doctrine->getRepository(VerificationRequest::class)->find($id);
         $verificationRequest->setStatus('Accepté');
         $verificationRequestRepository->save($verificationRequest, true);
@@ -79,6 +82,7 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/refuse', name: 'app_verification_request_refuse', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function refuseVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
         $id = $request->get('id'); //TODO: add blameable
@@ -97,6 +101,7 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/proof', name: 'app_verification_request_proof', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function getVerificationRequestImages(VerificationRequestRepository $verificationRequestRepository, ManagerRegistry $doctrine, Request $request): Response
     {
         $id = $request->get('id');
