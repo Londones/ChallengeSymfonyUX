@@ -17,10 +17,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 #[Route('/request')]
-#[Security("is_granted('edit')")]
 class VerificationRequestController extends AbstractController
 {
     #[Route('/', name: 'app_verification_request_index', methods: ['GET'])]
+    #[Security("is_granted('edit')")]
     public function getVerificationRequest(VerificationRequestRepository $verificationRequestRepository, Request $request, ManagerRegistry $doctrine): Response
     {
         return $this->render('back/verification_request/index.html.twig', [
@@ -35,6 +35,7 @@ class VerificationRequestController extends AbstractController
         $user = $this->getUser();
         $id = $request->get('id');
         $item = $doctrine->getRepository(Items::class)->find($id);
+        // $this->denyAccessUnlessGranted('create', $item);
         $itemName = $item->getName();
         $verificationRequest = new VerificationRequest();
         $verificationRequest->setRequestedBy($user);
@@ -85,7 +86,7 @@ class VerificationRequestController extends AbstractController
     #[Security("is_granted('edit')")]
     public function refuseVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
-        $id = $request->get('id'); //TODO: add blameable
+        $id = $request->get('id');
         $verificationRequest = $doctrine->getRepository(VerificationRequest::class)->find($id);
         $verificationRequest->setStatus('Refusé');
         $verificationRequestRepository->save($verificationRequest, true);
