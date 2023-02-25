@@ -89,7 +89,7 @@
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                                <!-- Button trigger modal -->
-                                                                <a type="button" data-id="{{ verification_request.id }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
+                                                                <a type="button" data-id="{{ verification_request.id|escape('js') }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
                                                                 <i class="fa-solid fa-images"></i>
                                                                 </a>
                                                             </td>
@@ -122,26 +122,7 @@
 {% endblock %}
 
 {% block customjs %}
-
-<script>
-    $(document).ready(function(){
-        let modal = document.getElementById("image-modal");
-        modal.addEventListener("show.te.modal", function(event) {
-            // call Ajax
-            let id = event.relatedTarget.getAttribute("data-id");
-            console.log(id);
-            let url = '{{ path('front_app_verification_request_proof', {'id': '__ID__'}) }}'.replace('__ID__', id);
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function(data) {
-                    $("#modal-body").html(data);
-            }
-            });
-        });
-    });
-</script>
-
+    {{ encore_entry_script_tags('back_verification_request') }}
 {% endblock %}
 
 

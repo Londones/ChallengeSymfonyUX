@@ -4,22 +4,31 @@
     </a>
     <div class="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
         <nav class="flex flex-col mx-4 my-6 space-y-4">
-            <a href="{{ path('back_app_user_index') }}" {% if nav == 'user' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
-            <span class="sr-only">Gestion d'utilisateurs</span>
-            <i class="fa-regular fa-user"></i>
-            </a>
-            <a href="{{ path('back_app_category_index') }}" {% if nav == 'category' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
-            <span class="sr-only">Gestion de catégories</span>
-            <i class="fa-solid fa-icons"></i>
-            </a>
-            <a href="#" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
-            <span class="sr-only">Gestion d'échange</span>
-            <i class="fa-solid fa-arrow-right-arrow-left"></i>
-            </a>
-            <a href="{{ path('front_app_verification_request_index') }}" {% if nav == 'verification_request' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
-            <span class="sr-only">Gestion de badge</span>
-            <i class="fa-solid fa-certificate"></i> {# TODO: restrict access #}
-            </a>
+            {% if app.user %}
+                {% if "ROLE_ADMIN" in app.user.roles %}
+                    <a href="{{ path('back_app_user_index') }}" {% if nav == 'user' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
+                    <span class="sr-only">Gestion d'utilisateurs</span>
+                    <i class="fa-regular fa-user"></i>
+                    </a>
+                    <a href="{{ path('back_app_category_index') }}" {% if nav == 'category' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
+                    <span class="sr-only">Gestion de catégories</span>
+                    <i class="fa-solid fa-icons"></i>
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+                    <span class="sr-only">Gestion d'échange</span>
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </a>
+                    <a href="{{ path('front_app_verification_request_index') }}" {% if nav == 'verification_request' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
+                    <span class="sr-only">Gestion de badge</span>
+                    <i class="fa-solid fa-certificate"></i>
+                    </a>
+                {% elseif "ROLE_AUTHENTIFICATOR" in app.user.roles %}
+                    <a href="{{ path('front_app_verification_request_index') }}" {% if nav == 'verification_request' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
+                    <span class="sr-only">Gestion de badge</span>
+                    <i class="fa-solid fa-certificate"></i>
+                    </a>
+                {% endif %}
+            {% endif %}
         </nav>
         <div class="inline-flex items-center justify-center h-20 w-20 border-t border-gray-700">
             <button class="p-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">

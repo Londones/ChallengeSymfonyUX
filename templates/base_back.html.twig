@@ -14,12 +14,6 @@
         {% endblock %}
     </head>
     <body>
-        {#temporary#}
-        <a href="{{ path('front_home_index') }}">Home</a>
-        <a href="{{ path('back_app_user_index') }}">Admin</a>
-        <a href="{{ path('front_app_login') }}">Login</a>
-        <a href="{{ path('front_app_register') }}">Register</a>
-        <a href="{{ path('front_app_logout') }}">Logout</a>
         {% block body %}
             <div class="flex bg-gray-100 min-h-screen">
                 {% block sidebar %}{% endblock %}
