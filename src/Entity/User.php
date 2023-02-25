@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
 #[Vich\Uploadable]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface,  \Serializable
 {
     use TimestampableTrait;
 
@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'swipper', targetEntity: Swipe::class)]
     private Collection $swipes;
 
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Matches::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Matches::class)]
     private Collection $matches;
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Items::class)]
@@ -89,9 +89,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
     private Collection $messages;
 
-
-    #[ORM\OneToMany(mappedBy: 'firstUserId', targetEntity: Deal::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUser', targetEntity: Deal::class)]
     private Collection $deals;
+
     #[ORM\OneToMany(mappedBy: 'favSender', targetEntity: Favorite::class, orphanRemoval: true)]
     private Collection $favorites;
 
@@ -441,12 +441,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function serialize()
     {
-        $this->image = base64_encode($this->image);
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
     }
 
     public function unserialize($serialized)
     {
-        $this->image = base64_decode($this->image);
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
     }
     
     public function removeMessage(Message $message): self

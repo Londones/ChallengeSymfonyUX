@@ -82,22 +82,23 @@ class Mailing
         }
     }
 
-    
+
     //*envoyer le mail
     static function sendEmailResetPassword(string $email, string $resetPasswordToken)
     {
+
         $config = Mailing::config();
+
 
         $apiInstance = new TransactionalEmailsApi(
             new Client(),
             $config
         );
 
-
         $sendSmtpEmail = new SendSmtpEmail();
         $sendSmtpEmail['to'] = array(array('email' => $email));
         $sendSmtpEmail['templateId'] = 6;
-        $sendSmtpEmail['params'] = array('LIEN_RECUPERATION' => 'https://localhost/reset-password/reset/'.$resetPasswordToken);
+        $sendSmtpEmail['params'] = array('LIEN_RECUPERATION' => 'https://localhost/reset-password/reset/' . $resetPasswordToken);
         // $sendSmtpEmail['headers'] = array('X-Mailin-custom' => 'custom_header_1:custom_value_1|custom_header_2:custom_value_2');
 
         try {
@@ -107,5 +108,4 @@ class Mailing
             echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
         }
     }
-
 }

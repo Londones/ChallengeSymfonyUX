@@ -55,9 +55,12 @@ class ItemsController extends AbstractController
     #[Route('/{id}', name: 'app_items_show', methods: ['GET'])]
     public function show(Items $item): Response
     {
-        $user = $this->getUser();
+        $connectedUser = $this->getUser();
+        if($item->getOwner() != $connectedUser){
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('front/items/show.html.twig', [
-            'user' => $user,
             'item' => $item,
         ]);
     }
@@ -65,9 +68,14 @@ class ItemsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_items_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Items $item, ItemsRepository $itemsRepository, CategoryRepository $categoryRepository): Response
     {
+        $connectedUser = $this->getUser();
+        if($item->getOwner() != $connectedUser){
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(ItemsType::class, $item);
         $form->handleRequest($request);
-        $user = $this->getUser();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $itemsRepository->save($item, true);
 
@@ -75,7 +83,6 @@ class ItemsController extends AbstractController
         }
 
         return $this->renderForm('front/items/edit.html.twig', [
-            'user' => $user,
             'item' => $item,
             'form' => $form,
             'categories' => $categoryRepository->findAll()
@@ -85,6 +92,11 @@ class ItemsController extends AbstractController
     #[Route('/{id}', name: 'app_items_delete', methods: ['POST'])]
     public function delete(Request $request, Items $item, ItemsRepository $itemsRepository): Response
     {
+        $connectedUser = $this->getUser();
+        if($item->getOwner() != $connectedUser){
+            return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete' . $item->getId(), $request->request->get('_token'))) {
             $itemsRepository->remove($item, true);
         }
@@ -106,7 +118,7 @@ class ItemsController extends AbstractController
             for ($i = 0; $i < count($items); $i++) {
                 if ($dealItem = $dealRepository->findOneBy(['secondUserObject' => $items[$i]->getId()])) {
                     if ($dealItem->getFirstUser() && $dealItem->getSecondUser()) {
-                        if ($foundDeal = $dealRepository->findBy(['secondUserObject' => $items[$i]->getId(), 'firstUser' => $connecterUser->getId(), 'secondUser' => $user->getId()])) {
+                        if ($foundDeal = $dealRepository->findBy(['secondUserObject' => $items[$i]->getId(), 'firstUser' => $connecterUser->getId(), 'secondUser' => $secondeUser->getId()])) {
                             array_push($alreadyExist, $foundDeal);
                         } else {
                             array_push($notAlreadyExist, $items[$i]);
@@ -131,12 +143,20 @@ class ItemsController extends AbstractController
 
         $deal = $request->query->get('deal');
         $connecterUser = $this->getUser();
+        $itemsTemp = [];
 
         if ($firstUser) {
             $items =  $firstUser->getItems();
+            for($i = 0; $i < count($items); $i++) {
+                $dealOfItem = $dealRepository->findOneBy(['firstUserObject' => $items[$i]->getId(), 'status' => array("Crée","Acceptée") ]);
+                if (! $dealOfItem) {
+                    array_push($itemsTemp, $items[$i]);
+                }
+            }
+            
 
             return $this->render('front/items/userItemsExchangeResponse.html.twig', [
-                'items' => $items,
+                'items' => $itemsTemp,
                 'firstUser' => $firstUser,
                 'deal' => $deal,
             ]);
