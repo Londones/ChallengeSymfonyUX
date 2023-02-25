@@ -4,6 +4,7 @@ const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-message-button");
 const messageList = document.getElementById("message-list");
 const isEmpty = document.getElementById("empty");
+const anchor = document.getElementById("anchor");
 
 const sendMessage = (event) => {
     event.preventDefault()
@@ -41,18 +42,18 @@ eventSource.onmessage = (event) => {
     if (isEmpty) isEmpty.style.display = "none"
 
     if (user.id === connectedUserId) {
-        messageList.insertAdjacentHTML("beforeend", `
+        anchor.insertAdjacentHTML("beforebegin",`
             <div class="self flex flex-col items-end">
-                <div class="border-violet-700 border-2 p-4 mb-4 mr-4 rounded-3xl">
+                <div class="border-violet-700 bg-white border-2 p-4 my-2 mr-4 rounded-3xl">
                     <p class="message-content mb-2">${content}</p>
                     <p class="message-date text-xs">${formatDate(messageDate)}</p>
                 </div>
             </div>
         `)
     } else {
-        messageList.insertAdjacentHTML("beforeend", `
+        anchor.insertAdjacentHTML("beforebegin", `
             <div class="other flex flex-col items-start">
-                <div class="bg-violet-700 text-white p-4 mb-4 ml-4 rounded-3xl">
+                <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-4 my-2 ml-4 rounded-3xl">
                     <p class="message-content mb-2">${content}</p>
                     <p class="message-date text-xs">${formatDate(messageDate)}</p>
                 </div>

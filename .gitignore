@@ -67,3 +67,5 @@ yarn-error.log
 
 public/images/users/*
 public/images/items/*
+public/images/proofs/*
+

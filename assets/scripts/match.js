@@ -10,6 +10,8 @@ const tagsClass = [ 'h-10', 'px-6', 'font-semibold', 'bg-white/40', 'backdrop-bl
 const like = document.querySelector('.like');
 const pass = document.querySelector('.pass');
 const fav = document.querySelector('.fav');
+const noSwipe = document.createElement('div');
+noSwipe.innerHTML = "Il n'y a plus personne à swiper ! &#129313;";
 
 const isTouchDevice = () => {
     return (('ontouchstart' in window) ||
@@ -204,7 +206,16 @@ const nextUser = () => {
     fetch("/swipe/next")
     .then((response) => response.json())
     .then((data) => {
-        const { user } = data
+        const { user } = data;
+
+        if (user === null) {
+            document.querySelector('.wrap').style.display = 'none';
+            document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.mw').appendChild(noSwipe);
+            return;
+        }
+
+        checkDisplay();
         userIdToSwipe = user.id
 
         updateUser(
@@ -220,6 +231,16 @@ const nextUser = () => {
             user.categories
         )
     })
+}
+
+const checkDisplay = () => {
+    const display = document.querySelector('.wrap');
+    const buttons = document.querySelector('.buttons');
+    if(display.style.display === 'none'){
+        display.style.display = 'flex';
+        buttons.style.display = 'flex';
+        display.removeChild(noSwipe);
+    }
 }
 
 nextUser();

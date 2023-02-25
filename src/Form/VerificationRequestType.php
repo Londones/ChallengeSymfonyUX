@@ -4,29 +4,48 @@ namespace App\Form;
 
 use App\Entity\VerificationRequest;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 class VerificationRequestType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
             ->add('message', TextareaType::class, [
                 'required' => false,
-                'label' => 'Message',
                 'attr' => [
                     'class' => 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-purple-600 focus:outline-none',
                 ]
             ])
-            ->add('imageFile', VichImageType::class, [
-                'required' => true,
-                'attr' => [
-                    'class' => 'relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out',
+            ->add('attachProofs', FileType::class, [
+                'multiple' => true,
+                'required' => false,
+                'constraints' => [
+                    new Assert\Count([
+                        'min' => 1,
+                        'minMessage' => 'Vous devez envoyer au moins 1 fichier.',
+                        'max' => 2,
+                        'maxMessage' => 'Vous ne pouvez pas envoyer plus de 2 fichiers.',
+                    ]),
+                    new All([
+                        'constraints' => [ 
+                            new File([
+                                'maxSize' => '2M',
+                                'mimeTypesMessage' => 'Format accepté : png / jpeg.',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpeg',
+                                ]
+                            ]),
+                        ],
+                    ]),
                 ],
             ])
             ->add('submit', SubmitType::class, [

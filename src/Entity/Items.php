@@ -65,7 +65,7 @@ class Items implements \Serializable
 
     #[ORM\OneToMany(mappedBy: 'itemRequested', targetEntity: VerificationRequest::class)]
     private Collection $verificationRequests;
-    #[ORM\OneToMany(mappedBy: 'firstUserObjectId', targetEntity: Deal::class)]
+    #[ORM\OneToMany(mappedBy: 'firstUserObject', targetEntity: Deal::class)]
     private Collection $deals;
 
     public function __construct()
