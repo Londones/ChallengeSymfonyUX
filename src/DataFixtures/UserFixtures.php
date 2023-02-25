@@ -43,8 +43,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $user = new User;
-        $user->setName("userAdmin");
-        $user->setEmail("userAdmin@gmail.com");
+        $user->setName("admin");
+        $user->setEmail("admin@gmail.com");
         $user->setPassword(
             $this->userPasswordHasherInterface->hashPassword(
                 $user, $_ENV['ADMIN_PASSWORD']
