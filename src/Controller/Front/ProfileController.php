@@ -73,6 +73,7 @@ class ProfileController extends AbstractController
         if ($user) {
             return $this->render('front/profil/show_public.html.twig', [
                 'user' => $user,
+                'items' => $user->getItems(),
             ]);
         }
     }

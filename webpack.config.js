@@ -31,6 +31,8 @@ Encore
     .addEntry('match', './assets/scripts/match.js')
     .addEntry('chat', './assets/scripts/chat.js')
     .addEntry('favorite', './assets/scripts/favorite.js')
+    .addEntry('back_verification_request', './assets/scripts/back_verification_request.js')
+    .addEntry('verification_request', './assets/scripts/verification_request.js')
 
     .copyFiles({
         from: './assets/images',

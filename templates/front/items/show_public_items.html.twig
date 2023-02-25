@@ -1,0 +1,29 @@
+{% block title %}
+
+{% endblock %}
+
+{% block body %} 
+<div class="flex justify-center flex-wrap">
+  {% for item in items %}
+      <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-4 mb-4">
+        {% if item.image %}
+          <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ item.name }}" />
+          {% else %}
+        <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" rel="item-picture" />
+        {% endif %}
+        <div class="p-6 mt-6">
+          <h5 class="text-gray-900 text-xl font-medium mb-2">{{ item.name }}</h5>
+          <div style="width:fit-content" class="text-sm px-3 bg-green-200 text-blue-800 rounded-full capitalize">{{ item.status }}</div>
+          {% if item.isVerified == 1 %}
+            <div style="width:fit-content" class="mt-1 text-sm px-3 bg-pink-200 text-pink-800 rounded-full">Certifié</div>
+          {% endif %}
+
+          <p class="text-gray-700 text-base my-4">{{ item.description }}</p>
+          {% for category in item.category %}
+            <div style="width:fit-content" class="text-sm px-3 bg-indigo-200 text-indigo-800 rounded-full mt-2">{{ category.name }}</div>
+          {% endfor %}
+        </div>
+      </div>
+{% endfor %}
+</div>
+{% endblock %}

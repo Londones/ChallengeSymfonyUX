@@ -1,12 +1,29 @@
-# Symfony Docker (PHP8 / Caddy / Postgresql)
+# MatchNCollect
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
+Projet de la challenge stack semestriel ESGI
 
-## Getting Started
+### Membre de l'équipe :
+- Alicia Saci (AliciaSaci)
+- Awa Bah (Londones)
+- Mai Thi Tran Diep (maithi-trandiep)
+- Lucas Campistron (Redeltaz)
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up` (the logs will be displayed in the current shell) or Run `docker compose up -d` to run in background 
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
-6. Run `docker compose logs -f` to display current logs, `docker compose logs -f [CONTAINER_NAME]` to display specific container's current logs 
+## Contribuer
+
+Pour contribuer au projet vous devrez d'abord le cloner, ensuite switchez sur une branche.
+
+Une fois cloné, vous pourrez lancer le projet :
+```
+docker-compose up --build -d
+```
+
+Vous pouvez ensuite jouer créer la base de donnée et jouer les migrations :
+```
+docker-compose exec php php bin/console doctrine:database:create
+docker-compose exec php php bin/console doctrine:migration:migrate
+```
+
+Et ensuite build le projet pour avoir le style et le javascript :
+```
+npm run watch
+```
