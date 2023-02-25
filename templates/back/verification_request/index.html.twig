@@ -70,7 +70,7 @@
                                                                 {{ verification_request.requestedBy }}
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.itemRequested }}
+                                                                {{ verification_request.itemRequested }}  (ID : {{ verification_request.itemRequested.id }})
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                                 {{ verification_request.message }}
@@ -86,7 +86,7 @@
                                                                     </span>
                                                                 {% else %}
                                                                     <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700">
-                                                                        Annulé
+                                                                        Refusé
                                                                     </span>
                                                                 {% endif %}
                                                             </td>
@@ -97,7 +97,7 @@
                                                                 </a>
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {% if verification_request.status == "Accepté" or verification_request.status == "Annulé" %}
+                                                                {% if verification_request.status == "Accepté" or verification_request.status == "Refusé" %}
                                                                     {{ verification_request.updatedBy }}
                                                                 {% else %}
                                                                     Non renseigné
@@ -108,7 +108,7 @@
                                                                     Valider
                                                                 </a>
                                                                 <a type="button" href="{{ path('front_app_verification_request_refuse', {id: verification_request.id}) }}" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
-                                                                   Annuler
+                                                                   Refuser
                                                                 </a>
                                                             </td>
                                                             </tr>
@@ -121,7 +121,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Modal -->
                         {% include 'back/verification_request/modal.html.twig' %}
                     </section>

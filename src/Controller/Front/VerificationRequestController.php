@@ -35,6 +35,14 @@ class VerificationRequestController extends AbstractController
         $user = $this->getUser();
         $id = $request->get('id');
         $item = $doctrine->getRepository(Items::class)->find($id);
+        if ($verificationRequestRepository->findOneBy(['itemRequested' => $item])) {
+            $itemRequest = $verificationRequestRepository->findOneBy(['itemRequested' => $item])->getStatus();
+            if ($itemRequest == 'En cours' || $itemRequest == 'Refusé') {
+                $session = new Session();
+                $session->getFlashBag()->add('error_create_request', "Une demande de certifier l'item " .$item->getName() ." est déjà en cours.");
+                return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
+            }
+        };
         // $this->denyAccessUnlessGranted('create', $item);
         $itemName = $item->getName();
         $verificationRequest = new VerificationRequest();
@@ -87,6 +95,7 @@ class VerificationRequestController extends AbstractController
     public function refuseVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
         $id = $request->get('id');
+       
         $verificationRequest = $doctrine->getRepository(VerificationRequest::class)->find($id);
         $verificationRequest->setStatus('Refusé');
         $verificationRequestRepository->save($verificationRequest, true);
