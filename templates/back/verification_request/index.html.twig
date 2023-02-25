@@ -89,129 +89,9 @@
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                                <!-- Button trigger modal -->
-                                                                <button type="button" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
+                                                                <a type="button" data-id="{{ verification_request.id }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
                                                                 <i class="fa-solid fa-images"></i>
-                                                                </button>
-
-                                                                <!-- Modal -->
-                                                                <div data-te-modal-init class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none" id="image-modal" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-modal="true" role="dialog">
-                                                                    <div data-te-modal-dialog-ref class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px]">
-                                                                        <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none">
-                                                                        <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4">
-                                                                            <h5 class="text-xl font-medium leading-normal text-neutral-800" id="exampleModalXlLabel">
-                                                                            Image de preuves
-                                                                            </h5>
-                                                                            <button type="button" class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none" data-te-modal-dismiss aria-label="Close">
-                                                                                <svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke-width="1.5"
-                                                                                    stroke="currentColor"
-                                                                                    class="h-6 w-6">
-                                                                                    <path
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    d="M6 18L18 6M6 6l12 12" />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="relative p-4" id="modal-body">
-                                                                            <!-- Carousel -->
-                                                                            <div id="image-carousel" class="relative" data-te-carousel-init data-te-carousel-slide>
-                                                                                <div
-                                                                                    class="absolute right-0 bottom-0 left-0 z-[2] mx-[15%] mb-4 flex list-none justify-center p-0"
-                                                                                    data-te-carousel-indicators>
-                                                                                    <button
-                                                                                    type="button"
-                                                                                    data-te-target="#carouselExampleCaptions"
-                                                                                    data-te-slide-to="0"
-                                                                                    data-te-carousel-active
-                                                                                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                                                                                    aria-current="true"
-                                                                                    aria-label="Slide 1"></button>
-                                                                                    <button
-                                                                                    type="button"
-                                                                                    data-te-target="#carouselExampleCaptions"
-                                                                                    data-te-slide-to="1"
-                                                                                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                                                                                    aria-label="Slide 2"></button>
-                                                                                </div>
-                                                                                <!-- Carousel image items here -->
-                                                                                <div
-                                                                                    class="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
-                                                                                    <div
-                                                                                    class="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                                                                                    data-te-carousel-active
-                                                                                    data-te-carousel-item
-                                                                                    style="backface-visibility: hidden">
-                                                                                    {% if verification_request.image %}
-                                                                                        <img src="{{ vich_uploader_asset(verification_request, 'imageFile') }}" alt="{{ verification_request.itemRequested.name }}" class="object-contain" />
-                                                                                    {% endif %}
-                                                                                    </div>
-                                                                                    <div
-                                                                                    class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                                                                                    data-te-carousel-item
-                                                                                    style="backface-visibility: hidden">
-                                                                                    <img
-                                                                                        src="https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg"
-                                                                                        class="block w-full"
-                                                                                        alt="..." />
-                                                                                </div>
-                                                                            </div>
-                                                                            <button
-                                                                                class="absolute top-0 bottom-0 left-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                                                                                type="button"
-                                                                                data-te-target="#image-carousel"
-                                                                                data-te-slide="prev">
-                                                                                <span class="inline-block h-8 w-8">
-                                                                                <svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke-width="1.5"
-                                                                                    stroke="currentColor"
-                                                                                    class="h-6 w-6">
-                                                                                    <path
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    d="M15.75 19.5L8.25 12l7.5-7.5" />
-                                                                                </svg>
-                                                                                </span>
-                                                                                <span
-                                                                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                                                                >Previous</span
-                                                                                >
-                                                                            </button>
-                                                                            <button
-                                                                                class="absolute top-0 bottom-0 right-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                                                                                type="button"
-                                                                                data-te-target="#image-carousel"
-                                                                                data-te-slide="next">
-                                                                                <span class="inline-block h-8 w-8">
-                                                                                <svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke-width="1.5"
-                                                                                    stroke="currentColor"
-                                                                                    class="h-6 w-6">
-                                                                                    <path
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                                                                </svg>
-                                                                                </span>
-                                                                                <span
-                                                                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                                                                >Next</span
-                                                                                >
-                                                                            </button>
-                                                                            </div>
-                                                                        </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                </a>
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                                 <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
@@ -230,12 +110,38 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>          
+                        </div>
+
+                        <!-- Modal -->
+                        {% include 'back/verification_request/modal.html.twig' %}
                     </section>
                 </main>
             {% endblock %}
         </div>
     </div>
+{% endblock %}
+
+{% block customjs %}
+
+<script>
+    $(document).ready(function(){
+        let modal = document.getElementById("image-modal");
+        modal.addEventListener("show.te.modal", function(event) {
+            // call Ajax
+            let id = event.relatedTarget.getAttribute("data-id");
+            console.log(id);
+            let url = '{{ path('front_app_verification_request_proof', {'id': '__ID__'}) }}'.replace('__ID__', id);
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    $("#modal-body").html(data);
+            }
+            });
+        });
+    });
+</script>
+
 {% endblock %}
 
 

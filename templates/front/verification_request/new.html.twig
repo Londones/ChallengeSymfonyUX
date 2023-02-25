@@ -20,8 +20,9 @@
                 {{ form_widget(form.message) }}
             </div>
             <div class="form-group mb-6">
-            <label for="file" class="form-label inline-block mb-2 text-gray-700">File</label>
-                {{ form_widget(form.imageFile) }}
+            <label for="file" class="form-label inline-block mb-2 text-gray-700">File</label>          
+                {{ form_widget(form.attachProofs) }}
+                {{ form_errors(form.attachProofs) }}          
             </div>
             {{ form_widget(form.submit, { 'label': 'Valider' }) }}
             {{ form_end(form) }}
