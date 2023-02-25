@@ -21,6 +21,7 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, VerifyEmailHelperInterface $verifyEmailHelper): Response
     {
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -34,7 +35,8 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            //!assigner le rôle qu'on veut
+            $user->setRoles(["ROLE_USER"]);
+
             //*persist and flush
             $entityManager->persist($user);
             $entityManager->flush();
@@ -62,13 +64,9 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/verify", name="app_verify_email")
-     */
     #[Route('/verify', name: 'app_verify_email')]
     public function verifyUserEmail(EntityManagerInterface $entityManager, Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository)
     {
-
         $user = $userRepository->find($request->query->get('id'));
         if (!$user) {
             throw $this->createNotFoundException();
