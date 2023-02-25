@@ -29,7 +29,12 @@
             {% if app.user %}
               {% if "ROLE_ADMIN" in app.user.roles %}
               <li class="nav-item p-2">
-                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('back_app_user_index') }}">Admin</a>
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('back_app_admin_index') }}">Admin</a>
+              </li>
+              {% endif %}
+              {% if "ROLE_AUTHENTIFICATOR" in app.user.roles %}
+              <li class="nav-item p-2">
+                  <a class="nav-link text-gray-900 hover:text-gray-700" href="{{ path('front_app_verification_request_index') }}">Demande de vérification</a>
               </li>
               {% endif %}
               <li class="nav-item p-2">
@@ -68,7 +73,11 @@
     {% include 'front/_message.html.twig' %}
 
     {% block body %}
+    {% endblock %}
+
+    {% block customjs %}
 
     {% endblock %}
+
   </body>
 </html>

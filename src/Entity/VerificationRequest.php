@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\VerificationRequestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\TimestampableTrait;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 #[ORM\Entity(repositoryClass: VerificationRequestRepository::class)]
-#[Vich\Uploadable]
 class VerificationRequest
 {
     use TimestampableTrait;
@@ -34,17 +34,13 @@ class VerificationRequest
     #[ORM\Column(length: 255)]
     private ?string $status = "En cours";
 
-    #[Vich\UploadableField(mapping: 'proofs_images', fileNameProperty: 'image')]
-    #[Assert\Image(
-        maxSize: '2M',
-        mimeTypes: ['image/png', 'image/jpeg'],
-        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
-        mimeTypesMessage: 'Format accepté : png / jpeg'
-    )]
-    private ?File $imageFile = null;
+    #[ORM\OneToMany(mappedBy: 'request', targetEntity: Proof::class)]
+    private Collection $proofs;
 
-    #[ORM\Column(nullable: true)]
-    private ?string $image = null;
+    public function __construct()
+    {
+        $this->proofs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,31 +83,6 @@ class VerificationRequest
         return $this;
     }
 
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTime();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function setImage(?string $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
 
     public function getMessage(): ?string
     {
@@ -125,5 +96,58 @@ class VerificationRequest
         return $this;
     }
 
-    
+    /**
+     * @return Collection<int, Proof>
+     */
+
+    public function getAttachProofs()
+    {
+        return $this->proofs;
+    }
+
+    public function setAttachProofs(array $files=array())
+    {
+        if (!$files) return [];
+        foreach ($files as $file) {
+            if (!$file) return [];
+            $this->attachProof($file);
+        }
+        return [];
+    }
+
+    public function attachProof(UploadedFile $file=null)
+    {
+        if (!$file) {
+            return;
+        }
+        $proof = new Proof();
+        $proof->setImageFile($file);
+        $this->addProof($proof);
+    }
+    public function getProofs(): Collection
+    {
+        return $this->proofs;
+    }
+
+    public function addProof(Proof $proof): self
+    {
+        if (!$this->proofs->contains($proof)) {
+            $this->proofs->add($proof);
+            $proof->setRequest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProof(Proof $proof): self
+    {
+        if ($this->proofs->removeElement($proof)) {
+            // set the owning side to null (unless already changed)
+            if ($proof->getRequest() === $this) {
+                $proof->setRequest(null);
+            }
+        }
+
+        return $this;
+    }
 }

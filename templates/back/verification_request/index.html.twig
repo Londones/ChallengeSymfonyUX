@@ -88,8 +88,10 @@
                                                                 {% endif %}
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {# {{ verification_request.image }} #}
-
+                                                               <!-- Button trigger modal -->
+                                                                <a type="button" data-id="{{ verification_request.id|escape('js') }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
+                                                                <i class="fa-solid fa-images"></i>
+                                                                </a>
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                                 <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
@@ -108,12 +110,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
+
+                        <!-- Modal -->
+                        {% include 'back/verification_request/modal.html.twig' %}
                     </section>
                 </main>
             {% endblock %}
         </div>
     </div>
+{% endblock %}
+
+{% block customjs %}
+    {{ encore_entry_script_tags('back_verification_request') }}
 {% endblock %}
 
 
