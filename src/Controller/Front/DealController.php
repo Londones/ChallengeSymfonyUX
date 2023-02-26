@@ -132,6 +132,14 @@ class DealController extends AbstractController
             if ($response == "yes" && $userNumber == 'first') {
                 $deal->setFirstUserResponse(true);
                 $deal->setStatus("accepté");
+                if ($deal->getFirstUserObject()) {
+                    $itemOne = $itemsRepository->findOneBy(['id' => $deal->getFirstUserObject()->getId()]);
+                    $itemOne->setStatus("indisponible");
+                }
+                if ($deal->getSecondUserObject()) {
+                    $itemTwo = $itemsRepository->findOneBy(['id' => $deal->getSecondUserObject()->getId()]);
+                    $itemTwo->setStatus("indisponible");
+                }
             }
 
             if ($response == "no" && $userNumber == 'second') {
@@ -146,7 +154,6 @@ class DealController extends AbstractController
 
             $firstUserResponse = $deal->isFirstUserResponse();
             $secondUserResponse = $deal->isFirstUserResponse();
-
         }
 
         $dealRepository->save($deal, true);

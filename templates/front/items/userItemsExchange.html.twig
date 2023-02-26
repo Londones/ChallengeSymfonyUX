@@ -6,11 +6,14 @@
 
 {% block body %}
   <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-gray-800 ml-[9rem] mt-[2rem] underline">Objet de {{ user.name }}</h3>
-  <div class="flex justify-center flex-wrap bg-indigo-800 w-1/2 mx-auto rounded-lg" >
+  <div class="flex justify-center flex-wrap bg-indigo-800 w-1/2 mx-auto rounded-lg">
     {% if items %}
       {% for item in items %}
         <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-4 mb-4">
-          <a href="#!"><img class="rounded-t-lg" src="https://images.unsplash.com/photo-1621568670868-24a7dfc590e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80" alt="" /></a>
+          {% if item.image %}
+            <img src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ item.name }}" />
+          {% endif %}
+
           <div class="p-6">
             <h5 class="text-gray-900 text-xl font-medium mb-2 underline">{{ item.name }}</h5>
             <div style="width:fit-content" class="text-sm px-3 bg-blue-200 text-blue-800 rounded-full">{{ item.status }}</div>

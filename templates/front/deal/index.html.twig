@@ -16,9 +16,9 @@
             <b>{{ receivedExchange.firstUser.name }}</b> a demandé un échange contre votre objet <b>{{ receivedExchange.secondUserObject.name }}</b>. Explorez ses objet pour faire une contre proposition d'échange.
           </p>
           <span class="text-xs font-normal py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ receivedExchange.status }}</span>
-          <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
+          {# <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
             <b>Statut de la demande</b>: {{ receivedExchange.secondeUserResponse ? '' : '' }}
-          </p>
+          </p> #}
 
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
             <b>Demande envoyé par</b>: <a class="underline" href="{{ path('front_profil_user', { id: receivedExchange.firstUser.id, deal: receivedExchange.id }) }}">{{ receivedExchange.firstUser.email }}</a>
@@ -77,9 +77,6 @@
         <div class="w-1/2 p-6 bg-white rounded-lg shadow dark:bg-white dark:border-gray-700 shadow-lg shadow-indigo-500/50" style="margin:auto; margin-bottom:1rem">
           <a href="#"><h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-700">Demande d'échange pour l'objet {{ sentExchange.secondUserObject.name }}</h5></a>
           <span class="text-xs font-normal py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">Statut actul de la demande : {{ sentExchange.status }}</span>
-          <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
-            <b>Réponse de {{ sentExchange.secondUser.name }}</b> : {{ sentExchange.secondeUserResponse ? '' : '' }}
-          </p>
           <p class="mb-1 font-normal text-gray-300 dark:text-gray-900">
             <b>Demande envoyé à</b>: <a class="underline" href="{{ path('front_profil_user', { id: sentExchange.secondUser.id, deal: sentExchange.id }) }}">{{ sentExchange.secondUser.email }}</a>
           </p>
