@@ -14,7 +14,7 @@
                     <span class="sr-only">Gestion de catégories</span>
                     <i class="fa-solid fa-icons"></i>
                     </a>
-                    <a href="#" class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+                    <a href="{{ path('back_app_deal_index') }}" {% if nav == 'deal' %} aria-current="page" class="text-purple-600 bg-white rounded-lg inline-flex items-center justify-center py-3" {% else %} class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg" {% endif %}>
                     <span class="sr-only">Gestion d'échange</span>
                     <i class="fa-solid fa-arrow-right-arrow-left"></i>
                     </a>
