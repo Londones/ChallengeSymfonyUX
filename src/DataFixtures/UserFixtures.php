@@ -55,6 +55,19 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($user);
 
+        $user = new User;
+        $user->setName("authentificator");
+        $user->setEmail("auth@gmail.com");
+        $user->setPassword(
+            $this->userPasswordHasherInterface->hashPassword(
+                $user, $_ENV['AUTH_PASSWORD']
+            )
+        );
+        $user->setIsEmailVerified(true);
+        $user->setRoles(["ROLE_AUTHENTIFICATOR"]);
+
+        $manager->persist($user);
+
         $manager->flush();
     }
 

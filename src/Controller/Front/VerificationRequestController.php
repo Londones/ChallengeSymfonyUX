@@ -13,26 +13,37 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Items;
 use App\Form\VerificationRequestType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 #[Route('/request')]
 class VerificationRequestController extends AbstractController
 {
     #[Route('/', name: 'app_verification_request_index', methods: ['GET'])]
+    #[Security("is_granted('edit')")]
     public function getVerificationRequest(VerificationRequestRepository $verificationRequestRepository, Request $request, ManagerRegistry $doctrine): Response
     {
         return $this->render('back/verification_request/index.html.twig', [
             'nav' => 'verification_request',
             'verification_requests' => $verificationRequestRepository->findAll(),
-        ]); //TODO: add restriction to only show requests for authentificator by voter
+        ]);
     }
 
     #[Route('/item/{id}', name: 'app_verification_request_new', methods: ['GET', 'POST'])]
-    public function createVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
+    public function createVerificationRequest(Items $item, ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
     {
         $user = $this->getUser();
         $id = $request->get('id');
         $item = $doctrine->getRepository(Items::class)->find($id);
+        if ($verificationRequestRepository->findOneBy(['itemRequested' => $item])) {
+            $itemRequest = $verificationRequestRepository->findOneBy(['itemRequested' => $item])->getStatus();
+            if ($itemRequest == 'En cours' || $itemRequest == 'Refusé') {
+                $session = new Session();
+                $session->getFlashBag()->add('error_create_request', "Une demande de certifier l'item " .$item->getName() ." est déjà en cours.");
+                return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
+            }
+        };
+        // $this->denyAccessUnlessGranted('create', $item);
         $itemName = $item->getName();
         $verificationRequest = new VerificationRequest();
         $verificationRequest->setRequestedBy($user);
@@ -61,9 +72,10 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/accept', name: 'app_verification_request_accept', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function acceptVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
-        $id = $request->get('id'); //TODO: add blameable
+        $id = $request->get('id');
         $verificationRequest = $doctrine->getRepository(VerificationRequest::class)->find($id);
         $verificationRequest->setStatus('Accepté');
         $verificationRequestRepository->save($verificationRequest, true);
@@ -79,9 +91,11 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/refuse', name: 'app_verification_request_refuse', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function refuseVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository, ItemsRepository $itemsRepository)
     {
-        $id = $request->get('id'); //TODO: add blameable
+        $id = $request->get('id');
+       
         $verificationRequest = $doctrine->getRepository(VerificationRequest::class)->find($id);
         $verificationRequest->setStatus('Refusé');
         $verificationRequestRepository->save($verificationRequest, true);
@@ -97,6 +111,7 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/{id}/proof', name: 'app_verification_request_proof', methods: ['GET', 'POST'])]
+    #[Security("is_granted('edit')")]
     public function getVerificationRequestImages(VerificationRequestRepository $verificationRequestRepository, ManagerRegistry $doctrine, Request $request): Response
     {
         $id = $request->get('id');

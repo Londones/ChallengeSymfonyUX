@@ -32,7 +32,7 @@
             <a type="button" id="request-btn" href="{{ path('front_app_verification_request_new', { id: item.id }) }}" class="inline-block rounded-full border-2 border-primary px-6 pt-2 pb-[6px] text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10"
               data-te-ripple-init>
               Demander une vérification
-            </a> {# TODO: readonly if already requested #}
+            </a>
           </div>
           <br>
           {% for category in item.category %}
