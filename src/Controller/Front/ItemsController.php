@@ -56,7 +56,7 @@ class ItemsController extends AbstractController
     public function show(Items $item): Response
     {
         $connectedUser = $this->getUser();
-        if($item->getOwner() != $connectedUser){
+        if ($item->getOwner() != $connectedUser) {
             return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -69,7 +69,7 @@ class ItemsController extends AbstractController
     public function edit(Request $request, Items $item, ItemsRepository $itemsRepository, CategoryRepository $categoryRepository): Response
     {
         $connectedUser = $this->getUser();
-        if($item->getOwner() != $connectedUser){
+        if ($item->getOwner() != $connectedUser) {
             return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -93,7 +93,7 @@ class ItemsController extends AbstractController
     public function delete(Request $request, Items $item, ItemsRepository $itemsRepository): Response
     {
         $connectedUser = $this->getUser();
-        if($item->getOwner() != $connectedUser){
+        if ($item->getOwner() != $connectedUser) {
             return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -116,16 +116,18 @@ class ItemsController extends AbstractController
             $alreadyExist = [];
 
             for ($i = 0; $i < count($items); $i++) {
-                if ($dealItem = $dealRepository->findOneBy(['secondUserObject' => $items[$i]->getId()])) {
-                    if ($dealItem->getFirstUser() && $dealItem->getSecondUser()) {
-                        if ($foundDeal = $dealRepository->findBy(['secondUserObject' => $items[$i]->getId(), 'firstUser' => $connecterUser->getId(), 'secondUser' => $secondeUser->getId()])) {
-                            array_push($alreadyExist, $foundDeal);
-                        } else {
-                            array_push($notAlreadyExist, $items[$i]);
+                if ($items[$i]->getStatus() == "disponible") {
+                    if ($dealItem = $dealRepository->findOneBy(['secondUserObject' => $items[$i]->getId()])) {
+                        if ($dealItem->getFirstUser() && $dealItem->getSecondUser()) {
+                            if ($foundDeal = $dealRepository->findBy(['secondUserObject' => $items[$i]->getId(), 'firstUser' => $connecterUser->getId(), 'secondUser' => $secondeUser->getId()])) {
+                                array_push($alreadyExist, $foundDeal);
+                            } else {
+                                array_push($notAlreadyExist, $items[$i]);
+                            }
                         }
+                    } else {
+                        array_push($notAlreadyExist, $items[$i]);
                     }
-                } else {
-                    array_push($notAlreadyExist, $items[$i]);
                 }
             }
 
@@ -147,13 +149,13 @@ class ItemsController extends AbstractController
 
         if ($firstUser) {
             $items =  $firstUser->getItems();
-            for($i = 0; $i < count($items); $i++) {
-                $dealOfItem = $dealRepository->findOneBy(['firstUserObject' => $items[$i]->getId(), 'status' => array("Crée","Acceptée") ]);
-                if (! $dealOfItem) {
+            for ($i = 0; $i < count($items); $i++) {
+                $dealOfItem = $dealRepository->findOneBy(['firstUserObject' => $items[$i]->getId(), 'status' => array("Crée", "Acceptée")]);
+                if (!$dealOfItem) {
                     array_push($itemsTemp, $items[$i]);
                 }
             }
-            
+
 
             return $this->render('front/items/userItemsExchangeResponse.html.twig', [
                 'items' => $itemsTemp,

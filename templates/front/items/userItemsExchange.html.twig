@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-  <h3 class="font-medium leading-tight text-3xl mb-2 text-gray-800 ml-[9rem] mt-[2rem]">Objets de {{ user.name }}</h3>
-  <div class="flex justify-center flex-wrap w-1/2 mx-auto rounded-lg" >
+  <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-gray-800 ml-[9rem] mt-[2rem] underline">Objet de {{ user.name }}</h3>
+  <div class="flex justify-center flex-wrap w-1/2 mx-auto rounded-lg">
     {% if items %}
       {% for item in items %}
         <div class="rounded-lg shadow-lg bg-white max-w-sm ml-6 mr-6 mt-4 mb-4">
@@ -14,10 +14,11 @@
           <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{ item.name }}" />
         {% else %}
           <img class="rounded-lg m-auto w-[90%] relative top-[5%]" src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" rel="item-picture" />
-        {% endif %}          
-        <div class="p-6 mt-6">
-            <h5 class="text-gray-900 text-xl font-medium mb-2">{{ item.name }}</h5>
-            <div style="width:fit-content" class="text-sm px-3 bg-blue-200 text-blue-800 capitalize rounded-full">{{ item.status }}</div>
+        {% endif %}   
+
+          <div class="p-6">
+            <h5 class="text-gray-900 text-xl font-medium mb-2 underline">{{ item.name }}</h5>
+            <div style="width:fit-content" class="text-sm px-3 bg-blue-200 text-blue-800 rounded-full">{{ item.status }}</div>
             {% if item.isVerified == 1 %}
               <div style="width:fit-content" class="mt-1 text-sm px-3 bg-green-200 text-green-800 rounded-full">Certifié</div>
             {% endif %}

@@ -37,7 +37,6 @@ class ItemsType extends AbstractType
                 VichImageType::class,
                 [
                     'required' => false,
-                    'required' => true,
                     'allow_delete' => true,
                     'delete_label' => 'Suppression de l\'image',
                     'download_label' => 'Télécharger l\'image',
