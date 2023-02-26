@@ -1,6 +1,6 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Demande de vérifications{% endblock %}
+{% block title %}Deals{% endblock %}
 
 {% block body %}
     <div class="flex bg-gray-100 min-h-screen">
@@ -16,7 +16,7 @@
                 <main class="p-6 sm:p-10 space-y-6">
                     <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
                         <div class="mr-6">
-                            <h1 class="text-4xl font-semibold mb-2">Gestion de demande de vérification</h1>
+                            <h1 class="text-4xl font-semibold mb-2">Gestion de deals</h1>
                             <h2 class="text-gray-600 ml-0.5">Liste</h2>
                         </div>
                     </div>
@@ -38,79 +38,63 @@
                                                             ID
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Utilisateur
+                                                            1er utilisateur
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Item
+                                                            2ème utilisateur
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Message
+                                                            Item du 1er utilisateur
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                            Item du 2ème utilisateur
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                                             Status
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Image
+                                                            Réponse du 1er utilisateur
                                                         </th>
                                                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Authentificateur
-                                                        </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Action
+                                                            Réponse du 2ème utilisateur
                                                         </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% for verification_request in verification_requests %}
+                                                        {% for deal in deals %}
                                                             <tr class="border-b">
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.id }}
+                                                                {{ deal.id }}
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.requestedBy }}
+                                                                {{ deal.firstUser }} (ID : {{ deal.firstUser.id }})
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.itemRequested }}  (ID : {{ verification_request.itemRequested.id }})
+                                                                {{ deal.secondUser }}  (ID : {{ deal.secondUser.id }})
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.message }}
-                                                            </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {% if verification_request.status == "Accepté" %}
-                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-success-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-success-700">
-                                                                        Accepté
-                                                                    </span>
-                                                                {% elseif verification_request.status == "En cours" %}
-                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-warning-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-warning-800">
-                                                                        En cours
-                                                                    </span>
-                                                                {% else %}
-                                                                    <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700">
-                                                                        Refusé
-                                                                    </span>
-                                                                {% endif %}
-                                                            </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                               <!-- Button trigger modal -->
-                                                                <a type="button" data-id="{{ verification_request.id|escape('js') }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
-                                                                <i class="fa-solid fa-images"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {% if verification_request.status == "Accepté" or verification_request.status == "Refusé" %}
-                                                                    {{ verification_request.updatedBy }}
+                                                                {% if deal.firstUserObject %}
+                                                                    {{ deal.firstUserObject }}
                                                                 {% else %}
                                                                     Aucun
                                                                 {% endif %}
                                                             </td>
                                                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
-                                                                    Valider
-                                                                </a>
-                                                                <a type="button" href="{{ path('front_app_verification_request_refuse', {id: verification_request.id}) }}" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
-                                                                   Refuser
-                                                                </a>
+                                                                {% if deal.secondUserObject %}
+                                                                    {{ deal.secondUserObject }}
+                                                                {% else %}
+                                                                    Aucun
+                                                                {% endif %}
                                                             </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ deal.status }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                {{ deal.firstUserResponse ? '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">Accepté</span>' : '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">En attente</span>' }}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                                 {{ deal.secondeUserResponse ? '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">Accepté</span>' : '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">En attente</span>' }}
+                                                            </td>  
                                                             </tr>
                                                         {% endfor %}
                                                     </tbody>
@@ -121,8 +105,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Modal -->
-                        {% include 'back/verification_request/modal.html.twig' %}
                     </section>
                 </main>
             {% endblock %}
@@ -130,8 +112,6 @@
     </div>
 {% endblock %}
 
-{% block customjs %}
-    {{ encore_entry_script_tags('back_verification_request') }}
-{% endblock %}
+
 
 
