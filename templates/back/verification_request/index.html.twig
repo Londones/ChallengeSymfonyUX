@@ -34,25 +34,28 @@
                                                 <table class="min-w-full">
                                                     <thead class="border-b bg-purple-100">
                                                         <tr>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             ID
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Utilisateur
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Item
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Message
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Status
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Image
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
+                                                            Authentificateur
+                                                        </th>
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-2 py-2 text-left">
                                                             Action
                                                         </th>
                                                         </tr>
@@ -60,19 +63,19 @@
                                                     <tbody>
                                                         {% for verification_request in verification_requests %}
                                                             <tr class="border-b">
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
                                                                 {{ verification_request.id }}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
                                                                 {{ verification_request.requestedBy }}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ verification_request.itemRequested }}
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
+                                                                {{ verification_request.itemRequested }}  (ID : {{ verification_request.itemRequested.id }})
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
                                                                 {{ verification_request.message }}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
                                                                 {% if verification_request.status == "Accepté" %}
                                                                     <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-success-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-success-700">
                                                                         Accepté
@@ -83,22 +86,29 @@
                                                                     </span>
                                                                 {% else %}
                                                                     <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700">
-                                                                        Annulé
+                                                                        Refusé
                                                                     </span>
                                                                 {% endif %}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
                                                                <!-- Button trigger modal -->
                                                                 <a type="button" data-id="{{ verification_request.id|escape('js') }}" data-te-toggle="modal" data-te-target="#image-modal" id="modal-btn" class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-600">
                                                                 <i class="fa-solid fa-images"></i>
                                                                 </a>
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
+                                                                {% if verification_request.status == "Accepté" or verification_request.status == "Refusé" %}
+                                                                    {{ verification_request.updatedBy }}
+                                                                {% else %}
+                                                                    Aucun
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
+                                                                <a type="button" href="{{ path('front_app_verification_request_accept', {id: verification_request.id}) }}" class="inline-block rounded bg-primary px-2 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
                                                                     Valider
                                                                 </a>
-                                                                <a type="button" href="{{ path('front_app_verification_request_refuse', {id: verification_request.id}) }}" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
-                                                                   Annuler
+                                                                <a type="button" href="{{ path('front_app_verification_request_refuse', {id: verification_request.id}) }}" class="inline-block rounded bg-primary-100 px-2 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
+                                                                   Refuser
                                                                 </a>
                                                             </td>
                                                             </tr>
@@ -111,7 +121,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Modal -->
                         {% include 'back/verification_request/modal.html.twig' %}
                     </section>

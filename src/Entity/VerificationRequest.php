@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\BlameableTrait;
 use App\Repository\VerificationRequestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class VerificationRequest
 {
     use TimestampableTrait;
+    use BlameableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -532,4 +532,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface,  \Seria
 
         return $this;
     }
+
+    public function hasRoles($role)
+    {
+        return in_array($role, $this->roles);
+    }
 }

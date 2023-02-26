@@ -19,8 +19,8 @@ docker-compose up --build -d
 
 Vous pouvez ensuite jouer créer la base de donnée et jouer les migrations :
 ```
-docker-compose exec php php bin/console doctrine:database:create
-docker-compose exec php php bin/console doctrine:migration:migrate
+docker-compose exec php bin/console doctrine:database:create
+docker-compose exec php bin/console doctrine:migration:migrate
 ```
 
 Et ensuite build le projet pour avoir le style et le javascript :
