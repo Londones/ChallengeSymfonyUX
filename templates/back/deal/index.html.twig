@@ -34,65 +34,59 @@
                                                 <table class="min-w-full">
                                                     <thead class="border-b bg-purple-100">
                                                         <tr>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            ID
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            1er U
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            1er utilisateur
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            2ème U
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            2ème utilisateur
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            Item du 1er U
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Item du 1er utilisateur
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            Item du 2ème U
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Item du 2ème utilisateur
-                                                        </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
                                                             Status
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Réponse du 1er utilisateur
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            Réponse du 1er U
                                                         </th>
-                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                                            Réponse du 2ème utilisateur
+                                                        <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-2 text-left">
+                                                            Réponse du 2ème U
                                                         </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for deal in deals %}
                                                             <tr class="border-b">
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ deal.id }}
-                                                            </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {{ deal.firstUser }} (ID : {{ deal.firstUser.id }})
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {{ deal.secondUser }}  (ID : {{ deal.secondUser.id }})
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {% if deal.firstUserObject %}
                                                                     {{ deal.firstUserObject }}
                                                                 {% else %}
                                                                     Aucun
                                                                 {% endif %}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {% if deal.secondUserObject %}
                                                                     {{ deal.secondUserObject }}
                                                                 {% else %}
                                                                     Aucun
                                                                 {% endif %}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {{ deal.status }}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                 {{ deal.firstUserResponse ? '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">Accepté</span>' : '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">En attente</span>' }}
                                                             </td>
-                                                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                            <td class="text-sm text-gray-900 font-light px-4 py-2 whitespace-nowrap">
                                                                  {{ deal.secondeUserResponse ? '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded">Accepté</span>' : '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">En attente</span>' }}
                                                             </td>  
                                                             </tr>

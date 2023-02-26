@@ -30,20 +30,24 @@ class VerificationRequestController extends AbstractController
     }
 
     #[Route('/item/{id}', name: 'app_verification_request_new', methods: ['GET', 'POST'])]
-    public function createVerificationRequest(Items $item, ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
+    public function createVerificationRequest(ManagerRegistry $doctrine, Request $request, VerificationRequestRepository $verificationRequestRepository): Response
     {
         $user = $this->getUser();
         $id = $request->get('id');
         $item = $doctrine->getRepository(Items::class)->find($id);
+
         if ($verificationRequestRepository->findOneBy(['itemRequested' => $item])) {
-            $itemRequest = $verificationRequestRepository->findOneBy(['itemRequested' => $item])->getStatus();
-            if ($itemRequest == 'En cours' || $itemRequest == 'Refusé') {
+            
+            $itemRequest = $verificationRequestRepository->findOneBy(['itemRequested' => $item], ["createdAt" => "DESC"])->getStatus();
+            if ($itemRequest == 'En cours') {
                 $session = new Session();
                 $session->getFlashBag()->add('error_create_request', "Une demande de certifier l'item " .$item->getName() ." est déjà en cours.");
                 return $this->redirectToRoute('front_profil_me', [], Response::HTTP_SEE_OTHER);
             }
         };
-        // $this->denyAccessUnlessGranted('create', $item);
+
+        $this->denyAccessUnlessGranted('create', $item);
+
         $itemName = $item->getName();
         $verificationRequest = new VerificationRequest();
         $verificationRequest->setRequestedBy($user);

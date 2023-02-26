@@ -41,11 +41,11 @@ class VerificationRequestVoter extends Voter
 
     private function canCreate(Items $item, User $user): bool
     {
-       if ($user->getId() === $item->getOwner()) {
-           return true;
-       }
+        if ($user->getId() === $item->getOwner()->getId()) {
+            return true;
+        }
 
-       return false;
+        return false;
 
     }
 
