@@ -92,7 +92,7 @@ class DealController extends AbstractController
 
                 $deal->setSecondUserObject($item);
                 $deal->setSecondeUserResponse(null);
-                $deal->setStatus("Crée");
+                $deal->setStatus("Créée");
 
                 $dealRepository->save($deal, true);
             }
@@ -149,7 +149,7 @@ class DealController extends AbstractController
 
             if ($response == "yes" && $userNumber == 'second') {
                 $deal->setSecondeUserResponse(true);
-                $deal->setStatus("accepté");
+                $deal->setStatus("acceptée");
             }
 
             $firstUserResponse = $deal->isFirstUserResponse();

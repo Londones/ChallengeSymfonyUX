@@ -20,7 +20,7 @@ class ProfileType extends AbstractType
             ->add('email')
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'required' => false,
+                'required' => true,
             ])
             ->add('name')
             ->add('imageFile',VichImageType::class,
